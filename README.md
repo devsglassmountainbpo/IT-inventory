@@ -1,2 +1,8 @@
 # IT-inventory
-Un sistema de inventario para IT rastrea y gestiona recursos tecnológicos dentro de una organización. El sistema permite el seguimiento del ciclo de vida de los activos, desde su adquisición hasta su eliminación. Características clave: 📦 Gestión de activos. 📊 Seguimiento de inventario. 💾 Gestión de usuarios. 🛡️ Informes y auditorías.
+
+An IT inventory system tracks and manages technological resources within an organization. The system allows for tracking the lifecycle of assets, from acquisition to disposal. Key features include:
+
+📦 Asset management.
+📊 Inventory tracking.
+💾 User management.
+🛡️ Reports and audits.
