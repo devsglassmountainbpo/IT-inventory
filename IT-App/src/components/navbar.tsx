@@ -21,31 +21,31 @@ const ExampleNavbar: FC = function () {
               </span>
             </Navbar.Brand>
             <Navbar.Brand  className="flex items-center space-x-4 text-lg">
-              <Button href="/Category" className="bg-blue hover:bg-blue-700 text-gray-700 hover:text-white dark:bg-gray-800  dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+              <Button href="/Category" className="bg-gray-600 text-gray-0  px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-purple-500 dark:to-blue-700 dark:text-gray-200"
               >
                 <FaTags className="mr-2" />
                 <span>Category</span>
               </Button>
               <Button href="/Brand"
-                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+                className="bg-gray-600 text-gray-0  px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-purple-500 dark:to-blue-700 dark:text-gray-200"
               >
                 <FaClone className="mr-2" />
                 <span>Brand</span>
               </Button>
               <Button href="/Models"
-                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+                className="bg-gray-600 text-gray-0  px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-purple-500 dark:to-blue-700 dark:text-gray-200"
               >
                 <FaStream className="mr-2" />
                 <span>Models</span>
               </Button>
               <Button href="/Inventory"
-                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+                className="bg-gray-600 text-gray-0  px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-purple-500 dark:to-blue-700 dark:text-gray-200"
               >
                 <FaBoxOpen className="mr-2" />
                 <span>Inventory</span>
               </Button>
               <Button
-                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+                className="bg-gray-600 text-gray-0  px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-purple-500 dark:to-blue-700 dark:text-gray-200"
               >
                 <FaUsers className="mr-2" />
                 <span>Users</span>
