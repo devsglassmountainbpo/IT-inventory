@@ -32,12 +32,16 @@ import ApexCharts from 'apexcharts'; // Importación del módulo ApexCharts
 
 
 
-import { BiSave } from "react-icons/bi";
+
+
+
+
+import { BiFontSize, BiSave } from "react-icons/bi";
 
 import CryptoJS from "crypto-js";
 
 import * as XLSX from 'xlsx';
-import CountUp from "react-countup";
+
 
 const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
@@ -1638,15 +1642,15 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
 
   //Dashboard Charts 2
-
   const getChartOptions = () => {
     return {
       series: [35.1, 23.5, 2.4, 5.4],
       colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
       chart: {
-        height: 320,
+        height: 420,
         width: "100%",
         type: "donut",
+        BiFontSize:'42px'
       },
       stroke: {
         colors: ["transparent"],
@@ -1660,30 +1664,36 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
               name: {
                 show: true,
                 fontFamily: "Inter, sans-serif",
+                
                 offsetY: 20,
+                size:"20%"
               },
               total: {
                 showAlways: true,
                 show: true,
-                label: "Unique visitors",
+                label: "Qty",
                 fontFamily: "Inter, sans-serif",
                 formatter: function (w: { globals: { seriesTotals: any[]; }; }) {
                   const sum = w.globals.seriesTotals.reduce((a: any, b: any) => {
                     return a + b
                   }, 0)
-                  return '$' + sum + 'k'
+                  return '' + sum + ''
                 },
+                color: '#737373',
+                Size:'32px'
               },
               value: {
                 show: true,
                 fontFamily: "Inter, sans-serif",
                 offsetY: -20,
                 formatter: function (value: string) {
-                  return value + "k"
+                  return value + ""
                 },
+                color: '#737373',
+                Size:'32px'
               },
             },
-            size: "80%",
+            size: "70%",
           },
         },
       },
@@ -1699,25 +1709,32 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       legend: {
         position: "bottom",
         fontFamily: "Inter, sans-serif",
+        color: '#737373',
+        size:'42px'
       },
       yaxis: {
         labels: {
           formatter: function (value: string) {
-            return value + "k"
+            return value + ""
           },
+          color: '#737373',
         },
       },
       xaxis: {
         labels: {
           formatter: function (value: string) {
-            return value  + "k"
+            return value  + ""
           },
+          color: '#737373',
+
         },
         axisTicks: {
           show: false,
+          color: '#737373',
         },
         axisBorder: {
           show: false,
+          color: '#737373',
         },
       },
     }
@@ -1866,7 +1883,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
             <div className="flex justify-between mb-3">
               <div className="flex justify-center items-center">
-                <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Website traffic</h5>
+                <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Stock</h5>
                 <svg data-popover-target="chart-info" data-popover-placement="bottom" className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
                 </svg>
