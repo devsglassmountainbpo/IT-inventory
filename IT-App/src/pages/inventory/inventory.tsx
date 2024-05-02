@@ -409,7 +409,7 @@ import {
           <div className="mb-1 w-full">
             <div className="mb-4">
               <h1 style={{ zoom: 0.90 }} className="text-xl ml-4 mt-4 font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                Gift Cards
+                Equipment Inventory
               </h1>
             </div>
             <div className="sm:flex" style={{ zoom: 0.90 }}>
@@ -422,7 +422,7 @@ import {
                     <TextInput
                       id="users-search"
                       name="users-search"
-                      placeholder="Search for gift card"
+                      placeholder="Search for equipment"
                       onChange={onChange}
                       onKeyDown={handleKeyDown}
                     />
@@ -857,7 +857,7 @@ import {
         <Button color="primary" onClick={() => { setOpen(true) }}>
           <div className="flex items-center gap-x-3">
             <HiPlus className="text-xl" />
-            Add Card
+            Add Equipment
           </div>
         </Button>
         <Modal onClose={() => setOpen(false)} show={isOpen}>
