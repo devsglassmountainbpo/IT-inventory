@@ -450,7 +450,7 @@ import {
                       updateSharedState={updateSharedState} /> : <></>} */}
                 </div>
               </div>
-              {userLevel == '1' ?
+             
                 <div className="ml-auto mr-4 flex items-center space-x-2 sm:space-x-3">
                   <AddTaskModal
                     sharedState={sharedState}
@@ -458,7 +458,7 @@ import {
                   <ExportModal
                     data={data} />
                 </div>
-                : <></>}
+               
             </div>
           </div>
         </div>
