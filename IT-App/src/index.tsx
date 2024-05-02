@@ -7,7 +7,10 @@ import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import SignInPage from "./pages/authentication/login";
 import DevsDashboard from "./pages/devs/devsDashboard";
-import Inventory from "./pages/inventory/inventory"
+import Inventory from "./pages/inventory/inventory";
+import Category from "./pages/category/category";
+import Brand from "./pages/brand/brand";
+import Models from "./pages/models/models";
 
 const container = document.getElementById("root");
 
@@ -28,6 +31,9 @@ root.render(
           element={<DevsDashboard />}
         />
         <Route path="/Inventory" element={<Inventory />} />
+        <Route path="/Category" element={<Category />} />
+        <Route path="/Brand" element={<Brand />} />
+        <Route path="/Models" element={<Models />} />
         </Routes>
       </BrowserRouter>
     </Flowbite>
