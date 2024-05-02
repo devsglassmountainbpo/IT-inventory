@@ -63,7 +63,7 @@ import {
     }
   
     useEffect(() => {
-      axios.get('https://bn.glassmountainbpo.com:8080/giftCards/cards')
+      axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory')
         .then(res => {
           if (userLevel === '2') {
             // Filter data where supervisorBadge equals created_user
@@ -469,25 +469,20 @@ import {
               <div className="overflow-hidden shadow">
                 <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600" style={{ zoom: 0.85 }}>
                   <Table.Head className="bg-gray-100 dark:bg-gray-700">
-                    {/* <Table.HeadCell>
-                      <Label htmlFor="select-all" className="sr-only">
-                        Select all
-                      </Label>
-                      <Checkbox id="select-all" name="select-all" ref={checkboxRef} onChange={handleSelectAll} />
-                    </Table.HeadCell> */}
+                   
                     <Table.HeadCell className="">ID</Table.HeadCell>
-                    <Table.HeadCell className="">Account</Table.HeadCell>
+                    <Table.HeadCell className="">Name</Table.HeadCell>
                     {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "department")}>Period</Table.HeadCell> */}
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Amount</Table.HeadCell>
-                    {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Description</Table.HeadCell> */}
                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Status</Table.HeadCell>
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Expiration Date</Table.HeadCell>
+                    {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Description</Table.HeadCell> */}
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Date Created</Table.HeadCell>
+                 
                     {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Date Updated</Table.HeadCell> */}
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "state")}>Badge</Table.HeadCell>
+                    {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "state")}>Badge</Table.HeadCell>
                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Supervisor</Table.HeadCell>
                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Vendor</Table.HeadCell>
                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Delivered Date</Table.HeadCell>
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Creation Date</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Creation Date</Table.HeadCell> */}
                     {/* {created_user === "3199" || created_user === "3814" ? */}
                     <Table.HeadCell>Actions</Table.HeadCell>
                     {/* : <></>} */}
@@ -508,15 +503,22 @@ import {
                               <div id={"taskName" + user.id} className="text-base font-semibold text-gray-900 dark:text-white">
                                 {user.id}
                               </div>
-                              <div className="text-sm whitespace-pre-wrap font-normal text-gray-500 dark:text-gray-400">
-                                {/* {user.account} */}
-                                #{user.batch_id}
-                              </div>
+                             
                             </div>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className=" text-primary-800 font-bold px-2 py-0.5 rounded dark:text-white">
-                              {user.account}
+                            <span className=" text-dark-800 font-bold px-2 py-0.5 rounded dark:text-white">
+                              {user.name}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span className=" text-black-800 font-bold px-2 py-0.5 rounded dark:text-white">
+                              {user.active == 1 ? 'Active' : 'Inactive'}
+
+                              <div className={`ml-4 h-2 w-2 rounded-full inline-block mr-2 ${user.active === 1 ? "bg-green-400" :
+                                user.active === 1 ? "bg-blue-400" :
+                                  user.active === 0 ? "bg-red-500" : ""
+                                }`}></div>
                             </span>
                           </Table.Cell>
                           {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
@@ -525,11 +527,12 @@ import {
                               </span>
                             </Table.Cell> */}
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className="bg-green-600 text-green-200 font-semibold px-2 py-0.5 rounded dark:bg-green-700 dark:text-green-200">
-                              ${user.amount}
+                            <span className="bg-gray-600 text-gray-100 font-semibold px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-purple-500 dark:to-blue-700 dark:text-gray-200">
+                       
+                              {goodDisplay(user.date_created)}
                             </span>
                           </Table.Cell>
-                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                          {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <div className="flex items-center">
                               <div className={`h-2 w-2 rounded-full inline-block mr-2 ${user.status === "Available" ? "bg-green-400" :
                                 user.status === "Delivered" ? "bg-blue-400" :
@@ -571,7 +574,7 @@ import {
                             <span>
                               {(user.creationDate ? goodDisplay(user.creationDate) : "N/A")}
                             </span>
-                          </Table.Cell>
+                          </Table.Cell> */}
                           {userLevel == '1' ? (
                             <Table.Cell>
                               <div className="flex items-center gap-x-3 whitespace-nowrap">
@@ -858,12 +861,12 @@ import {
         <Button color="primary" onClick={() => { setOpen(true) }}>
           <div className="flex items-center gap-x-3">
             <HiPlus className="text-xl" />
-            Add Card
+            Add Category
           </div>
         </Button>
         <Modal onClose={() => setOpen(false)} show={isOpen}>
           <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-            <strong>Add new Gift Cards!</strong>
+            <strong>Add new category!</strong>
           </Modal.Header>
           <Modal.Body>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
