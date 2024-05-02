@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import SignInPage from "./pages/authentication/login";
 import DevsDashboard from "./pages/devs/devsDashboard";
+import Inventory from "./pages/inventory/inventory"
 
 const container = document.getElementById("root");
 
@@ -26,6 +27,7 @@ root.render(
           path="/"
           element={<DevsDashboard />}
         />
+        <Route path="/Inventory" element={<Inventory />} />
         </Routes>
       </BrowserRouter>
     </Flowbite>
