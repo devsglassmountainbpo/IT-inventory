@@ -21,31 +21,31 @@ const ExampleNavbar: FC = function () {
               </span>
             </Navbar.Brand>
             <Navbar.Brand href="https://bo.glassmountainbpo.com/" className="flex items-center space-x-4 text-lg">
-              <Button className="bg-gray-100 hover:bg-blue-700 text-black hover:text-white dark:bg-gray-800  dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+              <Button className="bg-blue hover:bg-blue-700 text-gray-700 hover:text-white dark:bg-gray-800  dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
               >
                 <FaTags className="mr-2" />
                 <span>Category</span>
               </Button>
               <Button
-                className="bg-gray-100 text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
               >
                 <FaClone className="mr-2" />
                 <span>Brand</span>
               </Button>
               <Button
-                className="bg-gray-100 text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
               >
                 <FaStream className="mr-2" />
                 <span>Models</span>
               </Button>
               <Button
-                className="bg-gray-100 text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
               >
                 <FaBoxOpen className="mr-2" />
                 <span>Inventory</span>
               </Button>
               <Button
-                className="bg-gray-100 text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
               >
                 <FaUsers className="mr-2" />
                 <span>Users</span>
