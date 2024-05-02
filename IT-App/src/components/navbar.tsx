@@ -14,7 +14,7 @@ const ExampleNavbar: FC = function () {
       <div className="w-full p-3 lg:px-5 lg:pl-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Navbar.Brand href="https://bo.glassmountainbpo.com/" className="mr-4">
+            <Navbar.Brand href="/" className="mr-4">
               <img alt="" src="/images/glass/logo.svg" className="mr-3 h-7 sm:h-12 dark:hidden" />
               <img alt="" src="/images/glass/logo.png" className="mr-3 h-7 sm:h-12 hidden dark:block" />
               <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
