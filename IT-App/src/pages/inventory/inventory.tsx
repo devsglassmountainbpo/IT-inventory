@@ -32,6 +32,8 @@ import {
   import CryptoJS from "crypto-js";
   
   import * as XLSX from 'xlsx';
+
+  import { Dropdown } from "flowbite-react";
   
   const created_user3 = localStorage.getItem("badgeSession") || "";
   const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
@@ -63,7 +65,7 @@ import {
     }
   
     useEffect(() => {
-      axios.get('https://bn.glassmountainbpo.com:8080/giftCards/cards')
+      axios.get('https://bn.glassmountainbpo.com:8080/inventory/stock')
         .then(res => {
           if (userLevel === '2') {
             // Filter data where supervisorBadge equals created_user
@@ -475,25 +477,34 @@ import {
                       <Checkbox id="select-all" name="select-all" ref={checkboxRef} onChange={handleSelectAll} />
                     </Table.HeadCell> */}
                     <Table.HeadCell className="">ID</Table.HeadCell>
-                    <Table.HeadCell className="">Account</Table.HeadCell>
+                    {/* <Table.HeadCell className="">Ticket ID</Table.HeadCell> */}
                     {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "department")}>Period</Table.HeadCell> */}
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Amount</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Quantity</Table.HeadCell>
                     {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Description</Table.HeadCell> */}
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Status</Table.HeadCell>
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Expiration Date</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Category</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Model</Table.HeadCell>
                     {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Date Updated</Table.HeadCell> */}
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "state")}>Badge</Table.HeadCell>
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Supervisor</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "state")}>Brand</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Details</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Account</Table.HeadCell>
                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Vendor</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Status</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Request Owner</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Request Name</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Created By</Table.HeadCell>
                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Delivered Date</Table.HeadCell>
-                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Creation Date</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Date/Time</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Received By</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Delivered By</Table.HeadCell>
+                    <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Updated Date</Table.HeadCell>
                     {/* {created_user === "3199" || created_user === "3814" ? */}
                     <Table.HeadCell>Actions</Table.HeadCell>
                     {/* : <></>} */}
                   </Table.Head>
                   <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
                     {
-                      currentItems.map((user, index) => (
+                      currentItems.map((item, index) => (
                         <Table.Row key={index} className="hover:bg-gray-100 dark:hover:bg-gray-700">
                           {/* <Table.Cell className="w-4">
                               <div className="flex items-center">
@@ -504,18 +515,18 @@ import {
                             </Table.Cell> */}
                           <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
                             <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                              <div id={"taskName" + user.id} className="text-base font-semibold text-gray-900 dark:text-white">
-                                {user.id}
+                              <div id={"itemID" + item.id} className="text-base font-semibold text-gray-900 dark:text-white">
+                                {item.id}
                               </div>
                               <div className="text-sm whitespace-pre-wrap font-normal text-gray-500 dark:text-gray-400">
                                 {/* {user.account} */}
-                                #{user.batch_id}
+                                #{item.idTicket}
                               </div>
                             </div>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <span className=" text-primary-800 font-bold px-2 py-0.5 rounded dark:text-white">
-                              {user.account}
+                              {item.quantity}
                             </span>
                           </Table.Cell>
                           {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
@@ -525,10 +536,10 @@ import {
                             </Table.Cell> */}
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <span className="bg-green-600 text-green-200 font-semibold px-2 py-0.5 rounded dark:bg-green-700 dark:text-green-200">
-                              ${user.amount}
+                              {item.category}
                             </span>
                           </Table.Cell>
-                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                          {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <div className="flex items-center">
                               <div className={`h-2 w-2 rounded-full inline-block mr-2 ${user.status === "Available" ? "bg-green-400" :
                                 user.status === "Delivered" ? "bg-blue-400" :
@@ -536,20 +547,20 @@ import {
                                 }`}></div>
                               {user.status}
                             </div>
-                          </Table.Cell>
+                          </Table.Cell> */}
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded dark:bg-yellow-400 dark:text-yellow-900">
-                              {goodDisplay(user.expirationDate)}
+                              {item.model}
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <span>
-                              {(user.agentBadge ? user.agentBadge : "N/A")}
+                              {item.brand}
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <span className="bg-indigo-600 text-indigo-200 font-semibold px-2 py-0.5 rounded dark:bg-indigo-400 dark:text-indigo-900">
-                              {user.supervisorName}
+                              {item.details}
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-bold text-gray-900 dark:text-white">
@@ -557,33 +568,78 @@ import {
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-400 mr-2" aria-hidden="true">
                                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
                               </svg>
-                              {user.vendor}
+                              {item.total}
                             </div>
   
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <span>
-                              {user.deliveredDate ? goodDisplay(user.deliveredDate) : 'N/A'}
+                              {item.account}
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <span>
-                              {(user.creationDate ? goodDisplay(user.creationDate) : "N/A")}
+                              {item.vendor}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span>
+                              {item.status}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span>
+                              {item.requestOwner}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span>
+                              {item.requestName}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span>
+                              {item.createdBy}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span>
+                              {item.deliveredDate}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span>
+                              {item.dateTime}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span>
+                              {item.receivedBy}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span>
+                              {item.deliveredBy}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span>
+                              {item.updateDate}
                             </span>
                           </Table.Cell>
                           {userLevel == '1' ? (
                             <Table.Cell>
                               <div className="flex items-center gap-x-3 whitespace-nowrap">
                                 <EditUserModal
-                                  id={user.id}
-                                  status2={user.status}
-                                  agentBadge2={user.agentBadge}
+                                  id={item.id}
+                                  status2={item.status}
+                                  agentBadge2={item.agentBadge}
                                   sharedState={sharedState}
                                   updateSharedState={updateSharedState}
                                 />
                                 <DeleteUserModal
-                                  id={user.id}
-                                  active={user.active}
+                                  id={item.id}
+                                  active={item.active}
                                   created_user={created_user}
                                   sharedState={sharedState}
                                   updateSharedState={updateSharedState}
@@ -594,9 +650,9 @@ import {
                             <Table.Cell>
                               <div className="flex items-center gap-x-3 whitespace-nowrap">
                                 <EditUserModal
-                                  id={user.id}
-                                  status2={user.status}
-                                  agentBadge2={user.agentBadge}
+                                  id={item.id}
+                                  status2={item.status}
+                                  agentBadge2={item.agentBadge}
                                   sharedState={sharedState}
                                   updateSharedState={updateSharedState}
                                 />
