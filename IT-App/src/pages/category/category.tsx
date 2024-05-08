@@ -343,7 +343,7 @@ const Category: FC = function () {
 
                         <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
                           <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                            <div id={"taskName" + user.id} className="text-base font-semibold text-gray-900 dark:text-white">
+                            <div id={"taskName" + user.id + user.name} className="text-base font-semibold text-gray-900 dark:text-white">
                               {user.id}
                             </div>
 
@@ -381,8 +381,8 @@ const Category: FC = function () {
                             <div className="flex items-center gap-x-3 whitespace-nowrap">
                               <EditUserModal
                                 id={user.id}
-                                status2={user.status}
-                                agentBadge2={user.agentBadge}
+                                active={user.active}
+                                name={user.name}
                                 sharedState={sharedState}
                                 updateSharedState={updateSharedState}
                               />
@@ -400,8 +400,8 @@ const Category: FC = function () {
                             <div className="flex items-center gap-x-3 whitespace-nowrap">
                               <EditUserModal
                                 id={user.id}
-                                status2={user.status}
-                                agentBadge2={user.agentBadge}
+                                active={user.active}
+                                name={user.name}
                                 sharedState={sharedState}
                                 updateSharedState={updateSharedState}
                               />
@@ -823,25 +823,25 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   );
 };
 
-const EditUserModal: FC<any> = function ({ id, status2, agentBadge2, sharedState, updateSharedState }: any) {
+const EditUserModal: FC<any> = function ({ id, active, name, sharedState, updateSharedState }: any) {
   const [isOpen, setOpen] = useState(false);
-  const [status, setStatus] = useState(status2);
-  const [agentBadge, setAgentBadge] = useState(agentBadge2);
+  const [status, setStatus] = useState(active);
+  const [nameCategory, setNameCategory] = useState(name);
 
   useEffect(() => {
-    setStatus(status2);
-  }, [status2]);
+    setStatus(active);
+  }, [active]);
 
   useEffect(() => {
-    setAgentBadge(agentBadge2);
-  }, [agentBadge2]);
+    setNameCategory(name);
+  }, [name]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('https://bn.glassmountainbpo.com:8080/giftCards/cardStatusChange', {
+      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editCategory', {
         id,
-        agentBadge,
+        nameCategory,
         status,
         created_user
       })
@@ -849,7 +849,7 @@ const EditUserModal: FC<any> = function ({ id, status2, agentBadge2, sharedState
         const responseData = response.data;
         updateSharedState(!sharedState);
         setOpen(false);
-        if (responseData.message === "Card updated") {
+        if (responseData.message === "OK") {
           setOpen(false);
         }
       }
@@ -873,7 +873,7 @@ const EditUserModal: FC<any> = function ({ id, status2, agentBadge2, sharedState
         <Modal.Body>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div>
-              <Label htmlFor="id">Card ID</Label>
+              <Label htmlFor="id">ID Category</Label>
               <div className="mt-1">
                 <TextInput
                   id="id"
@@ -884,11 +884,12 @@ const EditUserModal: FC<any> = function ({ id, status2, agentBadge2, sharedState
               </div>
             </div>
             <div>
-              <Label htmlFor="taskName">Agent's Badge</Label>
+              <Label htmlFor="taskName">Name Category</Label>
               <div className="mt-1">
                 <TextInput
-                  value={agentBadge}
-                  onChange={e => { setAgentBadge(e.target.value) }}
+                  value={name}
+                  onChange={e => { setNameCategory(e.target.value) }}
+                  
                 />
               </div>
             </div>
@@ -901,9 +902,9 @@ const EditUserModal: FC<any> = function ({ id, status2, agentBadge2, sharedState
                   value={status}
                   onChange={e => { setStatus(e.target.value) }}
                 >
-                  <option value="Available">Available</option>
-                  <option value="Assigned">Assigned</option>
-                  {userLevel == '2' ? null : <option value="Delivered">Delivered</option>}
+                  <option value="1">Active</option>
+                  <option value="0">Inactive</option>
+                  {/* {userLevel == '2' ? null : <option value="Delivered">Delivered</option>} */}
                 </Select>
               </div>
             </div>
