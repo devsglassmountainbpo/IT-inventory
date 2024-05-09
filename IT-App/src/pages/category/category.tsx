@@ -20,13 +20,11 @@ import {
   HiPlus,
   HiOutlinePencilAlt
 } from "react-icons/hi";
-import { FaCheck, FaTimes } from "react-icons/fa"
+
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import axios from "axios";
 import { FiletypeCsv, FiletypeXlsx } from 'react-bootstrap-icons';
 import { useSearchParams } from 'react-router-dom';
-import { Checkbox as FlowbiteCheckbox } from 'flowbite-react';
-import { useNavigate } from 'react-router-dom';
 
 import UAParser from 'ua-parser-js';
 
@@ -47,20 +45,13 @@ const Category: FC = function () {
   const [searchParams] = useSearchParams();
   const account = searchParams.get('account');
   const [data, setData] = useState([] as any[]);
-  const [originalData, setOriginalData] = useState<any[]>([]);
   let [filteredResults, setFilteredResults] = useState([] as any[]);
-  let [sortByName, setSortByName] = useState(false);
-  let [sortbyPosition, setSortByPosition] = useState(false);
-  let [sortByDepartment, setSortByDeparment] = useState(false);
-  let [sortByStatus, setSortByStatus] = useState(false);
   let [dataTemp, setDataTemp] = useState([] as any[]);
-  // let checkboxRef = useRef<HTMLInputElement>(null);
-  // const [checkBoxes, setCheckBoxes] = useState(false);
-  // const checkboxArray: string[] = [];
+
   const [sharedState, setSharedState] = useState(false);
 
   const updateSharedState = (newValue: boolean) => {
-    // resetCheckboxes();
+
     setSharedState(newValue);
   }
 
@@ -71,11 +62,11 @@ const Category: FC = function () {
           // Filter data where supervisorBadge equals created_user
           const filteredData = res.data.filter((item: { supervisorBadge: string; }) => item.supervisorBadge === created_user);
           setData(filteredData);
-          setOriginalData(filteredData);
+      
         } else {
           // If userLevel is not 2, set data as is
           setData(res.data);
-          setOriginalData(res.data);
+
         }
       })
   }, [sharedState, userLevel, created_user]); // Add userLevel and created_user to the dependency array
@@ -106,37 +97,15 @@ const Category: FC = function () {
       let filteredRawData = foo.filter((user) => {
         return Object.values(user).join('').toLowerCase().includes(searchInput.toLowerCase());
       })
-      if (sortByName === true) {
-        filteredRawData = filteredRawData.sort((a, b) => (a.id.toLowerCase() > b.id.toLowerCase()) ? 1 : -1);
-      }
-      if (sortbyPosition === true) {
-        filteredRawData = filteredRawData.sort((a, b) => (a.status > b.status) ? 1 : -1);
-      }
-      if (sortByDepartment === true) {
-        filteredRawData = filteredRawData.sort((a, b) => (a.badge > b.badge) ? 1 : -1);
-      }
-      if (sortByStatus === true) {
-        filteredRawData = filteredRawData.sort((a, b) => (a.value > b.value) ? 1 : -1);
-      }
+      
       setFilteredResults(filteredRawData);
       // resetCheckboxes();
     } else {
       let foo = data;
-      if (sortByName === true) {
-        foo = foo.sort((a, b) => (a.id.toLowerCase() > b.id.toLowerCase()) ? 1 : -1);
-      }
-      if (sortbyPosition === true) {
-        foo = foo.sort((a, b) => (a.status > b.status) ? 1 : -1);
-      }
-      if (sortByDepartment === true) {
-        foo = foo.sort((a, b) => (a.badge > b.badge) ? 1 : -1);
-      }
-      if (sortByStatus === true) {
-        foo = foo.sort((a, b) => (a.value > b.value) ? 1 : -1);
-      }
+    
       setDataTemp(foo);
     }
-  }, [searchInput, sortByName, sortbyPosition, sortByDepartment, sortByStatus, dataTemp, data]);
+  }, [searchInput, dataTemp, data]);
 
 
   //Prevent user from using the Enter key when using the search/filter bar
@@ -146,91 +115,17 @@ const Category: FC = function () {
     }
   }
 
-  // Function to handle "Select All" button click
-  // const handleSelectAll = () => {
-  //   // console.log(data)
-  //   checkboxRef.current!.checked ? setCheckBoxes(true) : setCheckBoxes(false)
-  // };
-
-  // useEffect(() => {
-  //   const userCheckboxes = document.getElementsByName('usersCheckbox') as NodeListOf<HTMLInputElement>;
-
-  //   for (let i = 0; i < userCheckboxes.length; i++) {
-  //     const checkbox = userCheckboxes[i];
-  //     if (checkbox) {
-  //       checkbox.checked = checkBoxes;
-  //     }
-  //   }
-
-  //   if (checkBoxes === false) {
-  //     checkboxArray.splice(0);
-  //   } else {
-  //     for (let i = 0; i < userCheckboxes.length; i++) {
-  //       const checkbox = userCheckboxes[i];
-  //       if (checkbox) {
-  //         checkboxArray.push(checkbox.value);
-
-  //       };
-  //     };
-  //   };
-  // }, [checkBoxes])
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
   // Assuming data is your dataset
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : (sortByName === true || sortbyPosition === true || sortByDepartment === true ? dataTemp : data))).slice(indexOfFirstItem, indexOfLastItem);
-  const dataLength = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : (sortByName === true || sortbyPosition === true || sortByDepartment === true ? dataTemp : data))).length
+  const currentItems = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data :data )).slice(indexOfFirstItem, indexOfLastItem);
+  const dataLength = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data :  data)).length
 
   const paginate = (pageNumber: SetStateAction<number>) => setCurrentPage(pageNumber);
 
-  const formatDate = (dateString: string): string => {
-    const dateObject: Date = new Date(dateString);
-
-    return dateObject.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
-  };
-
-  const [show, setShow] = useState(false)
-  const handleChange = (selectedDate: Date) => {
-    let dateString = selectedDate.toString();
-    dateString = formatDate(dateString)
-    dateString = dateString.replace(/\//g, '-');
-    setFromDate(dateString)
-  }
-
-  const handleClose = (state: boolean) => {
-    setShow(state)
-  }
-  const [toDate, setToDate] = useState('');
-  const [fromDate, setFromDate] = useState('');
-
-  useEffect(() => {
-    setSharedState(!sharedState);
-  }, [fromDate, toDate]);
-
-
-  useEffect(() => {
-    if (toDate) {
-      console.log(toDate);
-    }
-  }, [toDate]);
-
-  const [show2, setShow2] = useState(false)
-  const handleChange2 = (selectedDate: Date) => {
-    let dateString = selectedDate.toString();
-    dateString = formatDate(dateString)
-    dateString = dateString.replace(/\//g, '-');
-    setToDate(dateString)
-  }
-  const handleClose2 = (state: boolean) => {
-    setShow2(state)
-  }
 
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({
     Available: false,
@@ -240,39 +135,9 @@ const Category: FC = function () {
 
   useEffect(() => {
     console.log('checkedItems ha cambiado:', checkedItems);
-    // Aquí puedes agregar otras acciones relacionadas con `checkedItems`
-
-
+   
   }, [setCheckedItems]); // Depende de `checkedItems`
 
-  const handleCheckboxChange = (key: string, checked: boolean) => {
-    // Si el checkbox se marca, limpiar todos los demás y marcar solo el seleccionado
-
-    const newCheckedItems = Object.keys(checkedItems).reduce((acc, k) => {
-      // Solo marcar el checkbox seleccionado, desmarcar el resto
-      acc[k] = k === key && checked;
-      return acc;
-    }, {} as Record<string, boolean>); // Objeto actualizado con solo el checkbox seleccionado
-
-    setCheckedItems(newCheckedItems); // Actualiza el estado
-
-    if (checked) {
-      navigate(`/cards?account=${key}`); // Redirige si el checkbox se marca
-    } else {
-      window.location.reload();  // Recarga si se desmarca
-    }
-  };
-
-
-  interface CheckboxProps {
-    label: string;
-    checked: boolean;
-    onChange: (checked: boolean) => void;
-    onClick: (checked: boolean) => void;
-
-  }
-
-  const navigate = useNavigate(); // Hook para redirigir en React Router
 
   return (
     <NavbarSidebarLayout2 isFooter={true}>
@@ -364,11 +229,7 @@ const Category: FC = function () {
                               }`}></div>
                           </span>
                         </Table.Cell>
-                        {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                              <span>
-                                {user.period}
-                              </span>
-                            </Table.Cell> */}
+                      
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className="bg-gray-600 text-gray-100 font-semibold px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-green-500 dark:to-blue-700 dark:text-gray-200">
 
@@ -386,13 +247,7 @@ const Category: FC = function () {
                                 sharedState={sharedState}
                                 updateSharedState={updateSharedState}
                               />
-                              <DeleteUserModal
-                                id={user.id}
-                                active={user.active}
-                                created_user={created_user}
-                                sharedState={sharedState}
-                                updateSharedState={updateSharedState}
-                              />
+                            
                             </div>
                           </Table.Cell>
                         ) : (
@@ -491,34 +346,12 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   const [supBadge, setSupBadge] = useState<any>('');
   const [result, setResult] = useState<any>([]);
   const [supervisorName, setSupervisorName] = useState('');
-  const [amount, setAmount] = useState('');
+
   const [name, setName] = useState('');
   const [statusActive, setStatusActive] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [expirationDate, setExpirationDate] = useState('');
+ 
+
   const urlHired = `https://bn.glassmountainbpo.com:8080/api/hired/`;
-
-  const handleAmountChange = (e: any) => {
-    const { value } = e.target;
-    const numericValue = value.replace(/[^0-9]/g, '');
-    setAmount(numericValue);
-  };
-
-  const handleBlur = () => {
-    // Format the value on blur (when the user clicks away from the input)
-    setAmount((currentValue) => {
-      if (!currentValue) return '';
-      const numericValue = parseFloat(currentValue).toFixed(2);
-      return `${numericValue}`;
-    });
-  };
-
-  const handleFocus = (e: any) => {
-    // Remove formatting when the input is focused (to make editing easier)
-    const { value } = e.target;
-    const numericValue = value.replace(/[^0-9.]/g, '');
-    setAmount(numericValue);
-  };
 
   const handleTrack = () => {
     if (supBadge.length !== 0) {
@@ -541,57 +374,15 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     }
   };
 
-  interface DataType {
-    name: string;
-    id: number;
-    idCategory: number;
-  }
-
-  interface VendorType {
-    name: string;
-    id: number;
-    active: number;
-    creationDate: string;
-    logs: string;
-  }
-
-  const [data, setData] = useState<DataType[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://bn.glassmountainbpo.com:8080/giftCards/accounts');
-        setData(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    };
-    fetchData();
-  }, []);
-
-  const [vendorList, setVendorList] = useState<VendorType[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://bn.glassmountainbpo.com:8080/giftCards/vendors');
-        setVendorList(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    };
-    fetchData();
-  }, []);
 
   const resetFields = () => {
     setName('');
     setSupBadge('');
-    setAmount('');
-    setExpirationDate('');
     setStatusActive('');
-    setQuantity('');
     setSupervisorName('');
   };
+
+  console.log(result,supervisorName)
 
 
 
@@ -630,24 +421,6 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     }
   }
 
-  const [show, setShow] = useState(false);
-
-  const handleDateChange = (selectedDate: Date) => {
-    const formattedDate = formatDate(selectedDate);
-    setExpirationDate(formattedDate);
-  };
-
-  const handleDateClose = (state: boolean) => {
-    setShow(state)
-  };
-
-  function formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed.
-    const day = date.getDate().toString().padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
-  }
 
   // auditoria 
 
@@ -726,17 +499,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   onChange={(e) => setName(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                 >
-                  {/* {data.map((item, index) => (
-                      <option key={index} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-  
-                    <option value="QA">QA </option>
-                    <option value="R1 MICHIGAN">R1 MICHIGAN </option>
-                    <option value="R1 OKLAHOMA">R1 OKLAHOMA </option>
-                    <option value="GMC">GMC </option>
-                    <option value="TRAINING">TRAINING </option> */}
+                
                 </TextInput>
 
               </div>
@@ -751,14 +514,9 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   value={statusActive}
                   onChange={(e) => setStatusActive(e.target.value)}
                 >
-                  {/* {vendorList.map((item, index) => (
-                    <option key={index} value={item.name}>
-                      {item.name}
-                    </option>
-                  ))} */}
-
+                  <option value={""}>Selected</option>
                   <option value={"1"}>Active</option>
-                  <option value={"2"}>Inactive</option>
+                  <option value={"0"}>Inactive</option>
                 </Select>
               </div>
 
@@ -781,34 +539,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
             </div>
-            {/* <div>
-              <Label htmlFor="quantity">Quantity</Label>
-              <div className="mt-1">
-                <TextInput
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  placeholder="10"
-                  value={quantity}
-                  onChange={e => {
-                    setQuantity(e.target.value);
-                  }}
-                  required
-                />
-              </div>
-            </div> */}
-            {/* <div className="col-span-2">
-              <Label className="" htmlFor="supName">Supervisor's Name</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="supName"
-                  name="supName"
-                  placeholder="This field is automatically generated"
-                  value={result.first_name !== undefined ? result.first_name + " " + result.second_name + " " + result.first_last_name + " " + result.second_last_name : ""}
-                  readOnly
-                />
-              </div>
-            </div> */}
+          
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -922,71 +653,6 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
     </>
   );
 };
-
-
-const DeleteUserModal: FC<any> = function ({ id, active, sharedState, updateSharedState }: any) {
-  const [isOpen, setOpen] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent, id: any, state: any, created_user: any) => {
-    e.preventDefault()
-    try {
-      const response = await axios.post('https://bn.glassmountainbpo.com:8080/dev/taskStateChange', {
-        id,
-        state,
-        created_user
-      })
-      if (response.status == 200) {
-        const responseData = response.data;
-        updateSharedState(!sharedState);
-        setOpen(false);
-
-        if (responseData.message === "Task updated") {
-          setOpen(false);
-        } else {
-          console.log("Fatal Error");
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      setOpen(false)
-    }
-  };
-
-  return (
-    created_user === "3199" || created_user === "3814" ?
-      <>
-        <Button color={(active == '1') ? "dark" : "dark"} onClick={() => setOpen(true)}>
-          <div className="flex items-center gap-x-2">
-            {(active == '1') ? <FaTimes color="white" className="text-lg" /> : <FaCheck color="white" className="text-lg" />}
-          </div>
-        </Button>
-        <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
-          <Modal.Header className="px-6 pt-6 pb-0">
-            <span className="sr-only">Delete user</span>
-          </Modal.Header>
-          <Modal.Body className="px-6 pt-0 pb-6">
-            <div className="flex flex-col items-center gap-y-6 text-center">
-              {(active == '1') ? <FaTimes className="text-7xl text-red-500" /> : <FaCheck className="text-7xl text-green-500" />}
-              <p className="text-xl text-gray-500">
-                {(active == '1') ? "Are you sure you want to deactivate this user?" : "Are you sure you want to activate this user?"}
-              </p>
-              <div className="flex items-center gap-x-3">
-                <Button color={(active == '1') ? "failure" : "success"} onClick={(e) => { handleSubmit(e, id, active, created_user) }}>
-                  Yes, I'm sure
-                </Button>
-                <Button color="gray" onClick={() => setOpen(false)}>
-                  No, cancel
-                </Button>
-              </div>
-            </div>
-          </Modal.Body>
-        </Modal>
-      </>
-      :
-      <></>
-  );
-};
-
 
 
 const ExportModal: FC<any> = function (rawData) {
