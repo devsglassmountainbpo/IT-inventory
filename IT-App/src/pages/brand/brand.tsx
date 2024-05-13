@@ -772,7 +772,7 @@ const ExportModal: FC<any> = function (rawData) {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'CardsReports.csv';
+    a.download = 'brandsReports.csv';
     a.click();
     window.URL.revokeObjectURL(url);
     setOpen(false);
