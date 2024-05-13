@@ -761,7 +761,7 @@ const ExportModal: FC<any> = function (rawData) {
 
     // Modificar las cabeceras según sea necesario
     const modifiedHeaders = headers.map(header => {
-      if (header === 'creation_date' || header === 'experation_date') {
+      if (header === 'date_created' ) {
         return header.replace('_', ' ').toUpperCase(); // Convertir a mayúsculas y reemplazar '_' con ' '
       } else if (header === 'id_groups') {
         return 'ID GROUPS'; // Cambiar el nombre de la cabecera
@@ -774,7 +774,7 @@ const ExportModal: FC<any> = function (rawData) {
 
     for (const row of data) {
       const values = headers.map(header => {
-        if (header === 'creationDate' || header === 'deliveredDate' || header == 'expirationDate') {
+        if (header === 'date_created' ) {
           // Formatear las fechas como dd/mm/yyyy
           const date = new Date(row[header]);
           return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
