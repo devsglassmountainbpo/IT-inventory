@@ -34,6 +34,7 @@ import {
   import * as XLSX from 'xlsx';
 
   import { Dropdown } from "flowbite-react";
+
   
   const created_user3 = localStorage.getItem("badgeSession") || "";
   const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
@@ -56,7 +57,7 @@ import {
     let [dataTemp, setDataTemp] = useState([] as any[]);
     // let checkboxRef = useRef<HTMLInputElement>(null);
     // const [checkBoxes, setCheckBoxes] = useState(false);
-    // const checkboxArray: string[] = [];
+    const checkboxArray: string[] = [];
     const [sharedState, setSharedState] = useState(false);
   
     const updateSharedState = (newValue: boolean) => {
@@ -232,6 +233,16 @@ import {
     const dataLength = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : (sortByName === true || sortbyPosition === true || sortByDepartment === true ? dataTemp : data))).length
   
     const paginate = (pageNumber: SetStateAction<number>) => setCurrentPage(pageNumber);
+
+    const updateCheckboxArray = (producto: string) => {
+        const checkbox = document.getElementById(producto + "Checkbox") as HTMLInputElement;
+        if (checkbox.checked){
+            checkboxArray.push(producto)
+        }else {
+            const indexToRemove = checkboxArray.indexOf(producto);
+            checkboxArray.splice(indexToRemove, 1);
+        }
+    }
   
     // const updateCheckboxArray = (badge: string) => {
     //   const checkbox = document.getElementById('checkbox-' + badge) as HTMLInputElement;
@@ -436,20 +447,16 @@ import {
                     className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   >
                     <span className="sr-only">Refresh</span>
-                    <HiRefresh className="text-2xl" />
+                    <HiRefresh className="text-2xl mr-2" />
                   </a>
-                  {/* {userLevel == '1' ?
-                    <DeleteUsersModal
-                      users={checkboxArray}
-                      created_user={created_user}
-                      sharedState={sharedState}
-                      updateSharedState={updateSharedState} /> : <></>}
-                  {userLevel == '1' ?
-                    <ActivateUsersModal
-                      users={checkboxArray}
-                      created_user={created_user}
-                      sharedState={sharedState}
-                      updateSharedState={updateSharedState} /> : <></>} */}
+                <Dropdown label="Filter Equipment" dismissOnClick={false}>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"monitoresCheckbox"} value={"Monitores"} name={"monitoresCheckbox"} onChange={() => updateCheckboxArray("monitores")} />Monitores</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"tecladosCheckbox"} value={"Teclados"} name={"tecladosCheckbox"} onChange={() => updateCheckboxArray("teclados")} />Teclados</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"headsetsCheckbox"} value={"Headsets"} name={"tecladosCheckbox"} onChange={() => updateCheckboxArray("headsets")} />Headsets</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"mouseCheckbox"} value={"Mouse"} name={"mouseCheckbox"} onChange={() => updateCheckboxArray("mouse")} />Mouse</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"laptopsCheckbox"} value={"Laptop"} name={"laptopsCheckbox"} onChange={() => updateCheckboxArray("laptops")} />Laptops</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"cpuCheckbox"} value={"CPU"} name={"cpuCheckbox"} onChange={() => updateCheckboxArray("cpu")} />CPUs</Dropdown.Item>
+                </Dropdown>
                 </div>
               </div>
               {userLevel == '1' ?
