@@ -23,7 +23,7 @@ import {
 
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import axios from "axios";
-import { FiletypeCsv, FiletypeXlsx } from 'react-bootstrap-icons';
+import { FiletypeCsv, FiletypeXlsx, TagsFill } from 'react-bootstrap-icons';
 import { useSearchParams } from 'react-router-dom';
 
 import UAParser from 'ua-parser-js';
@@ -32,6 +32,10 @@ import UAParser from 'ua-parser-js';
 import CryptoJS from "crypto-js";
 
 import * as XLSX from 'xlsx';
+import { FaStream  } from 'react-icons/fa'; // Ejemplo con FontAwesome
+
+import { FaClone } from "react-icons/fa";
+
 
 const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
@@ -56,19 +60,11 @@ const Models: FC = function () {
   }
 
   useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory')
+    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listModels')
       .then(res => {
-        if (userLevel === '2') {
-          // Filter data where supervisorBadge equals created_user
-          const filteredData = res.data.filter((item: { supervisorBadge: string; }) => item.supervisorBadge === created_user);
-          setData(filteredData);
-      
-        } else {
-          // If userLevel is not 2, set data as is
-          setData(res.data);
-
+        setData(res.data);
         }
-      })
+      )
   }, [sharedState, userLevel, created_user]); // Add userLevel and created_user to the dependency array
 
   const [searchInput, setSearchInput] = useState('');
@@ -97,12 +93,12 @@ const Models: FC = function () {
       let filteredRawData = foo.filter((user) => {
         return Object.values(user).join('').toLowerCase().includes(searchInput.toLowerCase());
       })
-      
+
       setFilteredResults(filteredRawData);
       // resetCheckboxes();
     } else {
       let foo = data;
-    
+
       setDataTemp(foo);
     }
   }, [searchInput, dataTemp, data]);
@@ -121,11 +117,10 @@ const Models: FC = function () {
   // Assuming data is your dataset
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data :data )).slice(indexOfFirstItem, indexOfLastItem);
-  const dataLength = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data :  data)).length
+  const currentItems = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : data)).slice(indexOfFirstItem, indexOfLastItem);
+  const dataLength = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : data)).length
 
   const paginate = (pageNumber: SetStateAction<number>) => setCurrentPage(pageNumber);
-
 
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({
     Available: false,
@@ -135,7 +130,7 @@ const Models: FC = function () {
 
   useEffect(() => {
     console.log('checkedItems ha cambiado:', checkedItems);
-   
+
   }, [setCheckedItems]); // Depende de `checkedItems`
 
 
@@ -196,6 +191,8 @@ const Models: FC = function () {
 
                   <Table.HeadCell className="">ID</Table.HeadCell>
                   <Table.HeadCell className="">Name</Table.HeadCell>
+                  <Table.HeadCell className="">Brand Name</Table.HeadCell>
+                  <Table.HeadCell className="">Category Name</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Status</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Date Created</Table.HeadCell>
                   <Table.HeadCell>Actions</Table.HeadCell>
@@ -215,9 +212,36 @@ const Models: FC = function () {
                           </div>
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                          <span className=" text-dark-800 font-bold px-2 py-0.5 rounded dark:text-white">
-                            {user.name}
-                          </span>
+
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+
+                            <FaStream className="mr-2" />
+                            <span className="text-dark-800 font-bold px-2 py-0.5 rounded dark:text-white">
+                              {user.name}
+                            </span>
+
+                          </div>
+                        </Table.Cell>
+                        <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+
+                            <FaClone className="mr-2" />
+                            <span className="text-dark-800 font-semibold px-2 py-0.5 rounded dark:text-white">
+                              {user.name_brand}
+                            </span>
+
+                          </div>
+                        </Table.Cell>
+                        <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+
+                            <TagsFill className="mr-2" />
+                            <span className="text-dark-800 font-medium px-2 py-0.5 rounded dark:text-white">
+                              {user.name_category}
+                            </span>
+
+                          </div>
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className=" text-black-800 font-bold px-2 py-0.5 rounded dark:text-white">
@@ -229,7 +253,7 @@ const Models: FC = function () {
                               }`}></div>
                           </span>
                         </Table.Cell>
-                      
+
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className="bg-gray-600 text-gray-100 font-semibold px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-green-500 dark:to-blue-700 dark:text-gray-200">
 
@@ -247,7 +271,7 @@ const Models: FC = function () {
                                 sharedState={sharedState}
                                 updateSharedState={updateSharedState}
                               />
-                            
+
                             </div>
                           </Table.Cell>
                         ) : (
@@ -349,31 +373,54 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
   const [name, setName] = useState('');
   const [statusActive, setStatusActive] = useState('');
- 
 
-  const urlHired = `https://bn.glassmountainbpo.com:8080/api/hired/`;
 
-  const handleTrack = () => {
-    if (supBadge.length !== 0) {
-      axios.get(urlHired + supBadge)
-        .then((response => {
-          setResult(response.data);
-          const data = response.data;
-          if (data.first_name !== undefined) {
-            setSupervisorName(data.first_name + " " + data.second_name + " " + data.first_last_name + " " + data.second_last_name);
-          } else {
-            setSupervisorName('');
-          }
-        }));
-    }
+  const [dataInternal, setDataInternal] = useState([] as any[]);
+  const [dataInternal2, setDataInternal2] = useState([] as any[]);
+
+
+  const [nameCategory, setNameCategory] = useState('');
+  const [idCategory, setIdCategory] = useState('');
+
+
+  const [nameBrand, setNameBrand] = useState('');
+  const [idBrand, setIdBrand] = useState('');
+
+  useEffect(() => {
+    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory')
+      .then(res => {
+        // If userLevel is not 2, set data as is
+        const filteredData = res.data.filter((item: { active: number; }) => item.active == 1);
+        setDataInternal(filteredData);
+
+      })
+  }, [created_user]); // Add userLevel and created_user to the dependency array
+
+
+  console.log('esta es la categoria', nameCategory, 'id: ', idCategory, 'NameBrand: ',nameBrand , 'Id Brand:' , idBrand)
+
+  const handleTrack = (name: string) => {
+    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listBrad')
+      .then(res => {
+        // Filtrar los datos basados en el nombre
+        const filteredData = res.data.filter((item: { name_category: string }) => item.name_category === name);
+        // Actualizar el estado con los datos filtrados
+        setDataInternal2(filteredData);
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos:', error);
+      });
   };
 
-  const handleKeyPress = (e: { key: string; }) => {
-    if (e.key === "Enter") {
-      handleTrack();
-    }
+  const handleKeyPress = (e: any) => {
+    const name = e.target.value;
+    console.log('Tecla presionada:', name);
+    handleTrack(name);
   };
 
+
+
+  console.log('aca vamos a filtrar', dataInternal2);
 
   const resetFields = () => {
     setName('');
@@ -382,12 +429,12 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     setSupervisorName('');
   };
 
-  console.log(result,supervisorName)
+  console.log(result, supervisorName)
 
 
 
 
-  const url2 = `https://bn.glassmountainbpo.com:8080/inventory/addCategory`;
+  const url2 = `https://bn.glassmountainbpo.com:8080/inventory/addModel`;
   const handleSubmit = async (e: React.FormEvent) => {
     if (!name) {
       alert('Enter a valid category name')
@@ -399,6 +446,10 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
         const response = await axios.post(url2, {
           name,
           statusActive,
+          idBrand,
+          nameBrand,
+          nameCategory,
+          idCategory,
           created_user,
           info
         })
@@ -406,10 +457,10 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           const responseData = response.data;
           updateSharedState(!sharedState);
 
-          if (responseData.message === "Category created") {
+          if (responseData.message === "Model created") {
             setOpen(false);
             resetFields();
-            alert('Category created successfully!')
+            alert('Model created successfully!')
           } else {
             console.log("Fatal Error");
           }
@@ -480,12 +531,12 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
       <Button color="primary" onClick={() => { setOpen(true) }}>
         <div className="flex items-center gap-x-3">
           <HiPlus className="text-xl" />
-          Add Brand
+          Add Model
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
         <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-          <strong>Add new brand!</strong>
+          <strong>Add new Model</strong>
         </Modal.Header>
         <Modal.Body>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -497,12 +548,55 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   name="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  onKeyDown={(e) => handleKeyPress(e)}
+
                 >
-                
+
                 </TextInput>
 
               </div>
+            </div>
+            <div>
+
+              <Label htmlFor="category">Category</Label>
+              <div className="mt-1">
+                
+                <Select onChange={(e) => {
+                  const selectedIndex = e.target.selectedIndex;
+                  const selectedName = e.target.value;
+                  setNameCategory(selectedName);
+                  setIdCategory(dataInternal[selectedIndex].id);
+
+                }}
+                  onInput={(e) => handleKeyPress(e)}>
+                  {
+                    dataInternal.map((user,) => (
+                      <option key={user.id} value={user.name}>{user.name}</option>
+                    ))
+                  }
+                </Select>
+              </div>
+
+            </div>
+            <div>
+
+              <Label htmlFor="brand">Brand</Label>
+              <div className="mt-1">
+                <Select onChange={(e) => {
+                  const selectedIndex = e.target.selectedIndex;
+                  const selectedName = e.target.value;
+                  setNameBrand(selectedName);
+                  setIdBrand(dataInternal2[selectedIndex].id);
+
+                }}
+                >
+                  {
+                    dataInternal2.map((user,) => (
+                      <option key={user.id} value={user.name}>{user.name}</option>
+                    ))
+                  }
+                </Select>
+              </div>
+
             </div>
             <div>
 
@@ -539,7 +633,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
             </div>
-          
+
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -570,7 +664,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editCategory', {
+      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editModel', {
         id,
         nameCategory,
         status,
@@ -620,7 +714,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
                 <TextInput
                   value={name}
                   onChange={e => { setNameCategory(e.target.value) }}
-                  
+
                 />
               </div>
             </div>
@@ -633,6 +727,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
                   value={status}
                   onChange={e => { setStatus(e.target.value) }}
                 >
+                  <option value="">Selected</option>
                   <option value="1">Active</option>
                   <option value="0">Inactive</option>
                   {/* {userLevel == '2' ? null : <option value="Delivered">Delivered</option>} */}

@@ -32,6 +32,9 @@ import UAParser from 'ua-parser-js';
 import CryptoJS from "crypto-js";
 
 import * as XLSX from 'xlsx';
+import { FaTags, } from 'react-icons/fa'; // Ejemplo con FontAwesome
+
+
 
 const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
@@ -62,11 +65,9 @@ const Category: FC = function () {
           // Filter data where supervisorBadge equals created_user
           const filteredData = res.data.filter((item: { supervisorBadge: string; }) => item.supervisorBadge === created_user);
           setData(filteredData);
-      
         } else {
           // If userLevel is not 2, set data as is
           setData(res.data);
-
         }
       })
   }, [sharedState, userLevel, created_user]); // Add userLevel and created_user to the dependency array
@@ -97,12 +98,12 @@ const Category: FC = function () {
       let filteredRawData = foo.filter((user) => {
         return Object.values(user).join('').toLowerCase().includes(searchInput.toLowerCase());
       })
-      
+
       setFilteredResults(filteredRawData);
       // resetCheckboxes();
     } else {
       let foo = data;
-    
+
       setDataTemp(foo);
     }
   }, [searchInput, dataTemp, data]);
@@ -121,8 +122,8 @@ const Category: FC = function () {
   // Assuming data is your dataset
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data :data )).slice(indexOfFirstItem, indexOfLastItem);
-  const dataLength = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data :  data)).length
+  const currentItems = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : data)).slice(indexOfFirstItem, indexOfLastItem);
+  const dataLength = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : data)).length
 
   const paginate = (pageNumber: SetStateAction<number>) => setCurrentPage(pageNumber);
 
@@ -135,7 +136,7 @@ const Category: FC = function () {
 
   useEffect(() => {
     console.log('checkedItems ha cambiado:', checkedItems);
-   
+
   }, [setCheckedItems]); // Depende de `checkedItems`
 
 
@@ -215,9 +216,13 @@ const Category: FC = function () {
                           </div>
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                          <span className=" text-dark-800 font-bold px-2 py-0.5 rounded dark:text-white">
-                            {user.name}
-                          </span>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <FaTags className="mr-2" />
+                            <span className="text-dark-800 font-bold px-2 py-0.5 rounded dark:text-white">
+                              {user.name}
+                            </span>
+                          </div>
+
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className=" text-black-800 font-bold px-2 py-0.5 rounded dark:text-white">
@@ -229,7 +234,7 @@ const Category: FC = function () {
                               }`}></div>
                           </span>
                         </Table.Cell>
-                      
+
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className="bg-gray-600 text-gray-100 font-semibold px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-green-500 dark:to-blue-700 dark:text-gray-200">
 
@@ -247,7 +252,7 @@ const Category: FC = function () {
                                 sharedState={sharedState}
                                 updateSharedState={updateSharedState}
                               />
-                            
+
                             </div>
                           </Table.Cell>
                         ) : (
@@ -349,7 +354,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
   const [name, setName] = useState('');
   const [statusActive, setStatusActive] = useState('');
- 
+
 
   const urlHired = `https://bn.glassmountainbpo.com:8080/api/hired/`;
 
@@ -382,7 +387,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     setSupervisorName('');
   };
 
-  console.log(result,supervisorName)
+  console.log(result, supervisorName)
 
 
 
@@ -499,7 +504,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   onChange={(e) => setName(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                 >
-                
+
                 </TextInput>
 
               </div>
@@ -539,7 +544,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
             </div>
-          
+
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -599,7 +604,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
         <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-          <strong>Edit Task</strong>
+          <strong>Edit Category</strong>
         </Modal.Header>
         <Modal.Body>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -616,11 +621,12 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
             </div>
             <div>
               <Label htmlFor="taskName">Name Category</Label>
+
               <div className="mt-1">
                 <TextInput
                   value={name}
                   onChange={e => { setNameCategory(e.target.value) }}
-                  
+
                 />
               </div>
             </div>
@@ -633,6 +639,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
                   value={status}
                   onChange={e => { setStatus(e.target.value) }}
                 >
+                  <option value="">Selected</option>
                   <option value="1">Active</option>
                   <option value="0">Inactive</option>
                   {/* {userLevel == '2' ? null : <option value="Delivered">Delivered</option>} */}
@@ -666,10 +673,8 @@ const ExportModal: FC<any> = function (rawData) {
 
     // Modificar las cabeceras según sea necesario
     const modifiedHeaders = headers.map(header => {
-      if (header === 'creation_date' || header === 'experation_date') {
+      if (header === 'date_created' ) {
         return header.replace('_', ' ').toUpperCase(); // Convertir a mayúsculas y reemplazar '_' con ' '
-      } else if (header === 'id_groups') {
-        return 'ID GROUPS'; // Cambiar el nombre de la cabecera
       } else {
         return header.toUpperCase(); // Convertir a mayúsculas
       }
@@ -679,7 +684,7 @@ const ExportModal: FC<any> = function (rawData) {
 
     for (const row of data) {
       const values = headers.map(header => {
-        if (header === 'creationDate' || header === 'deliveredDate' || header == 'expirationDate') {
+        if (header === 'date_created') {
           // Formatear las fechas como dd/mm/yyyy
           const date = new Date(row[header]);
           return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
@@ -708,7 +713,7 @@ const ExportModal: FC<any> = function (rawData) {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'CardsReports.csv';
+    a.download = 'CategoryReports.csv';
     a.click();
     window.URL.revokeObjectURL(url);
     setOpen(false);

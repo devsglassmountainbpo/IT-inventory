@@ -32,6 +32,10 @@ import UAParser from 'ua-parser-js';
 import CryptoJS from "crypto-js";
 
 import * as XLSX from 'xlsx';
+import { FaTags } from 'react-icons/fa'; // Ejemplo con FontAwesome
+
+import { FaClone } from "react-icons/fa";
+
 
 const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
@@ -56,13 +60,13 @@ const Brand: FC = function () {
   }
 
   useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory')
+    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listBrad')
       .then(res => {
         if (userLevel === '2') {
           // Filter data where supervisorBadge equals created_user
           const filteredData = res.data.filter((item: { supervisorBadge: string; }) => item.supervisorBadge === created_user);
           setData(filteredData);
-      
+
         } else {
           // If userLevel is not 2, set data as is
           setData(res.data);
@@ -97,12 +101,12 @@ const Brand: FC = function () {
       let filteredRawData = foo.filter((user) => {
         return Object.values(user).join('').toLowerCase().includes(searchInput.toLowerCase());
       })
-      
+
       setFilteredResults(filteredRawData);
       // resetCheckboxes();
     } else {
       let foo = data;
-    
+
       setDataTemp(foo);
     }
   }, [searchInput, dataTemp, data]);
@@ -121,8 +125,8 @@ const Brand: FC = function () {
   // Assuming data is your dataset
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data :data )).slice(indexOfFirstItem, indexOfLastItem);
-  const dataLength = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data :  data)).length
+  const currentItems = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : data)).slice(indexOfFirstItem, indexOfLastItem);
+  const dataLength = (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : data)).length
 
   const paginate = (pageNumber: SetStateAction<number>) => setCurrentPage(pageNumber);
 
@@ -135,7 +139,7 @@ const Brand: FC = function () {
 
   useEffect(() => {
     console.log('checkedItems ha cambiado:', checkedItems);
-   
+
   }, [setCheckedItems]); // Depende de `checkedItems`
 
 
@@ -196,6 +200,7 @@ const Brand: FC = function () {
 
                   <Table.HeadCell className="">ID</Table.HeadCell>
                   <Table.HeadCell className="">Name</Table.HeadCell>
+                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Category Name</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Status</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Date Created</Table.HeadCell>
                   <Table.HeadCell>Actions</Table.HeadCell>
@@ -215,9 +220,27 @@ const Brand: FC = function () {
                           </div>
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                          <span className=" text-dark-800 font-bold px-2 py-0.5 rounded dark:text-white">
-                            {user.name}
-                          </span>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+
+                            <FaClone className="mr-2" />
+                            <span className="text-dark-800 font-semibold px-2 py-0.5 rounded dark:text-white">
+                              {user.name}
+                            </span>
+
+                          </div>
+
+                        </Table.Cell>
+
+                        <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <FaTags className="mr-2" />
+
+                            <span className="text-dark-800 font-semibold px-2 py-0.5 rounded dark:text-white">
+                              {user.name_category}
+                            </span>
+
+                          </div>
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className=" text-black-800 font-bold px-2 py-0.5 rounded dark:text-white">
@@ -229,7 +252,7 @@ const Brand: FC = function () {
                               }`}></div>
                           </span>
                         </Table.Cell>
-                      
+
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className="bg-gray-600 text-gray-100 font-semibold px-2 py-0.5 rounded dark:bg-pink-500 bg-gradient-to-r from-blue-700 to-green-500 dark:from-green-500 dark:to-blue-700 dark:text-gray-200">
 
@@ -247,7 +270,7 @@ const Brand: FC = function () {
                                 sharedState={sharedState}
                                 updateSharedState={updateSharedState}
                               />
-                            
+
                             </div>
                           </Table.Cell>
                         ) : (
@@ -349,7 +372,11 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
   const [name, setName] = useState('');
   const [statusActive, setStatusActive] = useState('');
- 
+  const [nameCategory, setNameCategory] = useState('');
+  const [idCategory, setIdCategory] = useState('');
+
+  console.log('estas son la categorias seleccionadas', nameCategory, idCategory)
+
 
   const urlHired = `https://bn.glassmountainbpo.com:8080/api/hired/`;
 
@@ -382,12 +409,12 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     setSupervisorName('');
   };
 
-  console.log(result,supervisorName)
+  console.log(result, supervisorName)
 
 
 
 
-  const url2 = `https://bn.glassmountainbpo.com:8080/inventory/addCategory`;
+  const url2 = `https://bn.glassmountainbpo.com:8080/inventory/addBrand`;
   const handleSubmit = async (e: React.FormEvent) => {
     if (!name) {
       alert('Enter a valid category name')
@@ -400,16 +427,18 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           name,
           statusActive,
           created_user,
+          idCategory,
+          nameCategory,
           info
         })
         if (response.status == 200) {
           const responseData = response.data;
           updateSharedState(!sharedState);
 
-          if (responseData.message === "Category created") {
+          if (responseData.message === "Brand created") {
             setOpen(false);
             resetFields();
-            alert('Category created successfully!')
+            alert('Brand created successfully!')
           } else {
             console.log("Fatal Error");
           }
@@ -474,6 +503,20 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
   console.log('XXXXXXXXXXXXXXXXXXXXXX info: ', info);
 
+  const [dataInternal, setDataInternal] = useState([] as any[]);
+
+  useEffect(() => {
+    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory')
+      .then(res => {
+        // If userLevel is not 2, set data as is
+        const filteredData = res.data.filter((item: { active: number; }) => item.active == 1);
+        setDataInternal(filteredData);
+
+      })
+  }, [created_user]); // Add userLevel and created_user to the dependency array
+
+
+
 
   return (
     <>
@@ -499,10 +542,30 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   onChange={(e) => setName(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                 >
-                
+
                 </TextInput>
 
               </div>
+            </div>
+            <div>
+
+              <Label htmlFor="vendor">Category</Label>
+              <div className="mt-1">
+                <Select onChange={(e) => {
+                  const selectedIndex = e.target.selectedIndex;
+                  const selectedName = e.target.value;
+                  setNameCategory(selectedName);
+                  setIdCategory(dataInternal[selectedIndex].id);
+                }}>
+                  {
+                    dataInternal.map((user,) => (
+                      <option key={user.id} value={user.name}>{user.name}</option>
+                    ))
+                  }
+                </Select>
+
+              </div>
+
             </div>
             <div>
 
@@ -539,7 +602,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
             </div>
-          
+
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -570,7 +633,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editCategory', {
+      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editBrand', {
         id,
         nameCategory,
         status,
@@ -599,7 +662,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
         <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-          <strong>Edit Task</strong>
+          <strong>Edit Brand</strong>
         </Modal.Header>
         <Modal.Body>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -620,7 +683,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
                 <TextInput
                   value={name}
                   onChange={e => { setNameCategory(e.target.value) }}
-                  
+
                 />
               </div>
             </div>
@@ -633,6 +696,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
                   value={status}
                   onChange={e => { setStatus(e.target.value) }}
                 >
+                  <option value="">Selected</option>
                   <option value="1">Active</option>
                   <option value="0">Inactive</option>
                   {/* {userLevel == '2' ? null : <option value="Delivered">Delivered</option>} */}
