@@ -632,7 +632,7 @@ import {
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <span>
-                              {item.updateDate}
+                              {item.updatedDate}
                             </span>
                           </Table.Cell>
                           {userLevel == '1' ? (
