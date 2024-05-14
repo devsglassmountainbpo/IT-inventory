@@ -541,7 +541,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
         <Modal.Body>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">Model</Label>
               <div className="mt-1">
                 <TextInput
                   id="name"
@@ -709,7 +709,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
               </div>
             </div>
             <div>
-              <Label htmlFor="taskName">Name Category</Label>
+              <Label htmlFor="taskName">Name Model</Label>
               <div className="mt-1">
                 <TextInput
                   value={name}
