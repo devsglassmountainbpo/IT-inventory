@@ -365,6 +365,102 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   }
 
 
+  const optionsVal = {
+    // enable and customize data labels using the following example, learn more from here: https://apexcharts.com/docs/datalabels/
+    dataLabels: {
+      enabled: true,
+      // offsetX: 10,
+      style: {
+        cssClass: 'text-xs text-white font-medium'
+      },
+    },
+    grid: {
+      show: false,
+      strokeDashArray: 4,
+      padding: {
+        left: 16,
+        right: 16,
+        top: -26
+      },
+    },
+    series: [
+      {
+        name: "Developer Edition",
+        data: [150, 141, 145, 152, 135, 125],
+        color: "#1A56DB",
+      },
+      {
+        name: "Developer Delivery",
+        data: [160, 131, 146, 182, 165, 45],
+        color: "#9A66DB",
+      },
+      {
+        name: "Designer Edition",
+        data: [64, 41, 76, 41, 113, 173],
+        color: "#7E3BF2",
+      },
+    ],
+    chart: {
+      height: "100%",
+      maxWidth: "100%",
+      type: "area",
+      fontFamily: "Inter, sans-serif",
+      dropShadow: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    tooltip: {
+      enabled: true,
+      x: {
+        show: false,
+      },
+    },
+    legend: {
+      show: true
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        opacityFrom: 0.55,
+        opacityTo: 0,
+        shade: "#1C64F2",
+        gradientToColors: ["#1C64F2"],
+      },
+    },
+    stroke: {
+      width: 6,
+    },
+    xaxis: {
+      categories: ['01 de febrero', '02 de febrero', '03 de febrero', '04 de febrero', '05 de febrero', '06 de febrero', '07 de febrero'],
+      labels: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      show: false,
+      labels: {
+        formatter: function (value: string) {
+          return '$' + value;
+        }
+      }
+    },
+  }
+
+  if (document.getElementById("data-labels-chart") && typeof ApexCharts !== 'undefined') {
+    const chart = new ApexCharts(document.getElementById("data-labels-chart"), optionsVal);
+    chart.render();
+  }
+
+
   return (
     <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 mb-5 sm:p-6 xl:p-8">
 
@@ -439,7 +535,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                   data-dropdown-placement="bottom"
                   className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
                   type="button">
-                
+
                   <svg className="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                   </svg>
@@ -534,7 +630,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 </dl>
               </div>
 
-              <div id="column-chart"></div>
+              <div id="data-labels-chart"></div>
               <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
                 <div className="flex justify-between items-center pt-5">
 
@@ -544,7 +640,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                     data-dropdown-placement="bottom"
                     className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
                     type="button">
-                    
+
                     <svg className="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                     </svg>
