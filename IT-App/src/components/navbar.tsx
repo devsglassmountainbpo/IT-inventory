@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { UserToggle } from "../components/userToggle";
 import { DarkThemeToggle, Navbar, Button } from "flowbite-react";
-import { FaTags, FaStream, FaBoxOpen, FaUsers } from 'react-icons/fa'; // Ejemplo con FontAwesome
+import { FaTags, FaStream, FaBoxOpen, FaUsers, FaDesktop } from 'react-icons/fa'; // Ejemplo con FontAwesome
 
 import { FaClone } from "react-icons/fa";
 
@@ -43,6 +43,12 @@ const ExampleNavbar: FC = function () {
               >
                 <FaBoxOpen className="mr-2" />
                 <span>Inventory</span>
+              </Button>
+              <Button href="ITinventory"
+                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+              >
+                <FaDesktop className="mr-2" />
+                <span>IT Inventory</span>
               </Button>
               <Button
                 className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"

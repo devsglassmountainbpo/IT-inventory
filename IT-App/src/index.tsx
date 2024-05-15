@@ -11,6 +11,7 @@ import Inventory from "./pages/inventory/inventory";
 import Category from "./pages/category/category";
 import Brand from "./pages/brand/brand";
 import Models from "./pages/models/models";
+import ITinventory from "./pages/inventory/inventoryIT";
 
 const container = document.getElementById("root");
 
@@ -31,6 +32,7 @@ root.render(
           element={<DevsDashboard />}
         />
         <Route path="/Inventory" element={<Inventory />} />
+        <Route path="/ITinventory" element={<ITinventory />} />
         <Route path="/Category" element={<Category />} />
         <Route path="/Brand" element={<Brand />} />
         <Route path="/Models" element={<Models />} />
