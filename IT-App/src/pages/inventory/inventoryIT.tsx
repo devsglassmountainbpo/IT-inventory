@@ -66,7 +66,7 @@ import {
     }
   
     useEffect(() => {
-      axios.get('https://bn.glassmountainbpo.com:8080/inventory/stock')
+      axios.get('https://bn.glassmountainbpo.com:8080/inventory/ITstock')
         .then(res => {
           if (userLevel === '2') {
             // Filter data where supervisorBadge equals created_user
