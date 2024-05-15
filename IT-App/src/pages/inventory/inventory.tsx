@@ -754,7 +754,18 @@ import {
     const [account, setAccount] = useState('');
     const [vendor, setVendor] = useState('');
     const [quantity, setQuantity] = useState('');
+    const [ticketID, setTicketID] = useState('');
+    const [category, setCategory] = useState('');
+    const [model, setModel] = useState('');
+    const [brand, setBrand] = useState('');
+    const [status, setStatus] = useState('');
+    const [details, setDetails] = useState('');
+    const [requester, setRequester] = useState('');
+    const [requesterName, setRequesterName] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
+    const [dateDelivered, setDateDelivered] = useState('');
+    const [receivedBy, setReceivedBy] = useState('');
+    const [deliveredBy, setDeliveredBy] = useState('');
     const urlHired = `https://bn.glassmountainbpo.com:8080/api/hired/`;
   
     const handleAmountChange = (e: any) => {
@@ -926,77 +937,17 @@ import {
         </Button>
         <Modal onClose={() => setOpen(false)} show={isOpen}>
           <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-            <strong>Add new Gift Cards!</strong>
+            <strong>Add Equipment</strong>
           </Modal.Header>
           <Modal.Body>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <Label htmlFor="account">Account</Label>
+                <Label htmlFor="account">Ticket ID</Label>
                 <div className="mt-1">
-                  <Select
-                    id="account"
-                    name="account"
-                    value={account}
-                    onChange={(e) => setAccount(e.target.value)}
-                  >
-                    {data.map((item, index) => (
-                      <option key={index} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-  
-                    <option value="QA">QA </option>
-                    <option value="R1 MICHIGAN">R1 MICHIGAN </option>
-                    <option value="R1 OKLAHOMA">R1 OKLAHOMA </option>
-                    <option value="GMC">GMC </option>
-                    <option value="TRAINING">TRAINING </option>
-                  </Select>
-  
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="period">Supervisor's Badge</Label>
-                <div className="mt-1">
-                  <TextInput
-                    id="supBadge"
-                    name="supBadge"
-                    placeholder="3814"
-                    value={supBadge}
-                    onChange={(e) => setSupBadge(e.target.value)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="amount">Balance Amount</Label>
-                <div className="mt-1">
-                  <TextInput
-                    id="amount"
-                    placeholder="$25.00"
-                    name="amount"
-                    value={amount ? '$' + amount : ''}
-                    onChange={handleAmountChange}
-                    onBlur={handleBlur}
-                    onFocus={handleFocus}
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="vendor">Vendor</Label>
-                <div className="mt-1">
-                  <Select
-                    id="vendor"
-                    name="vendor"
-                    value={vendor}
-                    onChange={(e) => setVendor(e.target.value)}
-                  >
-                    {vendorList.map((item, index) => (
-                      <option key={index} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </Select>
+                    <TextInput
+                    value={ticketID}
+                    onChange={e => setTicketID(e.target.value)}
+                    />
                 </div>
               </div>
               <div>
@@ -1015,15 +966,111 @@ import {
                   />
                 </div>
               </div>
-              <div className="col-span-2">
-                <Label className="" htmlFor="supName">Supervisor's Name</Label>
+              <div>
+                <Label htmlFor="period">Category</Label>
                 <div className="mt-1">
                   <TextInput
-                    id="supName"
-                    name="supName"
-                    placeholder="This field is automatically generated"
-                    value={result.first_name !== undefined ? result.first_name + " " + result.second_name + " " + result.first_last_name + " " + result.second_last_name : ""}
-                    readOnly
+                  value={category}
+                  onChange={e => setCategory(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="amount">Model</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={model}
+                  onChange={e => setModel(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="vendor">Brand</Label>
+                <div className="mt-1">
+                    <TextInput
+                    value={brand}
+                    onChange={e => setBrand(e.target.value)}
+                    />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Details</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={details}
+                  onChange={e => setDetails(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Account</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={account}
+                  onChange={e => setAccount(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Vendor</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={vendor}
+                  onChange={e => setVendor(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Status</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={status}
+                  onChange={e => setStatus(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Requester</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={requester}
+                  onChange={e => setRequester(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Requester's Name</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={requesterName}
+                  onChange={e => setRequesterName(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Date Delivered</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={dateDelivered}
+                  onChange={e => setDateDelivered(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Received By</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={receivedBy}
+                  onChange={e => setReceivedBy(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Delivered By</Label>
+                <div className="mt-1">
+                  <TextInput
+                  value={deliveredBy}
+                  onChange={e => setDeliveredBy(e.target.value)}
                   />
                 </div>
               </div>
@@ -1033,7 +1080,7 @@ import {
             <Button
               color="primary"
               onClick={(e) => { handleSubmit(e) }}>
-              Add card(s)
+              Add equipment
             </Button>
           </Modal.Footer>
         </Modal>
