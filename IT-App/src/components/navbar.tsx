@@ -24,7 +24,7 @@ const ExampleNavbar: FC = function () {
               <Button href="/Category" className="bg-blue hover:bg-blue-700 text-gray-700 hover:text-white dark:bg-gray-800  dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
               >
                 <FaTags className="mr-2" />
-                <span>Category</span>
+                <span>Asset</span>
               </Button>
               <Button href="/Brand"
                 className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
