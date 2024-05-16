@@ -146,7 +146,7 @@ const Category: FC = function () {
         <div className="mb-1 w-full">
           <div className="mb-4">
             <h1 style={{ zoom: 0.90 }} className="text-xl ml-4 mt-4 font-semibold text-gray-900 dark:text-white sm:text-2xl">
-              Category
+              Assets
             </h1>
           </div>
           <div className="sm:flex" style={{ zoom: 0.90 }}>
@@ -485,12 +485,12 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
       <Button color="primary" onClick={() => { setOpen(true) }}>
         <div className="flex items-center gap-x-3">
           <HiPlus className="text-xl" />
-          Add Category
+          Add Asset
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
         <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-          <strong>Add new category!</strong>
+          <strong>Add new Asset!</strong>
         </Modal.Header>
         <Modal.Body>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -604,12 +604,12 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
         <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-          <strong>Edit Category</strong>
+          <strong>Edit Asset</strong>
         </Modal.Header>
         <Modal.Body>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div>
-              <Label htmlFor="id">ID Category</Label>
+              <Label htmlFor="id">ID Asset</Label>
               <div className="mt-1">
                 <TextInput
                   id="id"
@@ -620,7 +620,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
               </div>
             </div>
             <div>
-              <Label htmlFor="taskName">Name Category</Label>
+              <Label htmlFor="taskName">Name Asset</Label>
 
               <div className="mt-1">
                 <TextInput
