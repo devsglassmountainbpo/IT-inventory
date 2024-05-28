@@ -50,21 +50,9 @@ const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) 
 const DevsDashboard: FC = function () {
 
   const [data, setData] = useState([] as any[]);
-  let [filteredResults, setFilteredResults] = useState([] as any[]);
-  let [sortByName, setSortByName] = useState(false);
-  let [sortbyPosition, setSortByPosition] = useState(false);
-  let [sortByDepartment, setSortByDeparment] = useState(false);
-  let [sortByStatus, setSortByStatus] = useState(false);
-  let [dataTemp, setDataTemp] = useState([] as any[]);
-  let checkboxRef = useRef<HTMLInputElement>(null);
-  const [checkBoxes, setCheckBoxes] = useState(false);
-  const checkboxArray: string[] = [];
+
   const [sharedState, setSharedState] = useState(false);
 
-  const updateSharedState = (newValue: boolean) => {
-
-    setSharedState(newValue);
-  }
 
   useEffect(() => {
     axios.get('https://bn.glassmountainbpo.com:8080/dev')
@@ -87,7 +75,7 @@ const DevsDashboard: FC = function () {
     <NavbarSidebarLayout2 isFooter={true}>
       <CurrentTasksView
         sharedState={sharedState} />
-      <AcquisitionOverview />
+
 
     </NavbarSidebarLayout2>
   );
@@ -96,6 +84,15 @@ const DevsDashboard: FC = function () {
 
 const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   const [data, setData] = useState<[MyDictionary, MyDictionary2[]] | null>(null);
+
+
+  //Definiendo la interface:
+  interface DataGraphis {
+    header: string[];
+    rows: { [key: string]: string | number }[];
+  }
+  const [dataGraphis, setDataGraphis] = useState<DataGraphis>({ header: [], rows: [] });
+
 
   interface MyDictionary {
     tasksCount: number;
@@ -114,6 +111,17 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       .then(res => setData(res.data))
       .catch(error => console.error('Error fetching data:', error));
   }, [sharedState])
+
+
+
+  useEffect(() => {
+    axios.get('https://bn.glassmountainbpo.com:8080/inventory/stockSummary')
+      .then(res => setDataGraphis(res.data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, [sharedState])
+
+
+  console.log('################## Data para tabla de graficos', dataGraphis)
 
 
 
@@ -570,11 +578,36 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
         </div>
 
-
       </div>
 
 
-
+      <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
+          <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
+            <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
+              <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              
+                  {dataGraphis.header.map((headerItem, index) => (
+                    <th key={index} scope="col" className="py-3 px-6">
+                      {headerItem}
+                    </th>
+                  ))}
+        
+              </Table.Head>
+              <Table.Body>
+                {dataGraphis.rows.map((row, rowIndex) => (
+                  <Table.Row key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    {dataGraphis.header.map((headerItem, colIndex) => (
+                      <Table.Cell key={colIndex} className="py-4 px-6">
+                        {(row as any)[headerItem]}
+                      </Table.Cell>
+                    ))}
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+        </div>
+        
     </div>
 
   );
