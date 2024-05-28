@@ -236,9 +236,11 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     function handleCheckboxChange(event: Event, chart: ApexCharts) {
       const checkbox: any = event.target;
       if (checkbox.checked) {
+
+        console.log('////////////////_<<VALOR SELECCIONADO >>>>', checkbox.value)
         switch (checkbox.value) {
-          case 'desktop':
-            chart.updateSeries([15.1, 22.5, 4.4, 8.4]);
+          case 'Computers':
+            chart.updateSeries([125, 7.7, 7.7, 7.4]);
             break;
           case 'tablet':
             chart.updateSeries([25.1, 26.5, 1.4, 3.4]);
@@ -365,7 +367,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       <div className="grid grid-cols-2 gap-4 pt-2 mb-8 ">
 
 
-
         <div className="bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
 
           <div id="column-chart-2">
@@ -374,7 +375,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
             <div className="flex justify-between mb-3">
               <div className="flex justify-center items-center">
-                <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Stock</h5>
+                <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Assets</h5>
                 <svg data-popover-target="chart-info" data-popover-placement="bottom" className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
                 </svg>
@@ -403,21 +404,53 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
               </div>
             </div>
 
-            <div>
-              <div className="flex" id="devices">
-                <div className="flex items-center me-4">
-                  <input id="desktop" type="checkbox" value="desktop" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                  <label htmlFor="desktop" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Desktop</label>
-                </div>
-                <div className="flex items-center me-4">
-                  <input id="tablet" type="checkbox" value="tablet" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                  <label htmlFor="tablet" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tablet</label>
-                </div>
-                <div className="flex items-center me-4">
-                  <input id="mobile" type="checkbox" value="mobile" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                  <label htmlFor="mobile" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mobile</label>
+
+
+
+            <div className="max-w-auto w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+              <div className="flex justify-between dark:border-gray-700 pb-3">
+                <dl>
+
+                </dl>
+                <div>
+                  <div className="relative">
+                    <div className="flex flex-wrap" id="devices">
+                 
+                      
+                          <>
+                            
+                              {dataGraphis.rows.map((row, rowIndex) => (
+                                <div key={rowIndex} className="">
+                                  <input
+                                    id={(row as any)['asset']}
+                                    type="checkbox"
+                                    value={(row as any)['asset']}
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <label
+                                    htmlFor={(row as any)['asset']}
+                                    className="mr-2 ms-1  text-sm font-medium text-gray-900 dark:text-gray-300"
+                                  >
+                                    <span key={rowIndex}>
+                                      {(row as any)['asset']}
+                                    </span>
+                                  </label>
+                                </div>
+                              ))}
+                          
+                          </>
+                     
+
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
+
+
+            <div>
+
+
             </div>
 
 
@@ -592,7 +625,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 </th>
               ))} */}
 
-              {['asset','total_qty',...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, index) => (
+              {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, index) => (
                 <th key={index} scope="col" className="py-3 px-6">
                   {headerItem}
                 </th>
@@ -602,12 +635,12 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
             <Table.Body>
               {dataGraphis.rows.map((row, rowIndex) => (
                 <Table.Row key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  {[ 'asset','total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, colIndex) => (
+                  {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, colIndex) => (
                     <Table.Cell key={colIndex} className="py-4 px-6 font-semibold">
-                      { headerItem === 'asset' ? (
-                        <Button className="bg-indigo-700 h-4 pt-0 dark:bg-gray-500 dark:hover:bg-indigo-400">{(row as any)[headerItem]}</Button>
-                      ) : (headerItem === 'total')? <Badge>${(row as any)[headerItem]}</Badge>  : (
-                     (row as any)[headerItem]
+                      {headerItem === 'asset' ? (
+                        <Button className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500">{(row as any)[headerItem]}</Button>
+                      ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
+                        (row as any)[headerItem]
                       )}
                     </Table.Cell>
                   ))}
@@ -619,7 +652,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
         </div>
       </div>
 
-    </div>
+    </div >
 
   );
 };
