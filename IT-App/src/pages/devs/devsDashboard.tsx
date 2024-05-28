@@ -582,32 +582,43 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
 
       <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
-          <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
-            <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
-              <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              
-                  {dataGraphis.header.map((headerItem, index) => (
-                    <th key={index} scope="col" className="py-3 px-6">
-                      {headerItem}
-                    </th>
+        <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
+          <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
+            <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+              {/* {dataGraphis.header.map((headerItem, index) => (
+                <th key={index} scope="col" className="py-3 px-6">
+                  {headerItem}
+                </th>
+              ))} */}
+
+              {['asset','total_qty',...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, index) => (
+                <th key={index} scope="col" className="py-3 px-6">
+                  {headerItem}
+                </th>
+              ))}
+
+            </Table.Head>
+            <Table.Body>
+              {dataGraphis.rows.map((row, rowIndex) => (
+                <Table.Row key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  {[ 'asset','total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, colIndex) => (
+                    <Table.Cell key={colIndex} className="py-4 px-6 font-semibold">
+                      { headerItem === 'asset' ? (
+                        <Button className="bg-indigo-700 h-4 pt-0 dark:bg-gray-500 dark:hover:bg-indigo-400">{(row as any)[headerItem]}</Button>
+                      ) : (headerItem === 'total')? <Badge>${(row as any)[headerItem]}</Badge>  : (
+                     (row as any)[headerItem]
+                      )}
+                    </Table.Cell>
                   ))}
-        
-              </Table.Head>
-              <Table.Body>
-                {dataGraphis.rows.map((row, rowIndex) => (
-                  <Table.Row key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    {dataGraphis.header.map((headerItem, colIndex) => (
-                      <Table.Cell key={colIndex} className="py-4 px-6">
-                        {(row as any)[headerItem]}
-                      </Table.Cell>
-                    ))}
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
-          </div>
+                </Table.Row>
+              ))}
+
+            </Table.Body>
+          </Table>
         </div>
-        
+      </div>
+
     </div>
 
   );
