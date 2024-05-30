@@ -47,6 +47,8 @@ const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
 const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
 
+const dark = localStorage.getItem("theme") || "";
+
 const DevsDashboard: FC = function () {
 
   const [data, setData] = useState([] as any[]);
@@ -106,11 +108,11 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     department: string;
   }
 
-  useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/dev/dashboard')
-      .then(res => setData(res.data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, [sharedState])
+  // useEffect(() => {
+  //   axios.get('https://bn.glassmountainbpo.com:8080/dev/dashboard')
+  //     .then(res => setData(res.data))
+  //     .catch(error => console.error('Error fetching data:', error));
+  // }, [sharedState])
 
 
 
@@ -120,28 +122,101 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       .catch(error => console.error('Error fetching data:', error));
   }, [sharedState])
 
-
-  console.log('################## Data para tabla de graficos', dataGraphis)
-
-  const [dataFilter, setDataFilter] = useState('' as any);
-  const [consolidado, setFilterConsolidado] = useState([] as any[]);
-
-
-
-
-
+  const [valores, setValores]: number | any = useState([]);
+  const [labels, setLabels]: number | any = useState([]);
 
 
   //Dashboard Charts 2
+
+  const [dataFilter, setDataFilter] = useState('' as any);
+  const [consolidado, setFilterConsolidado] = useState([] as any[]);
+  const [check, setCheck] = useState('');
+
+  useEffect(() => {
+    const filteredData = dataGraphis.rows.filter((row) => row['asset'] === dataFilter);
+    setFilterConsolidado(filteredData);
+    getChartOptions();
+  }, [dataFilter, dataGraphis.rows]);
+
+  const dark = localStorage.getItem("theme") || "";
+  const [isDarkMode, setIsDarkMode] = useState(dark); // Suponiendo que tienes un estado para el modo oscuro
+
+
+
+
+  useEffect(() => {
+
+
+    const chartElement = document.getElementById("donut-chart");
+  
+    const chart = new ApexCharts(chartElement, getChartOptions());
+    chart.render();
+
+    const checkboxes = document.querySelectorAll('#devices input[type="checkbox"]');
+    const handleCheckboxChange = (event: Event) => {
+      const checkbox = event.target as HTMLInputElement;
+
+      // Deselect all checkboxes except the one that was clicked
+      checkboxes.forEach((cb) => {
+        if (cb !== checkbox) {
+          (cb as HTMLInputElement).checked = false;
+        }
+      });
+
+      const filterValue = checkbox.checked ? checkbox.value : '';
+      setDataFilter(filterValue);
+
+      const item = consolidado[0];
+
+      const keysArray = Object.keys(item).filter(key => key !== 'total' && key !== 'total_qty');
+      const numbersArray = keysArray.map(key => {
+        const value = item[key];
+        return typeof value === 'string' && !isNaN(value as any) ? Number(value) : value;
+      }).filter(value => typeof value === 'number');
+
+      setValores(numbersArray);
+      setLabels(keysArray);
+      chart.updateSeries(numbersArray);
+      chart.updateOptions({ labels: keysArray });
+      getChartOptions();
+
+      setCheck('true');
+
+    };
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener('change', handleCheckboxChange);
+
+    });
+
+    return () => {
+      checkboxes.forEach((checkbox) => {
+        checkbox.removeEventListener('change', handleCheckboxChange);
+      });
+      chart.destroy();
+    };
+  }, [consolidado, check]);
+
+
   const getChartOptions = () => {
     return {
-      series: [45.1, 23.5, 2.4, 5.4],
-      colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
+      series: valores,
+      colors: [
+        "#1E90FF",  // Azul fuerte
+        "#32CD32",  // Verde lima
+        "#8A2BE2",  // Azul violeta
+        "#20B2AA",  // Verde azulado claro
+        "#4B0082",  // Índigo
+        "#4682B4",  // Azul acero
+        "#6A5ACD",  // Azul pizarra medio
+        "#008B8B",  // Cian oscuro
+        "#0000CD",  // Azul medio
+        "#2E8B57"   // Verde marino
+      ],
       chart: {
         height: 420,
         width: "100%",
         type: "donut",
-        BiFontSize: '42px'
+        fontSize: '128px'
       },
       stroke: {
         colors: ["transparent"],
@@ -155,9 +230,9 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
               name: {
                 show: true,
                 fontFamily: "Inter, sans-serif",
-
                 offsetY: 20,
-                size: "20%"
+                fontSize: "70%",
+                color: '#FFFFFF' // Establece el color del texto a blanco
               },
               total: {
                 showAlways: true,
@@ -170,8 +245,8 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                   }, 0)
                   return '' + sum + ''
                 },
-                color: '#737373',
-                Size: '32px'
+                color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+                fontSize: '18px'
               },
               value: {
                 show: true,
@@ -180,8 +255,10 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 formatter: function (value: string) {
                   return value + ""
                 },
-                color: '#737373',
-                Size: '32px'
+                
+                color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+
+                fontSize: '52px'
               },
             },
             size: "70%",
@@ -193,22 +270,27 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
           top: -2,
         },
       },
-      labels: ["Direct", "Sponsor", "Affiliate", "Email marketing"],
+      labels: labels,
       dataLabels: {
-        enabled: false,
+        enabled: true,
+        style: {
+          colors: ['#FFFFFF'], // Establece el color del texto a blanco
+        }
       },
       legend: {
         position: "bottom",
         fontFamily: "Inter, sans-serif",
-        color: '#737373',
-        size: '42px'
+        color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+        fontSize: '18px'
       },
       yaxis: {
         labels: {
           formatter: function (value: string) {
             return value + ""
           },
-          color: '#737373',
+          style: {
+            color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+          }
         },
       },
       xaxis: {
@@ -216,117 +298,22 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
           formatter: function (value: string) {
             return value + ""
           },
-          color: '#737373',
-
+          style: {
+            color: '#FFFFFF', // Establece el color del texto a blanco
+          }
         },
         axisTicks: {
-          show: false,
+          show: true,
           color: '#737373',
         },
         axisBorder: {
-          show: false,
-          color: '#737373',
+          show: true,
+          color: '#FFFFFF',
         },
       },
     }
   }
-
-
-  const [check, setCheck] = useState('false');
-
-  useEffect(() => {
-    const filteredData = dataGraphis.rows.filter((row) => row['asset'] == dataFilter);
-    setFilterConsolidado(filteredData);
-  }, [dataGraphis, check]); // Solo se ejecuta cuando dataGraphis o checkbox.value cambian
-
-
-
-
-  if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined') {
-    const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
-    chart.render();
-
-    // Get all the checkboxes by their class name
-    const checkboxes = document.querySelectorAll('#devices input[type="checkbox"]');
-
-    // Function to handle the checkbox change event
-    function handleCheckboxChange(event: Event, chart: ApexCharts) {
-      const checkbox: any = event.target;
-      setCheck('true');
-      if (checkbox.checked) {
-
-        console.log('////////////////_<<VALOR SELECCIONADO >>>>', checkbox.value)
-        console.log('////////////////_<<VALOR RESULTADO DEL FILTRO >>>>', consolidado)
-
-        setCheck('true');
-      
-        setDataFilter(checkbox.value);
-            // Crear arrays para almacenar las claves y los valores
-            const keysArray = [];
-            const valuesArray = [];
-            const numbersArray = [];
-
-            // Extraer todas las claves y valores del primer objeto
-            const item = consolidado[0];
-            for (const key in item) {
-              if (item.hasOwnProperty(key)) {
-                keysArray.push(key);
-                valuesArray.push(item[key]);
-              }
-            }
-
-
-            // for (const key in item) {
-            //   if (item.hasOwnProperty(key)) {
-            //     const value = item[key];
-            //     // Verificar si el valor es un número o una cadena que representa un número
-            //     if (!isNaN(value) && typeof value == 'string') {
-            //       numbersArray.push(Number(value));
-            //     }
-            //   }
-            // }
-
-            for (const key in item) {
-              if (item.hasOwnProperty(key) && (key !== 'total' && key !== 'total_qty')) {
-                const value = item[key];
-                // Verificar si el valor es una cadena que representa un número
-                if (!isNaN(value) && typeof value === 'string') {
-                  numbersArray.push(Number(value));
-                } else if (typeof value === 'number') {
-                  numbersArray.push(value);
-                }
-              }
-            }
-
-
-            console.log('KEY ARRAY', keysArray);  // Array con todas las claves
-            console.log('Values ARRAY', valuesArray);  // Array con todos los valores correspondientes
-
-            
-
-            setCheck('true');
-
-
-            chart.updateSeries(numbersArray);
-
-
-            chart.updateOptions({
-              labels: keysArray
-            });
-
-
-        }
-
-      else {
-        chart.updateSeries([35.1, 23.5, 2.4, 5.4]);
-      }
-    }
-
-    // Attach the event listener to each checkbox
-    checkboxes.forEach((checkbox) => {
-      checkbox.addEventListener('change', (event) => handleCheckboxChange(event, chart));
-    });
-  }
+  
 
 
   const optionsVal = {
