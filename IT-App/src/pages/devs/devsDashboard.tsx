@@ -108,11 +108,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     department: string;
   }
 
-  // useEffect(() => {
-  //   axios.get('https://bn.glassmountainbpo.com:8080/dev/dashboard')
-  //     .then(res => setData(res.data))
-  //     .catch(error => console.error('Error fetching data:', error));
-  // }, [sharedState])
 
 
 
@@ -120,81 +115,75 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     axios.get('https://bn.glassmountainbpo.com:8080/inventory/stockSummary')
       .then(res => setDataGraphis(res.data))
       .catch(error => console.error('Error fetching data:', error));
+
   }, [sharedState])
 
+  
+  //Dashboard Charts 2
   const [valores, setValores]: number | any = useState([]);
   const [labels, setLabels]: number | any = useState([]);
-
-
-  //Dashboard Charts 2
-
-  const [dataFilter, setDataFilter] = useState('' as any);
   const [consolidado, setFilterConsolidado] = useState([] as any[]);
   const [check, setCheck] = useState('');
-
-  useEffect(() => {
-    const filteredData = dataGraphis.rows.filter((row) => row['asset'] === dataFilter);
-    setFilterConsolidado(filteredData);
-    getChartOptions();
-  }, [dataFilter, dataGraphis.rows]);
-
   const dark = localStorage.getItem("theme") || "";
-  const [isDarkMode, setIsDarkMode] = useState(dark); // Suponiendo que tienes un estado para el modo oscuro
-
-
 
 
   useEffect(() => {
-
-
     const chartElement = document.getElementById("donut-chart");
   
     const chart = new ApexCharts(chartElement, getChartOptions());
     chart.render();
-
+  
     const checkboxes = document.querySelectorAll('#devices input[type="checkbox"]');
-    const handleCheckboxChange = (event: Event) => {
+    
+    const handleCheckboxChange = async (event: Event) => {
       const checkbox = event.target as HTMLInputElement;
-
+  
       // Deselect all checkboxes except the one that was clicked
       checkboxes.forEach((cb) => {
         if (cb !== checkbox) {
           (cb as HTMLInputElement).checked = false;
         }
       });
-
+  
       const filterValue = checkbox.checked ? checkbox.value : '';
-      setDataFilter(filterValue);
-
-      const item = consolidado[0];
-
-      const keysArray = Object.keys(item).filter(key => key !== 'total' && key !== 'total_qty');
-      const numbersArray = keysArray.map(key => {
-        const value = item[key];
-        return typeof value === 'string' && !isNaN(value as any) ? Number(value) : value;
-      }).filter(value => typeof value === 'number');
-
-      setValores(numbersArray);
-      setLabels(keysArray);
-      chart.updateSeries(numbersArray);
-      chart.updateOptions({ labels: keysArray });
-      getChartOptions();
-
-      setCheck('true');
-
+      const filteredData = dataGraphis.rows.filter((row) => row['asset'] === filterValue);
+      
+      setFilterConsolidado(filteredData);
+  
+      // Wait for the state to update before proceeding
+      await new Promise((resolve) => setTimeout(resolve, 0));
+  
+      const item = filteredData[0];
+  
+      if (item) {
+        const keysArray = Object.keys(item).filter(key => key !== 'total' && key !== 'total_qty');
+        const numbersArray = keysArray.map(key => {
+          const value = item[key];
+          return typeof value === 'string' && !isNaN(value as any) ? Number(value) : value;
+        }).filter(value => typeof value === 'number');
+  
+        setValores(numbersArray);
+        setLabels(keysArray);
+        chart.updateSeries(numbersArray);
+        chart.updateOptions({ labels: keysArray });
+        getChartOptions();
+  
+        setCheck('true');
+      }
     };
+  
     checkboxes.forEach((checkbox) => {
       checkbox.addEventListener('change', handleCheckboxChange);
-
     });
-
+  
     return () => {
       checkboxes.forEach((checkbox) => {
         checkbox.removeEventListener('change', handleCheckboxChange);
       });
       chart.destroy();
     };
-  }, [consolidado, check]);
+  }, [consolidado, check, dataGraphis.rows]);
+  
 
 
   const getChartOptions = () => {
@@ -232,7 +221,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 fontFamily: "Inter, sans-serif",
                 offsetY: 20,
                 fontSize: "70%",
-                color: '#FFFFFF' // Establece el color del texto a blanco
+                color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
               },
               total: {
                 showAlways: true,
@@ -255,7 +244,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 formatter: function (value: string) {
                   return value + ""
                 },
-                
+
                 color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
 
                 fontSize: '52px'
@@ -274,7 +263,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       dataLabels: {
         enabled: true,
         style: {
-          colors: ['#FFFFFF'], // Establece el color del texto a blanco
+          color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
         }
       },
       legend: {
@@ -299,7 +288,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
             return value + ""
           },
           style: {
-            color: '#FFFFFF', // Establece el color del texto a blanco
+            color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
           }
         },
         axisTicks: {
@@ -313,7 +302,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       },
     }
   }
-  
+
 
 
   const optionsVal = {
