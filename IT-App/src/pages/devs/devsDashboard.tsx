@@ -263,57 +263,59 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
           case 'Computers':
 
 
-            // Suponiendo que dataGraphis es el objeto que has proporcionado
+            // Crear arrays para almacenar las claves y los valores
+            const keysArray = [];
+            const valuesArray = [];
+            const numbersArray = [];
 
-            // const filteredData = dataGraphis.rows.filter((row: any) => row['asset'] === checkbox.value);
-            // setDataFilter(filteredData);
-
-            // Obtener todas las claves y valores en arrays separados
-            const keysArray = Object.keys(consolidado);
-            const valuesArray = Object.values(consolidado);
-
-            console.log(keysArray); // ['DAMAGED', 'DISMISSED', 'HR', 'R1', 'REPAIR', 'SHUNNARAH', 'STOCK', 'VILLAGE_MD', 'asset', 'total', 'total_qty']
-            console.log(valuesArray); // ['0', '0', '7', '0', '5', '0', '11', '2', 'Computers', 23200, '25']
-
-            // Filtrar los valores y claves que son números y no son números
-            const numericKeysArray= keysArray.filter((key: any) => !isNaN(consolidado[key]));
-            // const numericValuesArray = valuesArray.filter((value) => !isNaN(value));
-
-            const nonNumericKeysArray = keysArray.filter((key: any) => isNaN(consolidado[key]));
-            const nonNumericValuesArray:any = valuesArray.filter((value) => isNaN(value));
-
-            console.log(numericKeysArray); // ['DAMAGED', 'DISMISSED', 'HR', 'R1', 'REPAIR', 'SHUNNARAH', 'STOCK', 'VILLAGE_MD', 'total_qty']
-            // console.log(numericValuesArray); // ['0', '0', '7', '0', '5', '0', '11', '2', '25']
-
-            console.log(nonNumericKeysArray); // ['asset', 'total']
-            console.log(nonNumericValuesArray); // ['Computers', 23200]
+            // Extraer todas las claves y valores del primer objeto
+            const item = consolidado[0];
+            for (const key in item) {
+              if (item.hasOwnProperty(key)) {
+                keysArray.push(key);
+                valuesArray.push(item[key]);
+              }
+            }
 
 
-            // // Obtener todos los valores que son numéricos
-            // const numericValuesArray = Object.values(consolidado).filter(value => !isNaN(value) && value !== "");
+            // for (const key in item) {
+            //   if (item.hasOwnProperty(key)) {
+            //     const value = item[key];
+            //     // Verificar si el valor es un número o una cadena que representa un número
+            //     if (!isNaN(value) && typeof value == 'string') {
+            //       numbersArray.push(Number(value));
+            //     }
+            //   }
+            // }
 
-            // Convertir los valores a números
-            
-            const numericValuesArray = Object.values(consolidado).filter(value => {
-              const numberValue = Number(value);
-              return !isNaN(numberValue);
-            });
-            const convertedNumericValuesArray = numericValuesArray.map(value => Number(value));
-            
-            // Convertir los valores a números
-            // const convertedNumericValuesArray = numericValuesArray.map(value => Number(value));
-            
-            console.log(convertedNumericValuesArray); // [0, 0, 7, 0, 5, 0, 11, 2, 23200, 25]
+            for (const key in item) {
+              if (item.hasOwnProperty(key) && (key !== 'total' && key !== 'total_qty')) {
+                const value = item[key];
+                // Verificar si el valor es una cadena que representa un número
+                if (!isNaN(value) && typeof value === 'string') {
+                  numbersArray.push(Number(value));
+                } else if (typeof value === 'number') {
+                  numbersArray.push(value);
+                }
+              }
+            }
 
-            console.log('ESTEEEEEEEEEE es el valor filtrado',convertedNumericValuesArray); // [0, 0, 7, 0, 5, 0, 11, 2, 23200, 25]
 
+            console.log('KEY ARRAY', keysArray);  // Array con todas las claves
+            console.log('Values ARRAY', valuesArray);  // Array con todos los valores correspondientes
 
             setDataFilter(checkbox.value);
 
             setCheck('true');
 
 
-            chart.updateSeries([25.1, 26.5, 1.4, 3.4]);
+            chart.updateSeries(numbersArray);
+
+
+            chart.updateOptions({
+              labels: keysArray
+
+            });
 
 
             break;
