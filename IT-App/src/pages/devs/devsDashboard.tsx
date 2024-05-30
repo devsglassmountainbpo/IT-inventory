@@ -123,13 +123,19 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
   console.log('################## Data para tabla de graficos', dataGraphis)
 
+  const [dataFilter, setDataFilter] = useState('' as any);
+  const [consolidado, setFilterConsolidado] = useState([] as any[]);
+
+
+
+
 
 
 
   //Dashboard Charts 2
   const getChartOptions = () => {
     return {
-      series: [35.1, 23.5, 2.4, 5.4],
+      series: [45.1, 23.5, 2.4, 5.4],
       colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
       chart: {
         height: 420,
@@ -225,6 +231,17 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     }
   }
 
+
+  const [check, setCheck] = useState('false');
+
+  useEffect(() => {
+    const filteredData = dataGraphis.rows.filter((row) => row['asset'] === dataFilter);
+    setFilterConsolidado(filteredData);
+  }, [dataGraphis, check]); // Solo se ejecuta cuando dataGraphis o checkbox.value cambian
+
+
+
+
   if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined') {
     const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
     chart.render();
@@ -235,12 +252,70 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     // Function to handle the checkbox change event
     function handleCheckboxChange(event: Event, chart: ApexCharts) {
       const checkbox: any = event.target;
+      setCheck('true');
       if (checkbox.checked) {
 
         console.log('////////////////_<<VALOR SELECCIONADO >>>>', checkbox.value)
+        console.log('////////////////_<<VALOR RESULTADO DEL FILTRO >>>>', consolidado)
+
+        setCheck('true');
         switch (checkbox.value) {
           case 'Computers':
-            chart.updateSeries([125, 7.7, 7.7, 7.4]);
+
+
+            // Suponiendo que dataGraphis es el objeto que has proporcionado
+
+            // const filteredData = dataGraphis.rows.filter((row: any) => row['asset'] === checkbox.value);
+            // setDataFilter(filteredData);
+
+            // Obtener todas las claves y valores en arrays separados
+            const keysArray = Object.keys(consolidado);
+            const valuesArray = Object.values(consolidado);
+
+            console.log(keysArray); // ['DAMAGED', 'DISMISSED', 'HR', 'R1', 'REPAIR', 'SHUNNARAH', 'STOCK', 'VILLAGE_MD', 'asset', 'total', 'total_qty']
+            console.log(valuesArray); // ['0', '0', '7', '0', '5', '0', '11', '2', 'Computers', 23200, '25']
+
+            // Filtrar los valores y claves que son números y no son números
+            const numericKeysArray= keysArray.filter((key: any) => !isNaN(consolidado[key]));
+            // const numericValuesArray = valuesArray.filter((value) => !isNaN(value));
+
+            const nonNumericKeysArray = keysArray.filter((key: any) => isNaN(consolidado[key]));
+            const nonNumericValuesArray:any = valuesArray.filter((value) => isNaN(value));
+
+            console.log(numericKeysArray); // ['DAMAGED', 'DISMISSED', 'HR', 'R1', 'REPAIR', 'SHUNNARAH', 'STOCK', 'VILLAGE_MD', 'total_qty']
+            // console.log(numericValuesArray); // ['0', '0', '7', '0', '5', '0', '11', '2', '25']
+
+            console.log(nonNumericKeysArray); // ['asset', 'total']
+            console.log(nonNumericValuesArray); // ['Computers', 23200]
+
+
+            // // Obtener todos los valores que son numéricos
+            // const numericValuesArray = Object.values(consolidado).filter(value => !isNaN(value) && value !== "");
+
+            // Convertir los valores a números
+            
+            const numericValuesArray = Object.values(consolidado).filter(value => {
+              const numberValue = Number(value);
+              return !isNaN(numberValue);
+            });
+            const convertedNumericValuesArray = numericValuesArray.map(value => Number(value));
+            
+            // Convertir los valores a números
+            // const convertedNumericValuesArray = numericValuesArray.map(value => Number(value));
+            
+            console.log(convertedNumericValuesArray); // [0, 0, 7, 0, 5, 0, 11, 2, 23200, 25]
+
+            console.log('ESTEEEEEEEEEE es el valor filtrado',convertedNumericValuesArray); // [0, 0, 7, 0, 5, 0, 11, 2, 23200, 25]
+
+
+            setDataFilter(checkbox.value);
+
+            setCheck('true');
+
+
+            chart.updateSeries([25.1, 26.5, 1.4, 3.4]);
+
+
             break;
           case 'tablet':
             chart.updateSeries([25.1, 26.5, 1.4, 3.4]);
@@ -415,31 +490,31 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 <div>
                   <div className="relative">
                     <div className="flex flex-wrap" id="devices">
-                 
-                      
-                          <>
-                            
-                              {dataGraphis.rows.map((row, rowIndex) => (
-                                <div key={rowIndex} className="">
-                                  <input
-                                    id={(row as any)['asset']}
-                                    type="checkbox"
-                                    value={(row as any)['asset']}
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                  />
-                                  <label
-                                    htmlFor={(row as any)['asset']}
-                                    className="mr-2 ms-1  text-sm font-medium text-gray-900 dark:text-gray-300"
-                                  >
-                                    <span key={rowIndex}>
-                                      {(row as any)['asset']}
-                                    </span>
-                                  </label>
-                                </div>
-                              ))}
-                          
-                          </>
-                     
+
+
+                      <>
+
+                        {dataGraphis.rows.map((row, rowIndex) => (
+                          <div key={rowIndex} className="">
+                            <input
+                              id={(row as any)['asset']}
+                              type="checkbox"
+                              value={(row as any)['asset']}
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <label
+                              htmlFor={(row as any)['asset']}
+                              className="mr-2 ms-1  text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >
+                              <span key={rowIndex}>
+                                {(row as any)['asset']}
+                              </span>
+                            </label>
+                          </div>
+                        ))}
+
+                      </>
+
 
                     </div>
                   </div>
