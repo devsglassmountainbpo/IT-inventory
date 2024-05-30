@@ -235,7 +235,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   const [check, setCheck] = useState('false');
 
   useEffect(() => {
-    const filteredData = dataGraphis.rows.filter((row) => row['asset'] === dataFilter);
+    const filteredData = dataGraphis.rows.filter((row) => row['asset'] == dataFilter);
     setFilterConsolidado(filteredData);
   }, [dataGraphis, check]); // Solo se ejecuta cuando dataGraphis o checkbox.value cambian
 
@@ -259,10 +259,8 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
         console.log('////////////////_<<VALOR RESULTADO DEL FILTRO >>>>', consolidado)
 
         setCheck('true');
-        switch (checkbox.value) {
-          case 'Computers':
-
-
+      
+        setDataFilter(checkbox.value);
             // Crear arrays para almacenar las claves y los valores
             const keysArray = [];
             const valuesArray = [];
@@ -304,7 +302,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
             console.log('KEY ARRAY', keysArray);  // Array con todas las claves
             console.log('Values ARRAY', valuesArray);  // Array con todos los valores correspondientes
 
-            setDataFilter(checkbox.value);
+            
 
             setCheck('true');
 
@@ -314,22 +312,12 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
             chart.updateOptions({
               labels: keysArray
-
             });
 
 
-            break;
-          case 'tablet':
-            chart.updateSeries([25.1, 26.5, 1.4, 3.4]);
-            break;
-          case 'mobile':
-            chart.updateSeries([45.1, 27.5, 8.4, 2.4]);
-            break;
-          default:
-            chart.updateSeries([55.1, 28.5, 1.4, 5.4]);
         }
 
-      } else {
+      else {
         chart.updateSeries([35.1, 23.5, 2.4, 5.4]);
       }
     }
