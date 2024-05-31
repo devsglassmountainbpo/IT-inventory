@@ -119,18 +119,27 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   }, [sharedState])
 
   
-  //Dashboard Charts 2
-  const [valores, setValores]: number | any = useState([]);
-  const [labels, setLabels]: number | any = useState([]);
-  const [consolidado, setFilterConsolidado] = useState([] as any[]);
-  const [check, setCheck] = useState('');
+  const [valores, setValores] = useState<number[]>([]);
+  const [labels, setLabels] = useState<string[]>([]);
+  const [consolidado, setFilterConsolidado] = useState<any[]>([]);
+  const [check, setCheck] = useState<string>('');
   const dark = localStorage.getItem("theme") || "";
-
-
+  const [chartData, setChartData] = useState<any[]>([]); // Aquí mantén el estado del gráfico
+  
+  const getChartOptions = () => {
+    return {
+      chart: {
+        type: 'donut',
+      },
+      series: valores,
+      labels: labels,
+    };
+  };
+  
   useEffect(() => {
     const chartElement = document.getElementById("donut-chart");
   
-    const chart = new ApexCharts(chartElement, getChartOptions());
+    const chart = new ApexCharts(chartElement, getChartOptions2());
     chart.render();
   
     const checkboxes = document.querySelectorAll('#devices input[type="checkbox"]');
@@ -166,9 +175,9 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
         setLabels(keysArray);
         chart.updateSeries(numbersArray);
         chart.updateOptions({ labels: keysArray });
-        getChartOptions();
   
         setCheck('true');
+        setChartData(["true"]);
       }
     };
   
@@ -180,13 +189,24 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       checkboxes.forEach((checkbox) => {
         checkbox.removeEventListener('change', handleCheckboxChange);
       });
-      chart.destroy();
+      // chart.destroy();
     };
-  }, [consolidado, check, dataGraphis.rows]);
+  }, [consolidado]);
+  
+  useEffect(() => {
+    const chart2 = new ApexCharts(document.querySelector("#donut-chart"), getChartOptions2());
+    chart2.render();
+  
+    // Retornar una función de limpieza para destruir el gráfico al desmontar el componente o al actualizar chartData
+    return () => {
+      chart2.destroy();
+    };
+  }, [chartData]);
+  
   
 
 
-  const getChartOptions = () => {
+  const getChartOptions2 = () => {
     return {
       series: valores,
       colors: [
