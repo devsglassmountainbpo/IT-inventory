@@ -12,7 +12,7 @@ import {
   Badge
 
 } from "flowbite-react";
-import type { FC } from "react";
+import type { ChangeEvent, FC } from "react";
 import { useEffect, useState, SetStateAction, useRef } from "react"
 import {
   // HiChevronLeft,
@@ -47,45 +47,20 @@ const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
 const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
 
-const dark = localStorage.getItem("theme") || "";
 
 const DevsDashboard: FC = function () {
 
-  const [data, setData] = useState([] as any[]);
-
   const [sharedState, setSharedState] = useState(false);
-
-
-  useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/dev')
-      .then(res => setData(res.data))
-  }, [sharedState])
-
-
-
-  const formatDate = (dateString: string): string => {
-    const dateObject: Date = new Date(dateString);
-
-    return dateObject.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
-  };
-
   return (
     <NavbarSidebarLayout2 isFooter={true}>
       <CurrentTasksView
         sharedState={sharedState} />
-
-
     </NavbarSidebarLayout2>
   );
 };
 
 
 const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
-  const [data, setData] = useState<[MyDictionary, MyDictionary2[]] | null>(null);
 
 
   //Definiendo la interface:
@@ -95,22 +70,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   }
   const [dataGraphis, setDataGraphis] = useState<DataGraphis>({ header: [], rows: [] });
 
-
-  interface MyDictionary {
-    tasksCount: number;
-    tasksPending: number;
-    tasksInProgress: number;
-    tasksCompleted: number;
-  }
-
-  interface MyDictionary2 {
-    count: number;
-    department: string;
-  }
-
-
-
-
   useEffect(() => {
     axios.get('https://bn.glassmountainbpo.com:8080/inventory/stockSummary')
       .then(res => setDataGraphis(res.data))
@@ -118,92 +77,113 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
   }, [sharedState])
 
-  
+
   const [valores, setValores] = useState<number[]>([]);
   const [labels, setLabels] = useState<string[]>([]);
   const [consolidado, setFilterConsolidado] = useState<any[]>([]);
   const [check, setCheck] = useState<string>('');
-  const dark = localStorage.getItem("theme") || "";
+
   const [chartData, setChartData] = useState<any[]>([]); // Aquí mantén el estado del gráfico
+  const [filtro, setFiltro] = useState<string>('');
+
+
+  const dark = localStorage.getItem("theme") || "";
+  const [darkEfect, setEfect] = useState(dark);
   
-  const getChartOptions = () => {
-    return {
-      chart: {
-        type: 'donut',
-      },
-      series: valores,
-      labels: labels,
+
+  console.log('consolidado%%Check?', setFilterConsolidado, consolidado, check)
+
+  useEffect(() => {
+    const dark2 = localStorage.getItem("theme") || "";
+    console.log('esto es negro');
+  
+    setEfect(dark2);
+  
+    const chart2 = new ApexCharts(document.querySelector("#donut-chart"), getChartOptions2());
+    chart2.render();
+  
+    return () => {
+      chart2.destroy();
     };
-  };
+  }, [darkEfect]);
   
+
+  const handleCheckboxChange2 = async (event: ChangeEvent<HTMLInputElement>) => {
+    const checkbox = event.target;
+
+    // Deselect all checkboxes except the one that was clicked
+    const filterValue = checkbox.checked ? checkbox.value : '';
+    setFiltro(filterValue);
+
+    // Realiza otras acciones necesarias con filterValue si es necesario
+  };
+
   useEffect(() => {
     const chartElement = document.getElementById("donut-chart");
-  
+
     const chart = new ApexCharts(chartElement, getChartOptions2());
     chart.render();
-  
+
+
+    const chart3 = new ApexCharts(document.querySelector("#data-labels-chart"), optionsVal);
+    chart3.render();
+
+
     const checkboxes = document.querySelectorAll('#devices input[type="checkbox"]');
-    
+
     const handleCheckboxChange = async (event: Event) => {
       const checkbox = event.target as HTMLInputElement;
-  
+
       // Deselect all checkboxes except the one that was clicked
       checkboxes.forEach((cb) => {
         if (cb !== checkbox) {
           (cb as HTMLInputElement).checked = false;
         }
       });
-  
+
       const filterValue = checkbox.checked ? checkbox.value : '';
+
       const filteredData = dataGraphis.rows.filter((row) => row['asset'] === filterValue);
-      
-      setFilterConsolidado(filteredData);
-  
-      // Wait for the state to update before proceeding
-      await new Promise((resolve) => setTimeout(resolve, 0));
-  
+
+      setFiltro(filterValue)
+
       const item = filteredData[0];
-  
+
       if (item) {
         const keysArray = Object.keys(item).filter(key => key !== 'total' && key !== 'total_qty');
         const numbersArray = keysArray.map(key => {
           const value = item[key];
           return typeof value === 'string' && !isNaN(value as any) ? Number(value) : value;
         }).filter(value => typeof value === 'number');
-  
+
         setValores(numbersArray);
         setLabels(keysArray);
         chart.updateSeries(numbersArray);
         chart.updateOptions({ labels: keysArray });
-  
+
+
+        chart3.updateSeries(numbersArray);
+        chart3.updateOptions({ labels: keysArray });
+
         setCheck('true');
-        setChartData(["true"]);
+        setChartData(["true"])
       }
     };
-  
+
     checkboxes.forEach((checkbox) => {
+      setFiltro('true')
       checkbox.addEventListener('change', handleCheckboxChange);
     });
-  
+
     return () => {
       checkboxes.forEach((checkbox) => {
         checkbox.removeEventListener('change', handleCheckboxChange);
       });
       // chart.destroy();
     };
-  }, [consolidado]);
-  
-  useEffect(() => {
-    const chart2 = new ApexCharts(document.querySelector("#donut-chart"), getChartOptions2());
-    chart2.render();
-  
-    // Retornar una función de limpieza para destruir el gráfico al desmontar el componente o al actualizar chartData
-    return () => {
-      chart2.destroy();
-    };
-  }, [chartData]);
-  
-  
+  }, [filtro]);
+
+
 
 
   const getChartOptions2 = () => {
@@ -324,7 +304,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   }
 
 
-
   const optionsVal = {
     // enable and customize data labels using the following example, learn more from here: https://apexcharts.com/docs/datalabels/
     dataLabels: {
@@ -345,23 +324,14 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     },
     series: [
       {
-        name: "Developer Edition",
-        data: [150, 141, 145, 152, 135, 125],
+        name: "Count",
+        data: valores,
         color: "#1A56DB",
       },
-      {
-        name: "Developer Delivery",
-        data: [160, 131, 146, 182, 165, 45],
-        color: "#9A66DB",
-      },
-      {
-        name: "Designer Edition",
-        data: [64, 41, 76, 41, 113, 173],
-        color: "#7E3BF2",
-      },
+
     ],
     chart: {
-      height: "100%",
+      height: "150%",
       maxWidth: "100%",
       type: "area",
       fontFamily: "Inter, sans-serif",
@@ -394,31 +364,43 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       width: 6,
     },
     xaxis: {
-      categories: ['01 de febrero', '02 de febrero', '03 de febrero', '04 de febrero', '05 de febrero', '06 de febrero', '07 de febrero'],
+      categories: labels,
       labels: {
-        show: false,
+        show: true,
       },
       axisBorder: {
         show: false,
       },
       axisTicks: {
-        show: false,
+        show: true,
       },
     },
     yaxis: {
-      show: false,
+      show: true,
       labels: {
         formatter: function (value: string) {
-          return '$' + value;
+          return value;
         }
       }
     },
   }
 
-  if (document.getElementById("data-labels-chart") && typeof ApexCharts !== 'undefined') {
-    const chart = new ApexCharts(document.getElementById("data-labels-chart"), optionsVal);
-    chart.render();
-  }
+
+
+  useEffect(() => {
+    const chart2 = new ApexCharts(document.querySelector("#donut-chart"), getChartOptions2());
+    chart2.render();
+
+    const chart3 = new ApexCharts(document.querySelector("#data-labels-chart"), optionsVal);
+    chart3.render();
+
+    // Retornar una función de limpieza para destruir el gráfico al desmontar el componente o al actualizar chartData
+    return () => {
+      chart2.destroy();
+      chart3.destroy();
+    };
+  }, [chartData]);
+
 
 
   return (
@@ -487,6 +469,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                               type="checkbox"
                               value={(row as any)['asset']}
                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                              onChange={handleCheckboxChange2}
                             />
                             <label
                               htmlFor={(row as any)['asset']}
@@ -718,32 +701,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   );
 };
 
-const AcquisitionOverview: FC = function () {
-  const [data, setData] = useState<Task[] | null>(null);
 
-  interface Task {
-    completed: number,
-    department: string,
-    in_progress: number,
-    not_started: number,
-    on_hold: number,
-    other: number,
-    progress: number,
-    tasks: number
-  }
-
-  useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/dev/overview')
-      .then(res => setData(res.data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, [])
-
-  return (
-    <div >
-
-    </div>
-  );
-};
 
 
 export default DevsDashboard;
