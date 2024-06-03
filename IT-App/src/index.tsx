@@ -12,6 +12,7 @@ import Category from "./pages/category/category";
 import Brand from "./pages/brand/brand";
 import Models from "./pages/models/models";
 import ITinventory from "./pages/inventory/inventoryIT";
+import UserListPage from "./pages/users/Users";
 
 const container = document.getElementById("root");
 
@@ -36,6 +37,7 @@ root.render(
         <Route path="/Category" element={<Category />} />
         <Route path="/Brand" element={<Brand />} />
         <Route path="/Models" element={<Models />} />
+        <Route path="/users" element={ <UserListPage />} index/>
         </Routes>
       </BrowserRouter>
     </Flowbite>

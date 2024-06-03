@@ -50,7 +50,7 @@ const ExampleNavbar: FC = function () {
                 <FaDesktop className="mr-2" />
                 <span>IT Inventory</span>
               </Button>
-              <Button
+              <Button href="/users"
                 className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
               >
                 <FaUsers className="mr-2" />

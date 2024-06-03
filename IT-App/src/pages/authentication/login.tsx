@@ -18,7 +18,7 @@ const SignInPage: FC = function () {
     try {
       // Realizar una solicitud a la API para iniciar sesión
       const response = await axios.post(
-        "https://bn.glassmountainbpo.com:8080/api/session",
+        "https://bn.glassmountainbpo.com:8080/api/loginIT",
         {
           username,
           password,

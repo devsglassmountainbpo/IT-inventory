@@ -119,7 +119,7 @@ const EditUserModal: FC<any> = function ({ firstName, lastName, username, badge 
     // handlePasswordChange();
     if (passwordsMatch === true) {
       try {
-        const response = await axios.post('https://bn.glassmountainbpo.com:8080/api/edit', {
+        const response = await axios.post('https://bn.glassmountainbpo.com:8080/edit/resetpwd', {
           badge,
           username,
           password,
