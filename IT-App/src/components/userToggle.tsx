@@ -120,7 +120,7 @@ const EditUserModal: FC<any> = function ({ firstName, lastName, username, badge 
     if (passwordsMatch === true) {
       try {
         const response = await axios.post('https://bn.glassmountainbpo.com:8080/edit/resetpwd', {
-          badge,
+          badge, 
           username,
           password,
           id_rol,
