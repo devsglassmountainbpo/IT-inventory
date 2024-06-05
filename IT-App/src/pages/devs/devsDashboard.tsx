@@ -93,19 +93,19 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
   console.log('consolidado%%Check?', setFilterConsolidado, consolidado, check)
 
-  useEffect(() => {
-    const dark2 = localStorage.getItem("theme") || "";
-    console.log('esto es negro');
+  // useEffect(() => {
+  //   const dark2 = localStorage.getItem("theme") || "";
+  //   console.log('esto es negro');
 
-    setEfect(dark2);
+  //   setEfect(dark2);
 
-    const chart2 = new ApexCharts(document.querySelector("#donut-chart"), getChartOptions2());
-    chart2.render();
+  //   const chart2 = new ApexCharts(document.querySelector("#donut-chart"), getChartOptions2());
+  //   chart2.render();
 
-    return () => {
-      chart2.destroy();
-    };
-  }, [darkEfect]);
+  //   return () => {
+  //     chart2.destroy();
+  //   };
+  // }, [darkEfect]);
 
 
   const handleCheckboxChange2 = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -118,19 +118,77 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     // Realiza otras acciones necesarias con filterValue si es necesario
   };
 
+  // useEffect(() => {
+  //   const chartElement = document.getElementById("donut-chart");
+
+  //   const chart = new ApexCharts(chartElement, getChartOptions2());
+  //   chart.render();
+
+
+  //   const chart3 = new ApexCharts(document.querySelector("#data-labels-chart"), optionsVal);
+  //   chart3.render();
+
+
+  //   const checkboxes = document.querySelectorAll('#devices input[type="checkbox"]');
+
+  //   const handleCheckboxChange = async (event: Event) => {
+  //     const checkbox = event.target as HTMLInputElement;
+
+  //     // Deselect all checkboxes except the one that was clicked
+  //     checkboxes.forEach((cb) => {
+  //       if (cb !== checkbox) {
+  //         (cb as HTMLInputElement).checked = false;
+  //       }
+  //     });
+
+  //     const filterValue = checkbox.checked ? checkbox.value : '';
+
+  //     const filteredData = dataGraphis.rows.filter((row) => row['asset'] === filterValue);
+
+  //     setFiltro(filterValue)
+
+  //     const item = filteredData[0];
+
+  //     if (item) {
+  //       const keysArray = Object.keys(item).filter(key => key !== 'total' && key !== 'total_qty');
+  //       const numbersArray = keysArray.map(key => {
+  //         const value = item[key];
+  //         return typeof value === 'string' && !isNaN(value as any) ? Number(value) : value;
+  //       }).filter(value => typeof value === 'number');
+
+  //       setValores(numbersArray);
+  //       setLabels(keysArray);
+  //       chart.updateSeries(numbersArray);
+  //       chart.updateOptions({ labels: keysArray });
+
+
+  //       chart3.updateSeries(numbersArray);
+  //       chart3.updateOptions({ labels: keysArray });
+
+  //       setCheck('true');
+  //       setChartData(["true"])
+  //     }
+  //   };
+
+  //   checkboxes.forEach((checkbox) => {
+  //     setFiltro('true')
+  //     checkbox.addEventListener('change', handleCheckboxChange);
+  //   });
+
+  //   return () => {
+  //     checkboxes.forEach((checkbox) => {
+  //       checkbox.removeEventListener('change', handleCheckboxChange);
+  //     });
+  //     // chart.destroy();
+  //   };
+  // }, [filtro]);
+
+
+
+
   useEffect(() => {
-    const chartElement = document.getElementById("donut-chart");
-
-    const chart = new ApexCharts(chartElement, getChartOptions2());
-    chart.render();
-
-
-    const chart3 = new ApexCharts(document.querySelector("#data-labels-chart"), optionsVal);
-    chart3.render();
-
 
     const checkboxes = document.querySelectorAll('#devices input[type="checkbox"]');
-
     const handleCheckboxChange = async (event: Event) => {
       const checkbox = event.target as HTMLInputElement;
 
@@ -147,7 +205,8 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
       setFiltro(filterValue)
 
-      const item = filteredData[0];
+      const item: any = filteredData[0];
+
 
       if (item) {
         const keysArray = Object.keys(item).filter(key => key !== 'total' && key !== 'total_qty');
@@ -158,12 +217,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
         setValores(numbersArray);
         setLabels(keysArray);
-        chart.updateSeries(numbersArray);
-        chart.updateOptions({ labels: keysArray });
-
-
-        chart3.updateSeries(numbersArray);
-        chart3.updateOptions({ labels: keysArray });
 
         setCheck('true');
         setChartData(["true"])
@@ -182,7 +235,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       // chart.destroy();
     };
   }, [filtro]);
-
 
 
 
@@ -406,18 +458,18 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
   useEffect(() => {
 
-    
-      const handleReadyStateChange = () => {
-        setIsReady(true)
-        if (document.readyState === 'complete') {
-          console.log('listo');
-          setFiltro('Computers');
-          setIsReady(true);
-        }
-      };
-      document.addEventListener('readystatechange', handleReadyStateChange);
-      
-    
+
+    const handleReadyStateChange = () => {
+      setIsReady(true)
+      if (document.readyState === 'complete') {
+        console.log('listo');
+        setFiltro('Computers');
+        setIsReady(true);
+      }
+    };
+    document.addEventListener('readystatechange', handleReadyStateChange);
+
+
   }, []);
 
   useEffect(() => {
@@ -426,7 +478,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       if (checkboxes.length > 0) {
         console.log('listo');
         checkboxes[0].click();
-     
+
       }
     }
   }, [sharedState]);
@@ -594,8 +646,9 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                   </div>
                 </div>
                 <dl className="flex items-center justify-end">
+                  {/*                 
                   <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal me-1"> Percentage per account:</dt>
-                  <dd className="text-gray-900 text-sm dark:text-white font-semibold">1.2%</dd>
+                  <dd className="text-gray-900 text-sm dark:text-white font-semibold">1.2%</dd> */}
                 </dl>
               </div>
 
