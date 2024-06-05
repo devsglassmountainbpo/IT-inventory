@@ -85,18 +85,23 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   const [data, setData]: any = useState([]);
   const [days, setDays]: any = useState([]);
 
+  const [dataw, setDataw]: any = useState([]);
+  const [daysw, setDaysw]: any = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [graphisRes, totalRes, report] = await Promise.all([
+        const [graphisRes, totalRes, report, reportW] = await Promise.all([
           axios.get('https://bn.glassmountainbpo.com:8080/inventory/stockSummary'),
           axios.get('https://bn.glassmountainbpo.com:8080/inventory/total_summmary'),
-          axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_report')
+          axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_report'),
+          axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_one')
         ]);
 
         setDataGraphis(graphisRes.data);
         setDataTotal(totalRes.data);
         setData(report.data);
+        setDataw(reportW.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -117,11 +122,28 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     }
   }, [data]);
 
+
+  useEffect(() => {
+    if (dataw.length) {
+      const days2 = Object.keys(dataw[0])
+        .filter(key => !['asset', 'DISMISSED', 'Damaged','Repair','STOCK','total'].includes(key))
+        .map(key => parseInt(key, 10))
+        .sort((a, b) => a - b)
+        .map(day => day.toString().padStart(2, '0'));
+
+      setDaysw(days2);
+    }
+  }, [dataw]);
+
   console.log('estos son los dias, ', days)
+  console.log('estos son los dias GENERALES, ', daysw)
 
   const totalSummary: string[] = dataTotal.map((item) => item.total);
 
   console.log("este es el dato que ocupo", dataTotal)
+
+
+  console.log('esta es mi ruta', dataw);  
 
 
   const [valores, setValores] = useState<number[]>([]);
@@ -713,17 +735,17 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
           <div>
             <h1>Monthly Report</h1>
             <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
-           
-                <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
-                  <th scope="col" className="py-3 px-6">Asset</th>
-                  <th scope="col" className="py-3 px-6">Brand</th>
-                  <th scope="col" className="py-3 px-6">Category</th>
-                  <th scope="col" className="py-3 px-6">Vendor</th>
-                  {days.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
-                    <th >{day}</th>
-                  ))}
 
-               
+              <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
+                <th scope="col" className="py-3 px-6">Asset</th>
+                <th scope="col" className="py-3 px-6">Brand</th>
+                <th scope="col" className="py-3 px-6">Category</th>
+                <th scope="col" className="py-3 px-6">Vendor</th>
+                {days.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
+                  <th >{day}</th>
+                ))}
+
+
               </Table.Head>
               <Table.Body>
                 {data.map((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => (
@@ -735,6 +757,50 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                     {days.map((day: Key | null | any) => (
                       <td key={day}>{row[day]}</td>
                     ))}
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
+        <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
+          <div>
+            <h1>Monthly Report</h1>
+            <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
+
+              <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
+                <th scope="col" className="py-3 px-6">Asset</th>
+
+
+                {daysw.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
+                  <th >{day}</th>
+                ))}
+                <th scope="col" className="py-2 px-3">STOCK</th>
+                <th scope="col" className="py-2 px-3">REPAIR</th>
+                <th scope="col" className="py-2 px-3">DAMAGED</th>
+                <th scope="col" className="py-2 px-3">DISMISSED</th>
+                <th scope="col" className="py-2 px-3">TOTAL</th>
+
+              </Table.Head>
+              <Table.Body>
+                {dataw.map((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => (
+                  <Table.Row key={index}>
+                    <td scope="col" className="py-3 px-6">{row.asset}</td>
+
+                    {daysw.map((day: Key | null | any) => (
+                      <td key={day}>{row[day]}</td>
+                    ))}
+                    <td scope="col" className="py-3 px-3">{row.STOCK}</td>
+                    <td scope="col" className="py-3 px-3">{row.Repair}</td>
+                    <td scope="col" className="py-3 px-3">{row.Damaged}</td>
+                    <td scope="col" className="py-3 px-3">{row.DISMISSED}</td>
+                    <td scope="col" className="py-3 px-3">{row.total}</td>
                   </Table.Row>
                 ))}
               </Table.Body>
