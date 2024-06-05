@@ -732,7 +732,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                     <td scope="col" className="py-3 px-6">{row.brand}</td>
                     <td scope="col" className="py-3 px-6">{row.category}</td>
                     <td scope="col" className="py-3 px-6">{row.vendor}</td>
-                    {days.map((day: Key | null | undefined) => (
+                    {days.map((day: Key | null | any) => (
                       <td key={day}>{row[day]}</td>
                     ))}
                   </Table.Row>
