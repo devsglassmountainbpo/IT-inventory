@@ -88,24 +88,8 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
 
   const dark = localStorage.getItem("theme") || "";
-  const [darkEfect, setEfect] = useState(dark);
-
 
   console.log('consolidado%%Check?', setFilterConsolidado, consolidado, check)
-
-  // useEffect(() => {
-  //   const dark2 = localStorage.getItem("theme") || "";
-  //   console.log('esto es negro');
-
-  //   setEfect(dark2);
-
-  //   const chart2 = new ApexCharts(document.querySelector("#donut-chart"), getChartOptions2());
-  //   chart2.render();
-
-  //   return () => {
-  //     chart2.destroy();
-  //   };
-  // }, [darkEfect]);
 
 
   const handleCheckboxChange2 = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -117,73 +101,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
     // Realiza otras acciones necesarias con filterValue si es necesario
   };
-
-  // useEffect(() => {
-  //   const chartElement = document.getElementById("donut-chart");
-
-  //   const chart = new ApexCharts(chartElement, getChartOptions2());
-  //   chart.render();
-
-
-  //   const chart3 = new ApexCharts(document.querySelector("#data-labels-chart"), optionsVal);
-  //   chart3.render();
-
-
-  //   const checkboxes = document.querySelectorAll('#devices input[type="checkbox"]');
-
-  //   const handleCheckboxChange = async (event: Event) => {
-  //     const checkbox = event.target as HTMLInputElement;
-
-  //     // Deselect all checkboxes except the one that was clicked
-  //     checkboxes.forEach((cb) => {
-  //       if (cb !== checkbox) {
-  //         (cb as HTMLInputElement).checked = false;
-  //       }
-  //     });
-
-  //     const filterValue = checkbox.checked ? checkbox.value : '';
-
-  //     const filteredData = dataGraphis.rows.filter((row) => row['asset'] === filterValue);
-
-  //     setFiltro(filterValue)
-
-  //     const item = filteredData[0];
-
-  //     if (item) {
-  //       const keysArray = Object.keys(item).filter(key => key !== 'total' && key !== 'total_qty');
-  //       const numbersArray = keysArray.map(key => {
-  //         const value = item[key];
-  //         return typeof value === 'string' && !isNaN(value as any) ? Number(value) : value;
-  //       }).filter(value => typeof value === 'number');
-
-  //       setValores(numbersArray);
-  //       setLabels(keysArray);
-  //       chart.updateSeries(numbersArray);
-  //       chart.updateOptions({ labels: keysArray });
-
-
-  //       chart3.updateSeries(numbersArray);
-  //       chart3.updateOptions({ labels: keysArray });
-
-  //       setCheck('true');
-  //       setChartData(["true"])
-  //     }
-  //   };
-
-  //   checkboxes.forEach((checkbox) => {
-  //     setFiltro('true')
-  //     checkbox.addEventListener('change', handleCheckboxChange);
-  //   });
-
-  //   return () => {
-  //     checkboxes.forEach((checkbox) => {
-  //       checkbox.removeEventListener('change', handleCheckboxChange);
-  //     });
-  //     // chart.destroy();
-  //   };
-  // }, [filtro]);
-
-
 
 
   useEffect(() => {
