@@ -796,11 +796,11 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                     {daysw.map((day: Key | null | any) => (
                       <td key={day}>{row[day]}</td>
                     ))}
-                    <td scope="col" className="py-3 px-3">{row.STOCK}</td>
-                    <td scope="col" className="py-3 px-3">{row.Repair}</td>
-                    <td scope="col" className="py-3 px-3">{row.Damaged}</td>
-                    <td scope="col" className="py-3 px-3">{row.DISMISSED}</td>
-                    <td scope="col" className="py-3 px-3">{row.total}</td>
+                    <td scope="col" className="py-3 px-3">{row["STOCK"]}</td>
+                    <td scope="col" className="py-3 px-3">{row["Repair"]}</td>
+                    <td scope="col" className="py-3 px-3">{row["Damaged"]}</td>
+                    <td scope="col" className="py-3 px-3">{row["DISMISSED"]}</td>
+                    <td scope="col" className="py-3 px-3">{row["total"]}</td>
                   </Table.Row>
                 ))}
               </Table.Body>
