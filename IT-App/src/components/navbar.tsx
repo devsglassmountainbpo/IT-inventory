@@ -20,12 +20,13 @@ const ExampleNavbar: FC = function () {
               <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
               </span>
             </Navbar.Brand>
-            <Navbar.Brand  className="flex items-center space-x-4 text-lg">
-              <Button href="/Category" className="bg-blue hover:bg-blue-700 text-gray-700 hover:text-white dark:bg-gray-800  dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+            <Navbar.Brand className="flex items-center space-x-4 text-lg">
+              <Button href="/Category" className="bg-blue hover:bg-blue-700 text-gray-700 hover:text-white dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-1.5 py-1 px-2 text-sm"
               >
-                <FaTags className="mr-2" />
+                <FaTags className="mr-1" />
                 <span>Asset</span>
               </Button>
+
               <Button href="/Brand"
                 className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
               >
