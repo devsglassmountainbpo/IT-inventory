@@ -12,7 +12,7 @@ import {
   Badge
 
 } from "flowbite-react";
-import type { ChangeEvent, FC } from "react";
+import type { ChangeEvent, FC, JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal } from "react";
 import { useEffect, useState, SetStateAction, useRef } from "react"
 import {
   // HiChevronLeft,
@@ -68,14 +68,45 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
     header: string[];
     rows: { [key: string]: string | number }[];
   }
+
+  interface totalSummary {
+    total: string;
+  }
+
+
+
+
+
   const [dataGraphis, setDataGraphis] = useState<DataGraphis>({ header: [], rows: [] });
+  // const [dataTotal, setDataTotal] = useState<totalSummary>({ total: '' });
+
+  const [dataTotal, setDataTotal] = useState<totalSummary[]>([]);
+
 
   useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/inventory/stockSummary')
-      .then(res => setDataGraphis(res.data))
-      .catch(error => console.error('Error fetching data:', error));
+    const fetchData = async () => {
+      try {
+        const [graphisRes, totalRes] = await Promise.all([
+          axios.get('https://bn.glassmountainbpo.com:8080/inventory/stockSummary'),
+          axios.get('https://bn.glassmountainbpo.com:8080/inventory/total_summmary')
+        ]);
 
-  }, [sharedState])
+        setDataGraphis(graphisRes.data);
+        setDataTotal(totalRes.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [sharedState]);
+
+  const totalSummary: string[] = dataTotal.map((item) => item.total);
+
+
+
+
+  console.log("este es el dato que ocupo", dataTotal)
 
 
   const [valores, setValores] = useState<number[]>([]);
@@ -542,7 +573,8 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                     </svg>
                   </div>
                   <div>
-                    <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">3.4k</h5>
+                    <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">{totalSummary}
+                    </h5>
                     <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Inventory total</p>
                   </div>
                 </div>
