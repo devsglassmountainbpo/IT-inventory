@@ -13,6 +13,7 @@ import Brand from "./pages/brand/brand";
 import Models from "./pages/models/models";
 import ITinventory from "./pages/inventory/inventoryIT";
 import UserListPage from "./pages/users/Users";
+import AllReports from "./pages/reports/reports";
 
 const container = document.getElementById("root");
 
@@ -38,6 +39,7 @@ root.render(
         <Route path="/Brand" element={<Brand />} />
         <Route path="/Models" element={<Models />} />
         <Route path="/users" element={ <UserListPage />} index/>
+        <Route path="/reports" element={ <AllReports />} index/>
         </Routes>
       </BrowserRouter>
     </Flowbite>
