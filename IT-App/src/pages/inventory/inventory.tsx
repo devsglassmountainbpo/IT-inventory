@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox } from "flowbite-react";
+import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button, Modal } from "flowbite-react";
 import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import { InventoryItem, DetailItem } from "../../types";
-import { HiRefresh } from "react-icons/hi";
+import { HiDocumentDownload, HiPlus, HiRefresh } from "react-icons/hi";
 import axios from "axios";
 
 const Inventory: FC = function () {
@@ -12,6 +12,11 @@ const Inventory: FC = function () {
   const [error, setError] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState('');
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [sharedState, setSharedState] = useState(false);
+
+  const updateSharedState = (newValue: boolean) => {
+    setSharedState(newValue);
+  }
 
   const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setSearchInput(e.target.value);
@@ -129,13 +134,13 @@ const Inventory: FC = function () {
                 </Dropdown>
               </div>
             </div>
-            {/* <div className="ml-auto mr-4 flex items-center space-x-2 sm:space-x-3">
+            <div className="ml-auto mr-4 flex items-center space-x-2 sm:space-x-3">
                   <AddTaskModal
                     sharedState={sharedState}
                     updateSharedState={updateSharedState} />
                   <ExportModal
-                    data={data} />
-                </div> */}
+                    data={grandTotalData} />
+                </div>
           </div>
         </div>
       </div>
@@ -183,30 +188,32 @@ const Inventory: FC = function () {
                 <tr>
                 <td colSpan={4} className="py-2 px-4 border-b">
                   <div className="bg-gray-100 p-4">
-                    <table className="min-w-full bg-white border border-gray-300">
-                      <thead>
-                      <tr>
-                            <th className="py-2 px-4 border-b">ID</th>
-                            <th className="py-2 px-4 border-b">Brand</th>
-                            <th className="py-2 px-4 border-b">Model</th>
-                            <th className="py-2 px-4 border-b">Quantity</th>
-                            <th className="py-2 px-4 border-b">Total Price</th>
-                            <th className="py-2 px-4 border-b">Details</th>
-                          </tr>
-                      </thead>
-                      <tbody>
+                    <Table className="min-w-full bg-white border border-gray-300">
+                      <Table.Head>
+                            <Table.HeadCell className="py-2 px-4 border-b">Asset</Table.HeadCell>
+                            <Table.HeadCell className="py-2 px-4 border-b">Brand</Table.HeadCell>
+                            <Table.HeadCell className="py-2 px-4 border-b">Model</Table.HeadCell>
+                            <Table.HeadCell className="py-2 px-4 border-b">Quantity</Table.HeadCell>
+                            <Table.HeadCell className="py-2 px-4 border-b">Category</Table.HeadCell>
+                            <Table.HeadCell className="py-2 px-4 border-b">Total Price</Table.HeadCell>
+                            <Table.HeadCell className="py-2 px-4 border-b">Details</Table.HeadCell>
+                      </Table.Head>
+                      <Table.Body>
                           {grandTotalData[asset].map((detail) => (
-                            <tr key={detail.id}>
-                              <td className="py-2 px-4 border-b">{detail.id}</td>
-                              <td className="py-2 px-4 border-b">{detail.brand}</td>
-                              <td className="py-2 px-4 border-b">{detail.model}</td>
-                              <td className="py-2 px-4 border-b">{detail.quantity}</td>
-                              <td className="py-2 px-4 border-b">{detail.totalPrice}</td>
-                              <td className="py-2 px-4 border-b">{detail.details}</td>
-                            </tr>
+                            <React.Fragment key={detail.id}>
+                              <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                              <Table.Cell className="py-2 px-4 border-b">{detail.asset}</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">{detail.brand}</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">{detail.model}</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">{detail.quantity}</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">{detail.category}</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">{detail.totalPrice}</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">{detail.details}</Table.Cell>
+                              </Table.Row>
+                            </React.Fragment>
                           ))}
-                        </tbody>
-                    </table>
+                        </Table.Body>
+                    </Table>
                   </div>
                 </td>
               </tr>
@@ -223,6 +230,234 @@ const Inventory: FC = function () {
     </NavbarSidebarLayout2>
   );
 };
+
+const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any) {
+  const [isOpen, setOpen] = useState(false);
+
+
+  return (
+    <>
+      <Button color="primary" onClick={() => { setOpen(true) }}>
+        <div className="flex items-center gap-x-3">
+          <HiPlus className="text-xl" />
+          Add Asset(s)
+        </div>
+      </Button>
+      <Modal onClose={() => setOpen(false)} show={isOpen}>
+        <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
+          <strong>Add Asset(s)</strong>
+        </Modal.Header>
+        <Modal.Body>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="account">Ticket ID</Label>
+                <div className="mt-1">
+                    <TextInput
+                    // value={ticketID}
+                    // onChange={e => setTicketID(e.target.value)}
+                    />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="Asset">Asset</Label>
+                <div className="mt-1">
+                  <TextInput
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="10"
+                    // value={quantity}
+                    // onChange={e => {
+                    //   setQuantity(e.target.value);
+                    // }}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="Brand">Brand</Label>
+                <div className="mt-1">
+                  <TextInput
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="10"
+                    // value={quantity}
+                    // onChange={e => {
+                    //   setQuantity(e.target.value);
+                    // }}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="Model">Model</Label>
+                <div className="mt-1">
+                  <TextInput
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="10"
+                    // value={quantity}
+                    // onChange={e => {
+                    //   setQuantity(e.target.value);
+                    // }}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="Quantity">Quantity</Label>
+                <div className="mt-1">
+                  <TextInput
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="10"
+                    // value={quantity}
+                    // onChange={e => {
+                    //   setQuantity(e.target.value);
+                    // }}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="Category">Category</Label>
+                <div className="mt-1">
+                  <TextInput
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="10"
+                    // value={quantity}
+                    // onChange={e => {
+                    //   setQuantity(e.target.value);
+                    // }}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="Vendor">Vendor</Label>
+                <div className="mt-1">
+                  <TextInput
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="10"
+                    // value={quantity}
+                    // onChange={e => {
+                    //   setQuantity(e.target.value);
+                    // }}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="Details">Details</Label>
+                <div className="mt-1">
+                  <TextInput
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="10"
+                    // value={quantity}
+                    // onChange={e => {
+                    //   setQuantity(e.target.value);
+                    // }}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="Price">Price</Label>
+                <div className="mt-1">
+                  <TextInput
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="10"
+                    // value={quantity}
+                    // onChange={e => {
+                    //   setQuantity(e.target.value);
+                    // }}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="Received By">Received By</Label>
+                <div className="mt-1">
+                  <TextInput
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="10"
+                    // value={quantity}
+                    // onChange={e => {
+                    //   setQuantity(e.target.value);
+                    // }}
+                    required
+                  />
+                </div>
+              </div>
+              </div>
+              </Modal.Body>
+          <Modal.Footer>
+            <Button
+              color="primary"
+              // onClick={(e) => { handleSubmit(e) }}
+              >
+              Add Asset
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
+
+  const ExportModal: FC<any> = function (grandTotalData) {
+    const [isOpen, setOpen] = useState(false);
+
+    return (
+      <>
+        <Button onClick={() => setOpen(true)} color="gray">
+          <div className="flex items-center gap-x-3">
+            <HiDocumentDownload className="text-xl" />
+            <span>Export</span>
+          </div>
+        </Button>
+        <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
+          <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
+            <strong>Export users</strong>
+          </Modal.Header>
+          <Modal.Body className="flex flex-col items-center gap-y-6 text-center">
+            <div className="flex items-center gap-x-3">
+              <div>
+                {/* <Button onClick={exportToCSV} color="light">
+                  <div className="flex items-center gap-x-3">
+                    <FiletypeCsv className="text-xl" />
+                    <span>Export CSV</span>
+                  </div>
+                </Button> */}
+              </div>
+              <div>
+                {/* <Button onClick={exportToXLS} color="light">
+                  <div className="flex items-center gap-x-3">
+                    <FiletypeXlsx className="text-xl" />
+                    <span>Export XLSX</span>
+                  </div>
+                </Button> */}
+              </div>
+            </div>
+          </Modal.Body>
+  
+        </Modal>
+      </>
+    )
+  
+  }
 
 
 export default Inventory;
