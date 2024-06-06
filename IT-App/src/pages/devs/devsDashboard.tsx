@@ -27,6 +27,7 @@ import {
 import { FaCheck, FaTimes } from "react-icons/fa"
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import axios from "axios";
+
 import ApexCharts from 'apexcharts'; // Importación del módulo ApexCharts
 import CryptoJS from "crypto-js";
 
@@ -329,94 +330,192 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   }
 
 
+  // const optionsVal = {
+  //   // enable and customize data labels using the following example, learn more from here: https://apexcharts.com/docs/datalabels/
+  //   dataLabels: {
+  //     enabled: true,
+  //     // offsetX: 10,
+  //     style: {
+  //       cssClass: 'text-xs text-white font-medium'
+  //     },
+  //   },
+  //   grid: {
+  //     show: false,
+  //     strokeDashArray: 4,
+  //     padding: {
+  //       left: 16,
+  //       right: 16,
+  //       top: 16
+  //     },
+  //   },
+  //   series: [
+  //     {
+  //       name: "Count",
+  //       data: valores,
+  //       color: "#1A56DB",
+  //     },
+
+  //   ],
+  //   chart: {
+  //     height: "150%",
+  //     maxWidth: "100%",
+  //     type: "area",
+  //     fontFamily: "Inter, sans-serif",
+  //     dropShadow: {
+  //       enabled: false,
+  //     },
+  //     toolbar: {
+  //       show: false,
+  //     },
+  //   },
+  //   tooltip: {
+  //     enabled: true,
+  //     x: {
+  //       show: false,
+  //     },
+  //   },
+  //   legend: {
+  //     show: true
+  //   },
+  //   fill: {
+  //     type: "gradient",
+  //     gradient: {
+  //       opacityFrom: 0.55,
+  //       opacityTo: 0,
+  //       shade: "#1C64F2",
+  //       gradientToColors: ["#1C64F2"],
+  //     },
+  //   },
+  //   stroke: {
+  //     width: 6,
+  //   },
+  //   xaxis: {
+  //     categories: labels,
+  //     labels: {
+  //       show: true,
+  //     },
+  //     axisBorder: {
+  //       show: false,
+  //     },
+  //     axisTicks: {
+  //       show: true,
+  //     },
+  //   },
+  //   yaxis: {
+  //     show: true,
+  //     labels: {
+  //       formatter: function (value: string) {
+  //         return value;
+  //       }
+  //     }
+  //   },
+  // }
+
+
   const optionsVal = {
-    // enable and customize data labels using the following example, learn more from here: https://apexcharts.com/docs/datalabels/
-    dataLabels: {
-      enabled: true,
-      // offsetX: 10,
-      style: {
-        cssClass: 'text-xs text-white font-medium'
-      },
-    },
-    grid: {
-      show: false,
-      strokeDashArray: 4,
-      padding: {
-        left: 16,
-        right: 16,
-        top: 16
-      },
-    },
+    colors: [
+      "#1E90FF",  // Azul fuerte
+      "#32CD32",  // Verde lima
+      "#8A2BE2",  // Azul violeta
+      "#20B2AA",  // Verde azulado claro
+      "#4B0082",  // Índigo
+      "#4682B4",  // Azul acero
+      "#6A5ACD",  // Azul pizarra medio
+      "#008B8B",  // Cian oscuro
+      "#0000CD",  // Azul medio
+      "#2E8B57"   // Verde marino
+    ],
     series: [
       {
-        name: "Count",
-        data: valores,
+        name: "Qty",
         color: "#1A56DB",
+        data: valores,
       },
-
+      
     ],
     chart: {
-      height: "150%",
-      maxWidth: "100%",
-      type: "area",
+      type: "bar",
+      height: "520px",
       fontFamily: "Inter, sans-serif",
-      dropShadow: {
-        enabled: false,
-      },
       toolbar: {
-        show: false,
+        show: true,
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: "50%",
+        borderRadiusApplication: "end",
+        borderRadius: 8,
       },
     },
     tooltip: {
-      enabled: true,
-      x: {
-        show: false,
+      shared: true,
+      intersect: false,
+      style: {
+        fontFamily: "Inter, sans-serif",
       },
     },
-    legend: {
-      show: true
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        opacityFrom: 0.55,
-        opacityTo: 0,
-        shade: "#1C64F2",
-        gradientToColors: ["#1C64F2"],
+    states: {
+      hover: {
+        filter: {
+          type: "darken",
+          value: 1,
+        },
       },
     },
     stroke: {
-      width: 6,
+      show: true,
+      width: 0,
+      colors: ["transparent"],
+    },
+    grid: {
+      show: true,
+      strokeDashArray: 4,
+      padding: {
+        left: 2,
+        right: 2,
+        top: 70
+      },
+    },
+    dataLabels: {
+      enabled: true,
+    },
+    legend: {
+      show: false,
     },
     xaxis: {
-      categories: labels,
+      floating: false,
       labels: {
         show: true,
+        style: {
+          fontFamily: "Inter, sans-serif",
+          cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+        }
       },
       axisBorder: {
-        show: false,
+        show: true,
       },
       axisTicks: {
         show: true,
       },
+      categories: labels,
     },
     yaxis: {
       show: true,
-      labels: {
-        formatter: function (value: string) {
-          return value;
-        }
-      }
+    },
+    fill: {
+      opacity: 10,
     },
   }
-
+  
 
 
   useEffect(() => {
     const chart2 = new ApexCharts(document.querySelector("#donut-chart"), getChartOptions2());
     chart2.render();
 
-    const chart3 = new ApexCharts(document.querySelector("#data-labels-chart"), optionsVal);
+    const chart3 = new ApexCharts(document.querySelector("#column-chart"), optionsVal);
     chart3.render();
 
     // Retornar una función de limpieza para destruir el gráfico al desmontar el componente o al actualizar chartData
@@ -623,7 +722,11 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 </dl>
               </div>
 
-              <div id="data-labels-chart"></div>
+            
+   
+              <div id="column-chart"></div>
+
+              
               <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
                 <div className="flex justify-between items-center pt-5">
 
