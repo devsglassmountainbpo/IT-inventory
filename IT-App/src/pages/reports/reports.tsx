@@ -168,7 +168,6 @@ const Reports: FC<any> = function ({ sharedState }: any) {
 
 
     const [expandedIndex, setExpandedIndex] = useState(null);
-
     const handleToggle = (index: SetStateAction<null>) => {
         if (expandedIndex === index) {
             setExpandedIndex(null);
@@ -183,166 +182,244 @@ const Reports: FC<any> = function ({ sharedState }: any) {
 
 
     return (
-        <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 mb-5 sm:p-6 xl:p-8">
-            <Accordion >
-                <Accordion.Panel>
-                    <Accordion.Title>
 
-                              
+
+        <Accordion onClick={collapseAll}  >
+            <Accordion.Panel>
+                <Accordion.Title>
                     <table className="w-full">
-                            <tr>
-                                <td className="text-left">
-                                    <span>General Report by Category </span>
-                                </td>
-                                <td className="text-right">
-                                    <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
-                                        Download file
-                                    </Button>
-                                </td>
-                            </tr>
-                        </table>
 
-                        
-                    </Accordion.Title>
-                    <Accordion.Content>
+                        <tr>
+                            <td className="text-left">
+                                <div className="flex justify-center items-center mb-4">
+                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">General Report</h5>
+                                    <h1 className=" leading-none text-gray-900 dark:text-white pe-1">by Category</h1>
+                                </div>
+                            </td>
+                            <td className="text-right">
+                                <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
+                                    Download file
+                                </Button>
+                            </td>
+                        </tr>
+                    </table>
+                </Accordion.Title>
+                <Accordion.Content>
 
+                    <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
+                        <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
+                            <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+                                {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, index) => (
+                                    <th key={index} scope="col" className="py-3 px-6">
+                                        {headerItem}
+                                    </th>
+                                ))}
+
+                            </Table.Head>
+                            <Table.Body>
+                                {dataGraphis.rows.map((row, rowIndex) => (
+                                    <Table.Row key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, colIndex) => (
+                                            <Table.Cell key={colIndex} className="py-4 px-6 font-semibold">
+                                                {headerItem === 'asset' ? (
+                                                    <Button className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500">{(row as any)[headerItem]}</Button>
+                                                ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
+                                                    (row as any)[headerItem]
+                                                )}
+                                            </Table.Cell>
+                                        ))}
+                                    </Table.Row>
+                                ))}
+
+                            </Table.Body>
+                        </Table>
+                    </div>
+
+                </Accordion.Content>
+            </Accordion.Panel>
+            <Accordion.Panel>
+                <Accordion.Title>
+                    <table className="w-full">
+                        <tr>
+
+                            <td className="text-left">
+                                <div className="flex justify-center items-center mb-4">
+                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Category</h5>
+                                    <h1 className=" leading-none text-gray-900 dark:text-white pe-1">Monthly Report</h1>
+                                </div>
+                            </td>
+                            <td className="text-right">
+                                <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
+                                    Download file
+                                </Button>
+                            </td>
+
+                        </tr>
+                    </table>
+
+
+                </Accordion.Title>
+                <Accordion.Content>
+                    <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
                         <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
-                            <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
-                                <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <div>
 
-                                    {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, index) => (
-                                        <th key={index} scope="col" className="py-3 px-6">
-                                            {headerItem}
-                                        </th>
-                                    ))}
+                                <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
 
-                                </Table.Head>
-                                <Table.Body>
-                                    {dataGraphis.rows.map((row, rowIndex) => (
-                                        <Table.Row key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, colIndex) => (
-                                                <Table.Cell key={colIndex} className="py-4 px-6 font-semibold">
-                                                    {headerItem === 'asset' ? (
-                                                        <Button className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500">{(row as any)[headerItem]}</Button>
-                                                    ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
-                                                        (row as any)[headerItem]
-                                                    )}
-                                                </Table.Cell>
-                                            ))}
-                                        </Table.Row>
-                                    ))}
+                                    <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
+                                        <th scope="col" className="py-3 px-6">Asset</th>
+                                        <th scope="col" className="py-3 px-6">Brand</th>
+                                        <th scope="col" className="py-3 px-6">Category</th>
+                                        <th scope="col" className="py-3 px-6">Vendor</th>
+                                        {days.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
+                                            <th >{day}</th>
+                                        ))}
 
-                                </Table.Body>
-                            </Table>
+
+                                    </Table.Head>
+                                    <Table.Body>
+
+
+                                        <div className="flex justify-left items-center mb-4 mt-4 ml-8">
+                                            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">AGENTS</h5>
+                                            <h1 className=" leading-none text-gray-900 dark:text-white pe-1">  DETAILS</h1>
+                                        </div>
+                                        {data.filter((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => row.asset === "Agents").map((row: { [x: string]: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; asset: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; brand: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; category: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; vendor: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; }, index: Key | null | undefined) => (
+                                            <Table.Row key={index}>
+                                                <td scope="col" className="py-3 px-6">{row.asset}</td>
+                                                <td scope="col" className="py-3 px-6">{row.brand}</td>
+                                                <td scope="col" className="py-3 px-6">{row.category}</td>
+                                                <td scope="col" className="py-3 px-6">{row.vendor}</td>
+                                                {days.map((day: Key | null | any) => (
+                                                    <td key={day}>{row[day]}</td>
+                                                ))}
+                                            </Table.Row>
+                                        ))}
+
+                                        <div className="flex justify-left  ml-8 items-center mb-4 mt-4 text-gray-900 border-full">
+
+
+                                            <h5 className="text-xl font-bold leading-none text-white-900 dark:text-white pe-1 border-full">IT INVENTORY</h5>
+                                            <h1 className=" leading-none text-white-900 dark:text-white pe-1">  DETAILS</h1>
+
+                                        </div>
+
+
+                                        {data.filter((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => row.asset !== "Agents").map((row: { [x: string]: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; asset: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; brand: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; category: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; vendor: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; }, index: Key | null | undefined) => (
+                                            <Table.Row key={index}>
+                                                <td scope="col" className="py-3 px-6">{row.asset}</td>
+                                                <td scope="col" className="py-3 px-6">{row.brand}</td>
+                                                <td scope="col" className="py-3 px-6">{row.category}</td>
+                                                <td scope="col" className="py-3 px-6">{row.vendor}</td>
+                                                {days.map((day: Key | null | any) => (
+                                                    <td key={day}>{row[day]}</td>
+                                                ))}
+                                            </Table.Row>
+                                        ))}
+                                        {/* {data.map((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => (
+                                            <Table.Row key={index}>
+                                                <td scope="col" className="py-3 px-6">{row.asset}</td>
+                                                <td scope="col" className="py-3 px-6">{row.brand}</td>
+                                                <td scope="col" className="py-3 px-6">{row.category}</td>
+                                                <td scope="col" className="py-3 px-6">{row.vendor}</td>
+                                                {days.map((day: Key | null | any) => (
+                                                    <td key={day}>{row[day]}</td>
+                                                ))}
+                                            </Table.Row>
+                                        ))} */}
+                                    </Table.Body>
+                                </Table>
+                            </div>
+
                         </div>
+                    </div>
 
-                    </Accordion.Content>
-                </Accordion.Panel>
-                <Accordion.Panel>
-                    <Accordion.Title>
-                       
+                </Accordion.Content>
+            </Accordion.Panel>
+            <Accordion.Panel>
+                <Accordion.Title>
 
-
-                            
-                        <table className="w-full">
-                            <tr>
-                                <td className="text-left">
-                                    <span>Category Monthly Report </span>
-                                </td>
-                                <td className="text-right">
-                                    <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
-                                        Download file
-                                    </Button>
-                                </td>
-                            </tr>
-                        </table>
-
-
-                    </Accordion.Title>
-                    <Accordion.Content>
-                        <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
-                            <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
-                                <div>
-                                    <h1>Monthly Report</h1>
-                                    <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
-
-                                        <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
-                                            <th scope="col" className="py-3 px-6">Asset</th>
-                                            <th scope="col" className="py-3 px-6">Brand</th>
-                                            <th scope="col" className="py-3 px-6">Category</th>
-                                            <th scope="col" className="py-3 px-6">Vendor</th>
-                                            {days.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
-                                                <th >{day}</th>
-                                            ))}
+                    <table className="w-full">
+                        <tr>
+                            <td className="text-left">
+                                <div className="flex justify-center items-center mb-4">
+                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Monthly</h5>
+                                    <h1 className=" leading-none text-gray-900 dark:text-white pe-1">Report (General)</h1>
+                                </div>
+                            </td>
+                            <td className="text-right">
+                                <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
+                                    Download file
+                                </Button>
+                            </td>
+                        </tr>
+                    </table>
 
 
-                                        </Table.Head>
-                                        <Table.Body>
-                                            {data.map((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => (
-                                                <Table.Row key={index}>
-                                                    <td scope="col" className="py-3 px-6">{row.asset}</td>
-                                                    <td scope="col" className="py-3 px-6">{row.brand}</td>
-                                                    <td scope="col" className="py-3 px-6">{row.category}</td>
-                                                    <td scope="col" className="py-3 px-6">{row.vendor}</td>
-                                                    {days.map((day: Key | null | any) => (
-                                                        <td key={day}>{row[day]}</td>
-                                                    ))}
-                                                </Table.Row>
-                                            ))}
-                                        </Table.Body>
-                                    </Table>
+                </Accordion.Title>
+                <Accordion.Content>
+
+                    <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
+                        <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
+                            <div>
+                                <div className="flex justify-center items-center mb-4">
+                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Agents</h5>
+                                    <h1 className=" leading-none text-gray-900 dark:text-white pe-1"> Detail</h1>
+                                </div>
+                                <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
+                                    <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
+                                        <th scope="col" className="py-3 px-6">Agents</th>
+                                        <th scope="col" className="py-3 px-6">Brand</th>
+                                        <th scope="col" className="py-3 px-6">Category</th>
+                                        <th scope="col" className="py-3 px-6">Vendor</th>
+                                        {days.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
+                                            <th >{day}</th>
+                                        ))}
+                                    </Table.Head>
+                                    <Table.Body>
+
+                                        {data.filter((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => row.asset === "Agents").map((row: { [x: string]: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; asset: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; brand: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; category: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; vendor: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; }, index: Key | null | undefined) => (
+                                            <Table.Row key={index}>
+                                                <td scope="col" className="py-3 px-6">{row.asset}</td>
+                                                <td scope="col" className="py-3 px-6">{row.brand}</td>
+                                                <td scope="col" className="py-3 px-6">{row.category}</td>
+                                                <td scope="col" className="py-3 px-6">{row.vendor}</td>
+                                                {days.map((day: Key | null | any) => (
+                                                    <td key={day}>{row[day]}</td>
+                                                ))}
+                                            </Table.Row>
+                                        ))}
+                                    </Table.Body>
+                                </Table>
+
+
+                                <div className="flex justify-center items-center mb-4 mt-8">
+                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">IT INVENTORY</h5>
+                                    <h1 className=" leading-none text-gray-900 dark:text-white pe-1"> DETAILS</h1>
                                 </div>
 
-                            </div>
-                        </div>
+                                <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
+                                    <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
+                                        <th scope="col" className="py-3 px-6">ASSETS</th>
+                                        {daysw.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
+                                            <th >{day}</th>
+                                        ))}
+                                        <th scope="col" className="py-2 px-3">STOCK</th>
+                                        <th scope="col" className="py-2 px-3">REPAIR</th>
+                                        <th scope="col" className="py-2 px-3">DAMAGED</th>
+                                        <th scope="col" className="py-2 px-3">DISMISSED</th>
+                                        <th scope="col" className="py-2 px-3">TOTAL</th>
 
-                    </Accordion.Content>
-                </Accordion.Panel>
-                <Accordion.Panel>
-                    <Accordion.Title>
-
-                        <table className="w-full">
-                            <tr>
-                                <td className="text-left">
-                                    <span>Monthly Report (General)</span>
-                                </td>
-                                <td className="text-right">
-                                    <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
-                                        Download file
-                                    </Button>
-                                </td>
-                            </tr>
-                        </table>
-
-
-                    </Accordion.Title>
-                    <Accordion.Content>
-
-                        <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
-                            <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
-                                <div>
-                                    <h1>Monthly Report</h1>
-                                    <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
-
-                                        <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
-                                            <th scope="col" className="py-3 px-6">Asset</th>
-
-
-                                            {daysw.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
-                                                <th >{day}</th>
-                                            ))}
-                                            <th scope="col" className="py-2 px-3">STOCK</th>
-                                            <th scope="col" className="py-2 px-3">REPAIR</th>
-                                            <th scope="col" className="py-2 px-3">DAMAGED</th>
-                                            <th scope="col" className="py-2 px-3">DISMISSED</th>
-                                            <th scope="col" className="py-2 px-3">TOTAL</th>
-
-                                        </Table.Head>
-                                        <Table.Body>
-                                            {dataw.map((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => (
+                                    </Table.Head>
+                                    <Table.Body>
+                                        {dataw
+                                            .filter((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }) =>
+                                                typeof row.asset === 'string' && !row.asset.includes("Agents")
+                                            )
+                                            .map((row: any, index: any) => (
                                                 <Table.Row key={index}>
                                                     <td scope="col" className="py-3 px-6">{row.asset}</td>
-
                                                     {daysw.map((day: Key | null | any) => (
                                                         <td key={day}>{row[day]}</td>
                                                     ))}
@@ -353,18 +430,20 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                                     <td scope="col" className="py-3 px-3">{row["total"]}</td>
                                                 </Table.Row>
                                             ))}
-                                        </Table.Body>
-                                    </Table>
-                                </div>
 
+
+                                    </Table.Body>
+                                </Table>
                             </div>
+
                         </div>
-                    </Accordion.Content>
-                </Accordion.Panel>
-            </Accordion>
+                    </div>
+                </Accordion.Content>
+            </Accordion.Panel>
+        </Accordion>
 
 
-        </div >
+
 
     );
 };
