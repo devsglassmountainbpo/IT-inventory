@@ -14,6 +14,7 @@ export interface InventoryItem {
     status: string;
     totalPrice: string;
     vendor: string;
+    batchID: number | null;
   }
   
 
