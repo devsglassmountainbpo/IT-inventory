@@ -57,6 +57,12 @@ const ExampleNavbar: FC = function () {
                 <FaUsers className="mr-2" />
                 <span>Users</span>
               </Button>
+              <Button href="/reports"
+                className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
+              >
+                <FaBoxOpen className="mr-2" />
+                <span>Reports</span>
+              </Button>
             </Navbar.Brand>
           </div>
           <div className="flex items-center gap-3">
