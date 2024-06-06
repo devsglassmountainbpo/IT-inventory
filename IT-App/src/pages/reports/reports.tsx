@@ -186,11 +186,26 @@ const Reports: FC<any> = function ({ sharedState }: any) {
         <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 mb-5 sm:p-6 xl:p-8">
             <Accordion >
                 <Accordion.Panel>
-                    <Accordion.Title>Report for account</Accordion.Title>
+                    <Accordion.Title>
+
+                              
+                    <table className="w-full">
+                            <tr>
+                                <td className="text-left">
+                                    <span>General Report by Category </span>
+                                </td>
+                                <td className="text-right">
+                                    <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
+                                        Download file
+                                    </Button>
+                                </td>
+                            </tr>
+                        </table>
+
+                        
+                    </Accordion.Title>
                     <Accordion.Content>
-                        <Button className="mb-2 text-gray-500 dark:text-gray-400">
-                            Download file
-                        </Button>
+
                         <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
                             <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
                                 <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -224,11 +239,27 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                     </Accordion.Content>
                 </Accordion.Panel>
                 <Accordion.Panel>
-                    <Accordion.Title>Report for month</Accordion.Title>
+                    <Accordion.Title>
+                       
+
+
+                            
+                        <table className="w-full">
+                            <tr>
+                                <td className="text-left">
+                                    <span>Category Monthly Report </span>
+                                </td>
+                                <td className="text-right">
+                                    <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
+                                        Download file
+                                    </Button>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </Accordion.Title>
                     <Accordion.Content>
-                        <Button className="mb-2 text-gray-500 dark:text-gray-400">
-                            Download file
-                        </Button>
                         <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
                             <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
                                 <div>
@@ -268,11 +299,25 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                     </Accordion.Content>
                 </Accordion.Panel>
                 <Accordion.Panel>
-                    <Accordion.Title>Report for month (General)</Accordion.Title>
+                    <Accordion.Title>
+
+                        <table className="w-full">
+                            <tr>
+                                <td className="text-left">
+                                    <span>Monthly Report (General)</span>
+                                </td>
+                                <td className="text-right">
+                                    <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
+                                        Download file
+                                    </Button>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </Accordion.Title>
                     <Accordion.Content>
-                        <Button className="mb-2 text-gray-500 dark:text-gray-400">
-                            Download file
-                        </Button>
+
                         <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
                             <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
                                 <div>
