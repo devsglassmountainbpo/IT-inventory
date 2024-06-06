@@ -2,7 +2,7 @@
 import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button, Modal, Select } from "flowbite-react";
 import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
-import { InventoryItem, AssetItem } from "../../types";
+import { InventoryItem, AssetItem, BrandItem, ModelItem } from "../../types";
 import { HiDocumentDownload, HiPlus, HiRefresh } from "react-icons/hi";
 import axios from "axios";
 
@@ -248,12 +248,38 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   const [price, setPrice] = useState('');
   const [receivedBy, setReceivedBy] = useState('');
   const [assetList, setAssetList] = useState<AssetItem[]>([]);
+  const [brandList, setBrandList] = useState<BrandItem[]>([]);
+  const [modelList, setModelList] = useState<ModelItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory');
+        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory2');
         setAssetList(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listBrand2');
+        setBrandList(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listModels2');
+        setModelList(response.data);
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -307,33 +333,37 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
               <div>
                 <Label htmlFor="Brand">Brand</Label>
                 <div className="mt-1">
-                  <TextInput
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    placeholder="10"
-                    // value={quantity}
-                    // onChange={e => {
-                    //   setQuantity(e.target.value);
-                    // }}
-                    required
-                  />
+                <Select
+                  id='brand'
+                  name='brand'
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  required
+                  >
+                    {brandList.map((item, index) => (
+                      <option key={index} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                    </Select>
                 </div>
               </div>
               <div>
                 <Label htmlFor="Model">Model</Label>
                 <div className="mt-1">
-                  <TextInput
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    placeholder="10"
-                    // value={quantity}
-                    // onChange={e => {
-                    //   setQuantity(e.target.value);
-                    // }}
-                    required
-                  />
+                <Select
+                  id='model'
+                  name='model'
+                  value={model}
+                  onChange={(e) => setModel(e.target.value)}
+                  required
+                  >
+                    {modelList.map((item, index) => (
+                      <option key={index} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                    </Select>
                 </div>
               </div>
               <div>
