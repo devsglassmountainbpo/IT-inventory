@@ -197,6 +197,8 @@ const Inventory: FC = function () {
                             <Table.HeadCell className="py-2 px-4 border-b">Category</Table.HeadCell>
                             <Table.HeadCell className="py-2 px-4 border-b">Total Price</Table.HeadCell>
                             <Table.HeadCell className="py-2 px-4 border-b">Details</Table.HeadCell>
+                            <Table.HeadCell className="py-2 px-4 border-b">Vendor</Table.HeadCell>
+                            <Table.HeadCell className="py-2 px-4 border-b">Date Created</Table.HeadCell>
                       </Table.Head>
                       <Table.Body>
                           {grandTotalData[asset].map((detail) => (
@@ -209,6 +211,8 @@ const Inventory: FC = function () {
                               <Table.Cell className="py-2 px-4 border-b">{detail.category}</Table.Cell>
                               <Table.Cell className="py-2 px-4 border-b">{detail.totalPrice}</Table.Cell>
                               <Table.Cell className="py-2 px-4 border-b">{detail.details}</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">{detail.vendor}</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">{detail.dateTime}</Table.Cell>
                               </Table.Row>
                             </React.Fragment>
                           ))}
