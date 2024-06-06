@@ -240,11 +240,8 @@ const Reports: FC<any> = function ({ sharedState }: any) {
             </Accordion.Panel>
             <Accordion.Panel>
                 <Accordion.Title>
-
-                    
                     <table className="w-full">
                         <tr>
-
                             <td className="text-left">
                                 <div className="flex justify-center items-center mb-4">
                                     <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Category</h5>
