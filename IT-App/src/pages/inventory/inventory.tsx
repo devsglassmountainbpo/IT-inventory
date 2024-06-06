@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button, Modal } from "flowbite-react";
+import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button, Modal, Select } from "flowbite-react";
 import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
-import { InventoryItem, DetailItem } from "../../types";
+import { InventoryItem, AssetItem } from "../../types";
 import { HiDocumentDownload, HiPlus, HiRefresh } from "react-icons/hi";
 import axios from "axios";
 
@@ -237,6 +237,29 @@ const Inventory: FC = function () {
 
 const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any) {
   const [isOpen, setOpen] = useState(false);
+  const [ticketID, setTicketID] = useState('');
+  const [asset, setAsset] = useState('');
+  const [brand, setBrand] = useState('');
+  const [model, setModel] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [category, setCategory] = useState('');
+  const [vendor, setVendor] = useState('');
+  const [details, setDetails] = useState('');
+  const [price, setPrice] = useState('');
+  const [receivedBy, setReceivedBy] = useState('');
+  const [assetList, setAssetList] = useState<AssetItem[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory');
+        setAssetList(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    };
+    fetchData();
+  }, []);
 
 
   return (
@@ -257,25 +280,28 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 <Label htmlFor="account">Ticket ID</Label>
                 <div className="mt-1">
                     <TextInput
-                    // value={ticketID}
-                    // onChange={e => setTicketID(e.target.value)}
+                    placeholder="TCKT001"
+                    value={ticketID}
+                    onChange={e => setTicketID(e.target.value)}
                     />
                 </div>
               </div>
               <div>
                 <Label htmlFor="Asset">Asset</Label>
                 <div className="mt-1">
-                  <TextInput
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    placeholder="10"
-                    // value={quantity}
-                    // onChange={e => {
-                    //   setQuantity(e.target.value);
-                    // }}
-                    required
-                  />
+                  <Select
+                  id='asset'
+                  name='asset'
+                  value={asset}
+                  onChange={(e) => setAsset(e.target.value)}
+                  required
+                  >
+                    {assetList.map((item, index) => (
+                      <option key={index} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                    </Select>
                 </div>
               </div>
               <div>

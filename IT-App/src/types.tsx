@@ -16,10 +16,10 @@ export interface InventoryItem {
     vendor: string;
     batchID: number | null;
   }
-  
 
-  export interface DetailItem {
+export interface AssetItem {
+    active: number;
+    date_created: string;
     id: number;
     name: string;
-    value: string;
-  }
+}
