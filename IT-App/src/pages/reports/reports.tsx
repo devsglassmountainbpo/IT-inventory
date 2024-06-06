@@ -106,7 +106,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
     useEffect(() => {
         if (data.length) {
             const days = Object.keys(data[0])
-                .filter(key => !['asset', 'brand', 'category', 'vendor'].includes(key))
+                .filter(key => !['asset', 'brand', 'category', 'vendor', 'total'].includes(key))
                 .map(key => parseInt(key, 10))
                 .sort((a, b) => a - b)
                 .map(day => day.toString().padStart(2, '0'));
@@ -192,12 +192,12 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                         <tr>
                             <td className="text-left">
                                 <div className="flex justify-center items-center mb-4">
-                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">General Report</h5>
+                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white  pe-1">General Report</h5>
                                     <h1 className=" leading-none text-gray-900 dark:text-white pe-1">by Category</h1>
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
+                                <Button className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white">
                                     Download file
                                 </Button>
                             </td>
@@ -240,6 +240,8 @@ const Reports: FC<any> = function ({ sharedState }: any) {
             </Accordion.Panel>
             <Accordion.Panel>
                 <Accordion.Title>
+
+                    
                     <table className="w-full">
                         <tr>
 
@@ -250,7 +252,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
+                                <Button className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white">
                                     Download file
                                 </Button>
                             </td>
@@ -263,8 +265,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                 <Accordion.Content>
                     <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
                         <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
-                            <div>
-
+                            <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
                                 <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
 
                                     <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
@@ -275,6 +276,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                         {days.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
                                             <th >{day}</th>
                                         ))}
+                                        <th scope="col" className="py-3 px-6">TOTAL</th>
 
 
                                     </Table.Head>
@@ -286,7 +288,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                             <h1 className=" leading-none text-gray-900 dark:text-white pe-1">  DETAILS</h1>
                                         </div>
                                         {data.filter((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => row.asset === "Agents").map((row: { [x: string]: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; asset: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; brand: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; category: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; vendor: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; }, index: Key | null | undefined) => (
-                                            <Table.Row key={index}>
+                                            <Table.Row key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                 <td scope="col" className="py-3 px-6">{row.asset}</td>
                                                 <td scope="col" className="py-3 px-6">{row.brand}</td>
                                                 <td scope="col" className="py-3 px-6">{row.category}</td>
@@ -294,6 +296,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                                 {days.map((day: Key | null | any) => (
                                                     <td key={day}>{row[day]}</td>
                                                 ))}
+                                                <td scope="col" className="py-3 px-6"><Badge>{row["total"]}</Badge></td>
                                             </Table.Row>
                                         ))}
 
@@ -307,7 +310,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
 
 
                                         {data.filter((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => row.asset !== "Agents").map((row: { [x: string]: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; asset: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; brand: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; category: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; vendor: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; }, index: Key | null | undefined) => (
-                                            <Table.Row key={index}>
+                                            <Table.Row key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                 <td scope="col" className="py-3 px-6">{row.asset}</td>
                                                 <td scope="col" className="py-3 px-6">{row.brand}</td>
                                                 <td scope="col" className="py-3 px-6">{row.category}</td>
@@ -315,6 +318,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                                 {days.map((day: Key | null | any) => (
                                                     <td key={day}>{row[day]}</td>
                                                 ))}
+                                                <td scope="col" className="py-3 px-6"><Badge>{row["total"]}</Badge></td>
                                             </Table.Row>
                                         ))}
                                         {/* {data.map((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => (
@@ -349,7 +353,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button className="mb-2 ml-2 text-gray-500 dark:text-gray-400">
+                                <Button className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white font-bold">
                                     Download file
                                 </Button>
                             </td>
@@ -376,11 +380,12 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                         {days.map((day: boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | Key | null | undefined) => (
                                             <th >{day}</th>
                                         ))}
+                                        <th scope="col" className="py-3 px-6">Total</th>
                                     </Table.Head>
                                     <Table.Body>
 
                                         {data.filter((row: { [x: string]: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; asset: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; brand: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; category: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; vendor: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }, index: Key | null | undefined) => row.asset === "Agents").map((row: { [x: string]: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; asset: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; brand: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; category: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; vendor: string | number | boolean | ReactFragment | ReactPortal | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; }, index: Key | null | undefined) => (
-                                            <Table.Row key={index}>
+                                            <Table.Row key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                 <td scope="col" className="py-3 px-6">{row.asset}</td>
                                                 <td scope="col" className="py-3 px-6">{row.brand}</td>
                                                 <td scope="col" className="py-3 px-6">{row.category}</td>
@@ -388,6 +393,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                                 {days.map((day: Key | null | any) => (
                                                     <td key={day}>{row[day]}</td>
                                                 ))}
+                                                <td scope="col" className="py-3 px-6"><Badge>{row["total"]}</Badge></td>
                                             </Table.Row>
                                         ))}
                                     </Table.Body>
@@ -418,7 +424,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                                 typeof row.asset === 'string' && !row.asset.includes("Agents")
                                             )
                                             .map((row: any, index: any) => (
-                                                <Table.Row key={index}>
+                                                <Table.Row key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                     <td scope="col" className="py-3 px-6">{row.asset}</td>
                                                     {daysw.map((day: Key | null | any) => (
                                                         <td key={day}>{row[day]}</td>
@@ -427,7 +433,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                                     <td scope="col" className="py-3 px-3">{row["Repair"]}</td>
                                                     <td scope="col" className="py-3 px-3">{row["Damaged"]}</td>
                                                     <td scope="col" className="py-3 px-3">{row["DISMISSED"]}</td>
-                                                    <td scope="col" className="py-3 px-3">{row["total"]}</td>
+                                                    <td scope="col" className="py-3 px-3"><Badge>{row["total"]}</Badge></td>
                                                 </Table.Row>
                                             ))}
 
