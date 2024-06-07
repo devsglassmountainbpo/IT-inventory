@@ -113,10 +113,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
     useEffect(() => {
         if (data.length) {
             const days = Object.keys(data[0])
-                .filter(key => !['asset', 'brand', 'category', 'vendor', 'total'].includes(key))
-                .map(key => parseInt(key, 10))
-                .sort((a, b) => a - b)
-                .map(day => day.toString().padStart(2, '0'));
+                .filter(key => !['asset', 'brand', 'category', 'vendor', 'total'].includes(key));
 
             setDays(days);
         }
@@ -348,6 +345,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                                 <td scope="col" className="py-3 px-6">{row.brand}</td>
                                                 <td scope="col" className="py-3 px-6">{row.category}</td>
                                                 <td scope="col" className="py-3 px-6">{row.vendor}</td>
+                                               
                                                 {days.map((day: Key | null | any) => (
                                                     <td key={day}>{row[day]}</td>
                                                 ))}
