@@ -374,10 +374,10 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                     id="quantity"
                     name="quantity"
                     placeholder="10"
-                    // value={quantity}
-                    // onChange={e => {
-                    //   setQuantity(e.target.value);
-                    // }}
+                    value={quantity}
+                    onChange={e => {
+                      setQuantity(e.target.value);
+                    }}
                     required
                   />
                 </div>
