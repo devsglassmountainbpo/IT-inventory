@@ -21,7 +21,7 @@ const ExampleNavbar: FC = function () {
               </span>
             </Navbar.Brand>
             <Navbar.Brand className="flex items-center space-x-4 text-lg">
-              <Button href="/Category" className="bg-blue hover:bg-blue-700 text-gray-700 hover:text-white dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-1.5 py-1 px-2 text-sm"
+              <Button href="/Category"  className="bg-blue text-black  hover:text-white hover:bg-blue-700  dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200 flex items-center space-x-2"
               >
                 <FaTags className="mr-1" />
                 <span>Asset</span>

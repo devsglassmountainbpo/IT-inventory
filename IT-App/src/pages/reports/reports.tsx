@@ -37,6 +37,7 @@ import { Accordion } from "flowbite-react";
 import CryptoJS from "crypto-js";
 
 import * as XLSX from 'xlsx';
+import { utils, writeFile } from 'xlsx';
 
 
 const created_user3 = localStorage.getItem("badgeSession") || "";
@@ -54,6 +55,7 @@ const AllReports: FC = function () {
         </NavbarSidebarLayout2>
     );
 };
+
 
 
 const Reports: FC<any> = function ({ sharedState }: any) {
@@ -81,13 +83,18 @@ const Reports: FC<any> = function ({ sharedState }: any) {
     const [dataw, setDataw]: any = useState([]);
     const [daysw, setDaysw]: any = useState([]);
 
+    //filtrando datos para los reportes
+
+    console.log('Preparando los reportes', data);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const [graphisRes, totalRes, report, reportW] = await Promise.all([
                     axios.get('https://bn.glassmountainbpo.com:8080/inventory/stockSummary'),
                     axios.get('https://bn.glassmountainbpo.com:8080/inventory/total_summmary'),
-                    axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_report'),
+                    // axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_report'),
+                    axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_report_new'),
                     axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_one')
                 ]);
 
@@ -127,6 +134,54 @@ const Reports: FC<any> = function ({ sharedState }: any) {
             setDaysw(days2);
         }
     }, [dataw]);
+
+
+
+    //Excel Report
+
+    const exportToGraphis= () => {
+        // Extraer los encabezados y las filas de dataGraphis
+        const headers = ['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')];
+        const rows = dataGraphis.rows;
+      
+        // Convertir los datos a un formato adecuado para xlsx
+        const formattedData = rows.map(row => {
+          let formattedRow:any = [];
+          headers.forEach(header => {
+            formattedRow[header] = row[header];
+          });
+          return formattedRow;
+        });
+      
+        // Crear la hoja de cálculo
+        const ws = utils.json_to_sheet(formattedData, { header: headers });
+      
+        // Crear el libro de trabajo
+        const wb = utils.book_new();
+        utils.book_append_sheet(wb, ws, 'Data');
+      
+        // Guardar el archivo Excel
+        writeFile(wb, 'dataGraphis_export.xlsx');
+      };
+      
+     
+
+    const exportToExcel = () => {
+
+        
+        // Crear las hojas de cálculo
+        const wsAgents = utils.json_to_sheet(data);
+        const wsItInventory = utils.json_to_sheet(dataw);
+
+        // Crear un libro de trabajo
+        const wb = utils.book_new();
+        utils.book_append_sheet(wb, wsAgents, 'Agents');
+        utils.book_append_sheet(wb, wsItInventory, 'IT Inventory');
+
+        // Guardar el archivo Excel
+        writeFile(wb, 'exported_data.xlsx');
+    };
+
 
     console.log('estos son los dias, ', days)
     console.log('estos son los dias GENERALES, ', daysw)
@@ -168,6 +223,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
 
 
     const [expandedIndex, setExpandedIndex] = useState(null);
+
     const handleToggle = (index: SetStateAction<null>) => {
         if (expandedIndex === index) {
             setExpandedIndex(null);
@@ -197,7 +253,8 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white">
+                               
+                                <Button onClick={exportToGraphis} className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white">
                                     Download file
                                 </Button>
                             </td>
@@ -249,9 +306,10 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white">
+                                <Button onClick={exportToExcel} className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white">
                                     Download file
                                 </Button>
+                                
                             </td>
 
                         </tr>
