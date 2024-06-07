@@ -2,7 +2,7 @@
 import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button, Modal, Select } from "flowbite-react";
 import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
-import { InventoryItem, AssetItem, BrandItem, ModelItem } from "../../types";
+import { InventoryItem, AssetItem, BrandItem, ModelItem, CategoryItem } from "../../types";
 import { HiDocumentDownload, HiPlus, HiRefresh } from "react-icons/hi";
 import axios from "axios";
 
@@ -250,6 +250,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   const [assetList, setAssetList] = useState<AssetItem[]>([]);
   const [brandList, setBrandList] = useState<BrandItem[]>([]);
   const [modelList, setModelList] = useState<ModelItem[]>([]);
+  const [categoryList, setCategoryList] = useState<CategoryItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -287,6 +288,17 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategories2');
+        setCategoryList(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -385,17 +397,19 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
               <div>
                 <Label htmlFor="Category">Category</Label>
                 <div className="mt-1">
-                  <TextInput
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    placeholder="10"
-                    // value={quantity}
-                    // onChange={e => {
-                    //   setQuantity(e.target.value);
-                    // }}
-                    required
-                  />
+                <Select
+                  id='category'
+                  name='category'
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  required
+                  >
+                    {categoryList.map((item, index) => (
+                      <option key={index} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                    </Select>
                 </div>
               </div>
               <div>

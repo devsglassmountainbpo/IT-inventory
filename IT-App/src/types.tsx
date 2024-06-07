@@ -41,3 +41,10 @@ export interface ModelItem {
     name_brand: string;
     name_category: string;
 }
+
+export interface CategoryItem {
+    active: number;
+    date_created: string;
+    id: number;
+    name: string;
+}
