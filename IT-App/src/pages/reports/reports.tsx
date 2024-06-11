@@ -411,21 +411,6 @@ const Reports: FC<any> = function ({ sharedState }: any) {
         
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     console.log('estos son los dias, ', days)
     console.log('estos son los dias GENERALES, ', daysw)
 
