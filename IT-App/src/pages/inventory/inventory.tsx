@@ -325,7 +325,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
               <div>
-                <Label htmlFor="Asset">Asset</Label>
+                <Label htmlFor="Asset">Asset (Required)</Label>
                 <div className="mt-1">
                   <Select
                   id='asset'
@@ -343,7 +343,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
               <div>
-                <Label htmlFor="Brand">Brand</Label>
+                <Label htmlFor="Brand">Brand (Required)</Label>
                 <div className="mt-1">
                 <Select
                   id='brand'
@@ -361,7 +361,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
               <div>
-                <Label htmlFor="Model">Model</Label>
+                <Label htmlFor="Model">Model (Required)</Label>
                 <div className="mt-1">
                 <Select
                   id='model'
@@ -379,7 +379,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
               <div>
-                <Label htmlFor="Quantity">Quantity</Label>
+                <Label htmlFor="Quantity">Quantity (Required)</Label>
                 <div className="mt-1">
                   <TextInput
                     type="number"
@@ -395,7 +395,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
               <div>
-                <Label htmlFor="Category">Category</Label>
+                <Label htmlFor="Category">Category (Required)</Label>
                 <div className="mt-1">
                 <Select
                   id='category'
@@ -416,14 +416,13 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 <Label htmlFor="Vendor">Vendor</Label>
                 <div className="mt-1">
                   <TextInput
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    placeholder="10"
-                    // value={quantity}
-                    // onChange={e => {
-                    //   setQuantity(e.target.value);
-                    // }}
+                    id="vendor"
+                    name="vendor"
+                    placeholder="Wallmart"
+                    value={vendor}
+                    onChange={e => {
+                      setVendor(e.target.value);
+                    }}
                     required
                   />
                 </div>
@@ -432,14 +431,13 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 <Label htmlFor="Details">Details</Label>
                 <div className="mt-1">
                   <TextInput
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    placeholder="10"
-                    // value={quantity}
-                    // onChange={e => {
-                    //   setQuantity(e.target.value);
-                    // }}
+                    id="details"
+                    name="details"
+                    placeholder="Details"
+                    value={details}
+                    onChange={e => {
+                      setDetails(e.target.value);
+                    }}
                     required
                   />
                 </div>
@@ -449,13 +447,13 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 <div className="mt-1">
                   <TextInput
                     type="number"
-                    id="quantity"
-                    name="quantity"
+                    id="price"
+                    name="price"
                     placeholder="10"
-                    // value={quantity}
-                    // onChange={e => {
-                    //   setQuantity(e.target.value);
-                    // }}
+                    value={price}
+                    onChange={e => {
+                      setPrice(e.target.value);
+                    }}
                     required
                   />
                 </div>
@@ -464,14 +462,13 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 <Label htmlFor="Received By">Received By</Label>
                 <div className="mt-1">
                   <TextInput
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    placeholder="10"
-                    // value={quantity}
-                    // onChange={e => {
-                    //   setQuantity(e.target.value);
-                    // }}
+                    id="receivedBy"
+                    name="receivedBy"
+                    placeholder="John Doe"
+                    value={receivedBy}
+                    onChange={e => {
+                      setReceivedBy(e.target.value);
+                    }}
                     required
                   />
                 </div>
