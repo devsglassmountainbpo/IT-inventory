@@ -194,8 +194,8 @@ const Inventory: FC = function () {
                       {expandedRows.has(asset) && (
                 <tr>
                 <td colSpan={4} className="py-2 px-4 border-b">
-                  <div className="bg-gray-100 p-4">
-                    <Table className="min-w-full bg-white border border-gray-300">
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2">
+                    <Table className="min-w-full border-gray-300">
                       <Table.Head>
                             <Table.HeadCell className="py-2 px-4 border-b">Asset</Table.HeadCell>
                             <Table.HeadCell className="py-2 px-4 border-b">Brand</Table.HeadCell>
@@ -307,7 +307,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     fetchData();
   }, []);
 
-  const url = 'https://bn.glassmountainbpo.com:8080/inventory/addInventory'
+  const url = 'https://bn.glassmountainbpo.com:8080/inventory/addInventory2'
   const handleSubmit = async (e: React.FormEvent) => {
     if (!asset) {
       alert('Enter a valid Asset!')
@@ -320,11 +320,6 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     } else if (!category) {
       alert('Enter a valid Category!')
     } else {
-      ticketID ? ticketID : setTicketID('N/A')
-      vendor ? vendor : setVendor('N/A')
-      details ? details : setDetails('N/A')
-      price ? price : setPrice('N/A')
-      receivedBy ? receivedBy : setReceivedBy('N/A')
       e.preventDefault()
       try {
         const response = await axios.post(url, {
