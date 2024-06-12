@@ -54,6 +54,7 @@ const Inventory: FC = function () {
           if (!acc[item.asset]) {
             acc[item.asset] = [];
           }
+          // @ts-ignore
           acc[item.asset].push(item);
           return acc;
         }, {});
@@ -61,6 +62,7 @@ const Inventory: FC = function () {
         setLoading(false);
       } catch (err) {
         console.error('Error fetching data:', err);
+        // @ts-ignore
         setError('Error fetching data: ' + (err.response?.data?.message || err.message));
         setLoading(false);
       }
@@ -172,12 +174,12 @@ const Inventory: FC = function () {
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className="bg-green-600 text-green-200 font-semibold px-2 py-0.5 rounded dark:bg-green-700 dark:text-green-200">
-                            {grandTotalData[asset].reduce((total, item) => total + item.quantity, 0)}
+                            {grandTotalData[asset]!.reduce((total, item) => total + item.quantity, 0)}
                           </span>
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded dark:bg-yellow-400 dark:text-yellow-900">
-                            {grandTotalData[asset].reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
+                            {grandTotalData[asset]!.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
                           </span>
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
@@ -206,7 +208,7 @@ const Inventory: FC = function () {
                             <Table.HeadCell className="py-2 px-4 border-b">Date Created</Table.HeadCell>
                       </Table.Head>
                       <Table.Body>
-                          {grandTotalData[asset].map((detail) => (
+                          {grandTotalData[asset]!.map((detail) => (
                             <React.Fragment key={detail.id}>
                               <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
                               <Table.Cell className="py-2 px-4 border-b">{detail.asset}</Table.Cell>
