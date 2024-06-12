@@ -49,7 +49,8 @@
     "sweetalert2": "^11.7.32",
     "ua-parser-js": "^1.0.37",
     "use-debounced-effect": "2.0.1",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "xlsx-js-style": "^1.2.0"
   },
   "devDependencies": {
     "@types/papaparse": "^5.3.9",
