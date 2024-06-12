@@ -193,7 +193,7 @@ const Inventory: FC = function () {
                       </Table.Row>
                       {expandedRows.has(asset) && (
                 <tr>
-                <td colSpan={4} className="py-2 px-4 border-b">
+                <td colSpan={4} className="py-4 px-4">
                   <div className="bg-gray-100 dark:bg-gray-800 p-2">
                     <Table className="min-w-full border-gray-300">
                       <Table.Head>
@@ -206,6 +206,7 @@ const Inventory: FC = function () {
                             <Table.HeadCell className="py-2 px-4 border-b">Details</Table.HeadCell>
                             <Table.HeadCell className="py-2 px-4 border-b">Vendor</Table.HeadCell>
                             <Table.HeadCell className="py-2 px-4 border-b">Date Created</Table.HeadCell>
+                            <Table.HeadCell className="py-2 px-4 border-b">Actions</Table.HeadCell>
                       </Table.Head>
                       <Table.Body>
                           {grandTotalData[asset]!.map((detail) => (
@@ -220,6 +221,7 @@ const Inventory: FC = function () {
                               <Table.Cell className="py-2 px-4 border-b">{detail.details}</Table.Cell>
                               <Table.Cell className="py-2 px-4 border-b">{detail.vendor}</Table.Cell>
                               <Table.Cell className="py-2 px-4 border-b">{detail.dateTime}</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">Edit</Table.Cell>
                               </Table.Row>
                             </React.Fragment>
                           ))}
