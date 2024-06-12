@@ -5,6 +5,11 @@ import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import { InventoryItem, AssetItem, BrandItem, ModelItem, CategoryItem } from "../../types";
 import { HiDocumentDownload, HiPlus, HiRefresh } from "react-icons/hi";
 import axios from "axios";
+import CryptoJS from "crypto-js";
+const created_user3 = localStorage.getItem("badgeSession") || "";
+const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
+const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
+
 
 const Inventory: FC = function () {
   const [grandTotalData, setGrandTotalData] = useState<{ [key: string]: InventoryItem[] }>({});
@@ -300,6 +305,71 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     fetchData();
   }, []);
 
+  const url = 'https://bn.glassmountainbpo.com:8080/inventory/addInventory'
+  const handleSubmit = async (e: React.FormEvent) => {
+    if (!asset) {
+      alert('Enter a valid Asset!')
+    } else if (!brand) {
+      alert('Enter a valid Brand!')
+    } else if (!model) {
+      alert('Enter a valid Model!')
+    } else if (!quantity) {
+      alert('Enter a valid Quantity!')
+    } else if (!category) {
+      alert('Enter a valid Category!')
+    } else {
+      ticketID ? ticketID : setTicketID('N/A')
+      vendor ? vendor : setVendor('N/A')
+      details ? details : setDetails('N/A')
+      price ? price : setPrice('N/A')
+      receivedBy ? receivedBy : setReceivedBy('N/A')
+      e.preventDefault()
+      try {
+        const response = await axios.post(url, {
+          ticketID,
+          asset,
+          brand,
+          model,
+          quantity,
+          category,
+          vendor,
+          details,
+          price,
+          receivedBy,
+          created_user
+        })
+        if (response.status == 200) {
+          const responseData = response.data;
+          updateSharedState(!sharedState);
+
+          if (responseData.message === "Success") {
+            setOpen(false);
+            resetFields();
+            alert('Success!')
+          } else {
+            console.log('Fatal Error')
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        setOpen(false)
+      }
+    }
+  }
+
+  const resetFields = () => {
+    setTicketID('');
+    setAsset('');
+    setBrand('');
+    setModel('');
+    setQuantity('');
+    setCategory('');
+    setVendor('');
+    setDetails('');
+    setPrice('');
+    setReceivedBy('');
+  }
+
   return (
     <>
       <Button color="primary" onClick={() => { setOpen(true) }}>
@@ -478,7 +548,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           <Modal.Footer>
             <Button
               color="primary"
-              // onClick={(e) => { handleSubmit(e) }}
+              onClick={(e) => { handleSubmit(e) }}
               >
               Add Asset
             </Button>
