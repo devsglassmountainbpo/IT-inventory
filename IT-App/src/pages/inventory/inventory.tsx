@@ -124,7 +124,7 @@ const Inventory: FC = function () {
               </form>
               <div className="mt-3 flex space-x-1 pl-0 sm:mt-0 sm:pl-2">
                 <a
-                  href="/cards"
+                  href="/Inventory"
                   className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   <span className="sr-only">Refresh</span>
@@ -221,7 +221,23 @@ const Inventory: FC = function () {
                               <Table.Cell className="py-2 px-4 border-b">{detail.details}</Table.Cell>
                               <Table.Cell className="py-2 px-4 border-b">{detail.vendor}</Table.Cell>
                               <Table.Cell className="py-2 px-4 border-b">{detail.dateTime}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">Edit</Table.Cell>
+                              <Table.Cell className="py-2 px-4 border-b">
+                                <div className="flex items-center gap-x-3 whitespace-nowrap">
+                                <EditAssetModal
+                                  // id={item.id}
+                                  // status2={item.status}
+                                  // agentBadge2={item.agentBadge}
+                                  sharedState={sharedState}
+                                  updateSharedState={updateSharedState}
+                                />
+                                <DeleteAssetModal
+                                  batchID = {detail.batchID}
+                                  created_user={created_user}
+                                  sharedState={sharedState}
+                                  updateSharedState={updateSharedState}
+                                />
+                              </div>
+                              </Table.Cell>
                               </Table.Row>
                             </React.Fragment>
                           ))}
@@ -544,7 +560,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
               </div>
               </div>
               </Modal.Body>
-          <Modal.Footer>
+            <Modal.Footer>
             <Button
               color="primary"
               onClick={(e) => { handleSubmit(e) }}
@@ -554,6 +570,125 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           </Modal.Footer>
         </Modal>
       </>
+    );
+  };
+
+  const EditAssetModal: FC<any> = function ({ sharedState, updateSharedState }: any) {
+    const [isOpen, setOpen] = useState(false);
+  
+    return (
+      <>
+        <Button className="text-white bg-green-400 dark:bg-green-400 dark:enabled:hover:bg-green-700 dark:focus:ring-green-800" onClick={() => setOpen(true)}>
+          <div className="flex items-center gap-x-2">
+            <HiOutlinePencilAlt className="text-sm" />
+  
+          </div>
+        </Button>
+        <Modal onClose={() => setOpen(false)} show={isOpen}>
+          <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
+            <strong>Edit Task</strong>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+              <div>
+                <Label htmlFor="id">Card ID</Label>
+                <div className="mt-1">
+                  <TextInput
+                    id="id"
+                    name="id"
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="taskName">Agent's Badge</Label>
+                <div className="mt-1">
+                  <TextInput
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="status">Status</Label>
+                <div className="mt-1">
+                  <Select
+                  >
+                    <option value="Available">Available</option>
+                    <option value="Assigned">Assigned</option>
+                  </Select>
+                </div>
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              color="primary"
+            >
+              Save
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
+  
+  
+  const DeleteAssetModal: FC<any> = function ({ sharedState, updateSharedState }: any) {
+    const [isOpen, setOpen] = useState(false);
+  
+    const handleSubmit = async (e: React.FormEvent, id: any, state: any, created_user: any) => {
+      e.preventDefault()
+      try {
+        const response = await axios.post('https://bn.glassmountainbpo.com:8080/dev/taskStateChange', {
+          id,
+          state,
+          created_user
+        })
+        if (response.status == 200) {
+          const responseData = response.data;
+          updateSharedState(!sharedState);
+          setOpen(false);
+  
+          if (responseData.message === "Task updated") {
+            setOpen(false);
+          } else {
+            console.log("Fatal Error");
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        setOpen(false)
+      }
+    };
+  
+    return (
+        <>
+          <Button onClick={() => setOpen(true)}>
+            <div className="flex items-center gap-x-2">
+            <FaTimes color="white" className="text-sm" />
+            </div>
+          </Button>
+          <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
+            <Modal.Header className="px-6 pt-6 pb-0">
+              <span className="sr-only">Delete user</span>
+            </Modal.Header>
+            <Modal.Body className="px-6 pt-0 pb-6">
+              <div className="flex flex-col items-center gap-y-6 text-center">
+                <FaTimes className="text-7xl text-red-500" />
+                <p className="text-xl text-gray-500">
+                  "Are you sure you want to deactivate this user?"
+                </p>
+                <div className="flex items-center gap-x-3">
+                  <Button color="failure" onClick={() => setOpen(false)}>
+                    Yes, I'm sure
+                  </Button>
+                  <Button color="gray" onClick={() => setOpen(false)}>
+                    No, cancel
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
+        </>
     );
   };
 
