@@ -165,7 +165,7 @@ const Inventory: FC = function () {
                   {
                     Object.keys(grandTotalData).map((asset) => (
                       <React.Fragment key={asset}>
-                      <Table.Row onClick={() => toggleRow(asset)} className="hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer">
+                      <Table.Row onClick={() => toggleRow(asset)} className="hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:ring-purple-300">
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className=" text-primary-800 font-bold px-2 py-0.5 rounded dark:text-white">
                             {asset}
