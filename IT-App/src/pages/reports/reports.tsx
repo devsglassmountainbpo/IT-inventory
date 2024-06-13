@@ -267,6 +267,8 @@ const Reports: FC<any> = function ({ sharedState }: any) {
         // Guardar el archivo Excel
         writeFile(wb, 'exported_data.xlsx');
     };
+
+    
     const exportToExcelSegment = () => {
         // Obtener la fecha actual
         const currentDate: string = getCurrentDate();

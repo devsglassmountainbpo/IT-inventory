@@ -1,30 +1,25 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   Button,
-  Checkbox,
-  Label,
-  Modal,
-  Select,
+
   Table,
-  TextInput,
-  Textarea,
-  Progress,
+
   Badge
 
 } from "flowbite-react";
-import type { ChangeEvent, FC, JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal } from "react";
-import { useEffect, useState, SetStateAction, useRef } from "react"
-import {
-  // HiChevronLeft,
-  // HiChevronRight,
-  HiRefresh,
-  HiDocumentDownload,
-  // HiOutlinePencilAlt,
-  HiPlus,
-  HiOutlinePencilAlt,
-  HiEye,
-} from "react-icons/hi";
-import { FaCheck, FaTimes } from "react-icons/fa"
+import type { ChangeEvent, FC } from "react";
+import { useEffect, useState } from "react"
+// import {
+//   // HiChevronLeft,
+//   // HiChevronRight,
+//   HiRefresh,
+//   HiDocumentDownload,
+//   // HiOutlinePencilAlt,
+//   HiPlus,
+//   HiOutlinePencilAlt,
+//   HiEye,
+// } from "react-icons/hi";
+
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import axios from "axios";
 
@@ -39,7 +34,7 @@ const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) 
 
 const DevsDashboard: FC = function () {
 
-  const [sharedState, setSharedState] = useState(false);
+  const [sharedState] = useState(false);
   return (
     <NavbarSidebarLayout2 isFooter={true}>
       <CurrentTasksView
@@ -47,6 +42,8 @@ const DevsDashboard: FC = function () {
     </NavbarSidebarLayout2>
   );
 };
+
+console.log('%&*CreatedUser', created_user)
 
 
 const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
@@ -67,7 +64,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
 
   const [dataGraphis, setDataGraphis] = useState<DataGraphis>({ header: [], rows: [] });
-  // const [dataTotal, setDataTotal] = useState<totalSummary>({ total: '' });
 
   const [dataTotal, setDataTotal] = useState<totalSummary[]>([]);
 
