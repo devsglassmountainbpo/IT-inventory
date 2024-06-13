@@ -576,6 +576,21 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   const EditAssetModal: FC<any> = function ({ brand, model, quantity, sharedState, updateSharedState }: any) {
     const [isOpen, setOpen] = useState(false);
     const [quantity2, setQuantity2] = useState(quantity)
+
+    const handleQuantityChange = (e) => {
+      const value = parseInt(e.target.value, 10);
+      if (!isNaN(value)) {
+        if (value > quantity) {
+          setQuantity2(quantity);
+        } else if (value < 1) {
+          setQuantity2(1);
+        } else {
+          setQuantity2(value);
+        }
+      } else {
+        setQuantity2('');
+      }
+    };
   
     return (
       <>
@@ -601,9 +616,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                     value={quantity2}
                     max={quantity}
                     min='1'
-                    onChange={e => {
-                      setQuantity2(e.target.value);
-                    }}
+                    onChange={handleQuantityChange}
                   />
                 </div>
               </div>
