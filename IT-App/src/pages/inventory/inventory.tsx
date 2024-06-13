@@ -560,7 +560,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 </div>
               </div>
               </div>
-              </Modal.Body>
+            </Modal.Body>
           <Modal.Footer>
             <Button
               color="primary"
