@@ -230,7 +230,7 @@ const Inventory: FC = function () {
                                   updateSharedState={updateSharedState}
                                 />
                                 <DeleteAssetModal
-                                  batchID = {detail.batchID}
+                                  ID = {detail.id}
                                   created_user={created_user}
                                   sharedState={sharedState}
                                   updateSharedState={updateSharedState}
@@ -642,14 +642,14 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   };
   
   
-  const DeleteAssetModal: FC<any> = function ({ batchID, sharedState, updateSharedState }: any) {
+  const DeleteAssetModal: FC<any> = function ({ ID, sharedState, updateSharedState }: any) {
     const [isOpen, setOpen] = useState(false);
   
-    const handleSubmit = async (e: React.FormEvent, batchID: any, created_user: any) => {
+    const handleSubmit = async (e: React.FormEvent, ID: any, created_user: any) => {
       e.preventDefault()
       try {
         const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/deactivate', {
-          batchID,
+          ID,
           created_user
         })
         if (response.status == 200) {
@@ -687,7 +687,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   "Are you sure you want to delete this asset?"
                 </p>
                 <div className="flex items-center gap-x-3">
-                  <Button color="failure" onClick={(e) => { handleSubmit(e, batchID, created_user) }}>
+                  <Button color="failure" onClick={(e) => { handleSubmit(e, ID, created_user) }}>
                     Yes, I'm sure
                   </Button>
                   <Button color="gray" onClick={() => setOpen(false)}>
