@@ -66,6 +66,14 @@ const Reports: FC<any> = function ({ sharedState }: any) {
     const [dataw, setDataw]: any = useState([]);
     const [daysw, setDaysw]: any = useState([]);
 
+
+    // var para filtrar solamente por dia 
+    const today = new Date();
+    const currentDay = today.getDate();
+    const currentMonth = today.getMonth() + 1; // Los meses en JS van de 0 a 11
+    const currentYear = today.getFullYear();
+
+
     //filtrando datos para los reportes
 
     console.log('Preparando los reportes', data);
@@ -188,9 +196,17 @@ const Reports: FC<any> = function ({ sharedState }: any) {
     };
 
 
+
+
+
+
+
     const exportToExcel = () => {
         // Obtener la fecha actual
         const currentDate = getCurrentDate();
+        const today = new Date();
+        const currentDay = today.getDate();
+        const currentMonth = today.toLocaleString('default', { month: 'long' });
 
         // Definir el orden deseado para las columnas
         const fixedFields = ['asset', 'brand', 'category', 'total'];
@@ -202,11 +218,18 @@ const Reports: FC<any> = function ({ sharedState }: any) {
         const headers = [...fixedFields, ...dayFields, ...additionalFields, ...newField];
 
         // Reorganizar los datos según el nuevo orden de los campos
-        const formattedData: any = data.map((row: { [x: string]: any; }) => {
-            let formattedRow: any = [];
+        const formattedData = data.map((row: { [x: string]: any; }) => {
+            let formattedRow: any = {};
             headers.forEach(header => {
                 if (header === 'Report_date') {
                     formattedRow[header] = currentDate; // Añadir la fecha actual
+                } else if (dayFields.includes(header)) {
+                    const dayNumber = parseInt(header, 10);
+                    if (dayNumber > currentDay && currentMonth === "June") {
+                        formattedRow[header] = ''; // Dejar en blanco si es una fecha futura
+                    } else {
+                        formattedRow[header] = row[header]; // Copiar el valor del campo correspondiente
+                    }
                 } else {
                     formattedRow[header] = row[header]; // Copiar el valor del campo correspondiente
                 }
@@ -543,12 +566,21 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                             <Table.Row key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                 <td scope="col" className="py-3 px-6">{row.asset}</td>
                                                 <td scope="col" className="py-3 px-6">{row.brand}</td>
-                                                <td scope="col" className="py-3 px-6">{row.category}</td>
+                                                <td scope="col" className="py-3 px-6 bg-gray-200 font-semibold dark:bg-gray-900 ">{row.category}</td>
                                                 <td scope="col" className="py-3 px-6">{row.vendor}</td>
 
-                                                {days.map((day: Key | null | any) => (
+                                                {/* {days.map((day: Key | null | any) => (
                                                     <td key={day}>{row[day]}</td>
-                                                ))}
+                                                ))} */}
+
+                                                {days.map((day: Key | null | any) => {
+                                                    const dayNumber = parseInt(day, 10); // Asumiendo que 'day' es una cadena representando el día
+                                                    if (dayNumber > currentDay) {
+                                                        return <td key={day}></td>;
+                                                    } else {
+                                                        return <td key={day}>{row[day]}</td>;
+                                                    }
+                                                })}
                                                 <td scope="col" className="py-3 px-6"><Badge>{row["total"]}</Badge></td>
                                             </Table.Row>
                                         ))}
@@ -566,11 +598,19 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                             <Table.Row key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                 <td scope="col" className="py-3 px-6">{row.asset}</td>
                                                 <td scope="col" className="py-3 px-6">{row.brand}</td>
-                                                <td scope="col" className="py-3 px-6">{row.category}</td>
+                                                <td scope="col" className="py-3 px-6 bg-gray-200 font-semibold dark:bg-gray-900 ">{row.category}</td>
                                                 <td scope="col" className="py-3 px-6">{row.vendor}</td>
-                                                {days.map((day: Key | null | any) => (
+                                                {/* {days.map((day: Key | null | any) => (
                                                     <td key={day}>{row[day]}</td>
-                                                ))}
+                                                ))} */}
+                                                {days.map((day: Key | null | any) => {
+                                                    const dayNumber = parseInt(day, 10); // Asumiendo que 'day' es una cadena representando el día
+                                                    if (dayNumber > currentDay) {
+                                                        return <td key={day}></td>;
+                                                    } else {
+                                                        return <td key={day}>{row[day]}</td>;
+                                                    }
+                                                })}
                                                 <td scope="col" className="py-3 px-6"><Badge>{row["total"]}</Badge></td>
                                             </Table.Row>
                                         ))}
@@ -641,11 +681,20 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                             <Table.Row key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                 <td scope="col" className="py-3 px-6">{row.asset}</td>
                                                 <td scope="col" className="py-3 px-6">{row.brand}</td>
-                                                <td scope="col" className="py-3 px-6">{row.category}</td>
+                                                <td scope="col" className="py-3 px-6 bg-gray-200 font-semibold dark:bg-gray-900 ">{row.category}</td>
                                                 <td scope="col" className="py-3 px-6">{row.vendor}</td>
-                                                {days.map((day: Key | null | any) => (
+                                                {/* {days.map((day: Key | null | any) => (
                                                     <td key={day}>{row[day]}</td>
-                                                ))}
+                                                ))} */}
+
+                                                {days.map((day: Key | null | any) => {
+                                                    const dayNumber = parseInt(day, 10); // Asumiendo que 'day' es una cadena representando el día
+                                                    if (dayNumber > currentDay) {
+                                                        return <td key={day}></td>;
+                                                    } else {
+                                                        return <td key={day}>{row[day]}</td>;
+                                                    }
+                                                })}
                                                 <td scope="col" className="py-3 px-6"><Badge>{row["total"]}</Badge></td>
                                             </Table.Row>
                                         ))}
@@ -679,9 +728,17 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                             .map((row: any, index: any) => (
                                                 <Table.Row key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                     <td scope="col" className="py-3 px-6">{row.asset}</td>
-                                                    {daysw.map((day: Key | null | any) => (
+                                                    {/* {daysw.map((day: Key | null | any) => (
                                                         <td key={day}>{row[day]}</td>
-                                                    ))}
+                                                    ))} */}
+                                                    {daysw.map((day: Key | null | any) => {
+                                                        const dayNumber = parseInt(day, 10); // Asumiendo que 'day' es una cadena representando el día
+                                                        if (dayNumber > currentDay) {
+                                                            return <td key={day}></td>;
+                                                        } else {
+                                                            return <td key={day}>{row[day]}</td>;
+                                                        }
+                                                    })}
                                                     <td scope="col" className="py-3 px-3">{row["STOCK"]}</td>
                                                     <td scope="col" className="py-3 px-3">{row["Repair"]}</td>
                                                     <td scope="col" className="py-3 px-3">{row["Damaged"]}</td>
