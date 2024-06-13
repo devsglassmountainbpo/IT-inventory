@@ -501,12 +501,15 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                             <Table.Cell key={colIndex} className="py-4 px-6 font-semibold">
                                                 {headerItem === 'asset' ? (
                                                     // <Button className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500">{(row as any)[headerItem]}</Button>
-                                                    <Button
-                                                        className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500"
-                                                        href={`/Inventory?filter=${(row as any)[headerItem]}`}>
-                                                        {(row as any)[headerItem]}
-                                                    </Button>
-                                                ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
+                                                    <a
+                                                    className="bg-white text-gray-800 h-4 pt-0 dark:bg-gray-800 dark:text-white inline-block px-3 py-1 rounded"
+                                                    href={`/Inventory?filter=${(row as any)[headerItem]}`}
+                                                >
+                                                    {(row as any)[headerItem]}
+                                                </a>
+                                                
+                                                ) : (headerItem === 'total') ? <Badge></Badge> : (
+                                                // ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
                                                     (row as any)[headerItem]
                                                 )}
                                             </Table.Cell>
