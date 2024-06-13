@@ -108,7 +108,7 @@ const Inventory: FC = function () {
             </h1>
           </div>
           <div className="sm:flex" style={{ zoom: 0.90 }}>
-            <div className="mb-3 ml-4 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
+            {/* <div className="mb-3 ml-4 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
               <form className="lg:pr-3">
                 <Label htmlFor="users-search" className="sr-only">
                   Search
@@ -131,23 +131,21 @@ const Inventory: FC = function () {
                   <span className="sr-only">Refresh</span>
                   <HiRefresh className="text-2xl mr-2" />
                 </a>
-                <Dropdown label="Filter Equipment" dismissOnClick={false}>
-                  <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"monitoresCheckbox"} value={"Monitores"} name={"monitoresCheckbox"} onChange={() => updateCheckboxArray("monitores")} />Monitores</Dropdown.Item>
-                  <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"tecladosCheckbox"} value={"Teclados"} name={"tecladosCheckbox"} onChange={() => updateCheckboxArray("teclados")} />Teclados</Dropdown.Item>
-                  <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"headsetsCheckbox"} value={"Headsets"} name={"tecladosCheckbox"} onChange={() => updateCheckboxArray("headsets")} />Headsets</Dropdown.Item>
-                  <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"mouseCheckbox"} value={"Mouse"} name={"mouseCheckbox"} onChange={() => updateCheckboxArray("mouse")} />Mouse</Dropdown.Item>
-                  <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"laptopsCheckbox"} value={"Laptop"} name={"laptopsCheckbox"} onChange={() => updateCheckboxArray("laptops")} />Laptops</Dropdown.Item>
-                  <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"cpuCheckbox"} value={"CPU"} name={"cpuCheckbox"} onChange={() => updateCheckboxArray("cpu")} />CPUs</Dropdown.Item>
-                  <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"tabletCheckbox"} value={"Tablet"} name={"tabletCheckbox"} onChange={() => updateCheckboxArray("tablet")} />Tablets</Dropdown.Item>
-                </Dropdown>
+                  <Dropdown label="Filter Equipment" dismissOnClick={false}>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"monitoresCheckbox"} value={"Monitores"} name={"monitoresCheckbox"} onChange={() => updateCheckboxArray("monitores")} />Monitores</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"tecladosCheckbox"} value={"Teclados"} name={"tecladosCheckbox"} onChange={() => updateCheckboxArray("teclados")} />Teclados</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"headsetsCheckbox"} value={"Headsets"} name={"tecladosCheckbox"} onChange={() => updateCheckboxArray("headsets")} />Headsets</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"mouseCheckbox"} value={"Mouse"} name={"mouseCheckbox"} onChange={() => updateCheckboxArray("mouse")} />Mouse</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"laptopsCheckbox"} value={"Laptop"} name={"laptopsCheckbox"} onChange={() => updateCheckboxArray("laptops")} />Laptops</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"cpuCheckbox"} value={"CPU"} name={"cpuCheckbox"} onChange={() => updateCheckboxArray("cpu")} />CPUs</Dropdown.Item>
+                    <Dropdown.Item><FlowbiteCheckbox className="mr-2" id={"tabletCheckbox"} value={"Tablet"} name={"tabletCheckbox"} onChange={() => updateCheckboxArray("tablet")} />Tablets</Dropdown.Item>
+                  </Dropdown>
               </div>
-            </div>
+            </div> */}
             <div className="ml-auto mr-4 flex items-center space-x-2 sm:space-x-3">
                   <AddTaskModal
                     sharedState={sharedState}
                     updateSharedState={updateSharedState} />
-                  <ExportModal
-                    data={grandTotalData} />
                 </div>
           </div>
         </div>
@@ -225,9 +223,9 @@ const Inventory: FC = function () {
                               <Table.Cell className="py-2 px-4 border-b">
                                 <div className="flex items-center gap-x-3 whitespace-nowrap">
                                 <EditAssetModal
-                                  // id={item.id}
-                                  // status2={item.status}
-                                  // agentBadge2={item.agentBadge}
+                                  brand = {detail.brand}
+                                  model = {detail.model}
+                                  quantity = {detail.quantity}
                                   sharedState={sharedState}
                                   updateSharedState={updateSharedState}
                                 />
@@ -420,6 +418,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   onChange={(e) => setAsset(e.target.value)}
                   required
                   >
+                    <option>Select</option>
                     {assetList.map((item, index) => (
                       <option key={index} value={item.name}>
                         {item.name}
@@ -574,8 +573,9 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     );
   };
 
-  const EditAssetModal: FC<any> = function ({ sharedState, updateSharedState }: any) {
+  const EditAssetModal: FC<any> = function ({ brand, model, quantity, sharedState, updateSharedState }: any) {
     const [isOpen, setOpen] = useState(false);
+    const [quantity2, setQuantity2] = useState(quantity)
   
     return (
       <>
@@ -587,35 +587,31 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
         </Button>
         <Modal onClose={() => setOpen(false)} show={isOpen}>
           <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-            <strong>Edit Task</strong>
+            <strong>Move asset: </strong><p> {brand} {model} ({quantity})</p>
           </Modal.Header>
           <Modal.Body>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <Label htmlFor="id">Card ID</Label>
+                <Label htmlFor="id">Quantity to move</Label>
                 <div className="mt-1">
                   <TextInput
                     id="id"
+                    type="number"
                     name="id"
-                    readOnly
+                    value={quantity2}
+                    max={quantity}
+                    min='1'
+                    onChange={e => {
+                      setQuantity2(e.target.value);
+                    }}
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="taskName">Agent's Badge</Label>
+                <Label htmlFor="taskName">Category</Label>
                 <div className="mt-1">
                   <TextInput
                   />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="status">Status</Label>
-                <div className="mt-1">
-                  <Select
-                  >
-                    <option value="Available">Available</option>
-                    <option value="Assigned">Assigned</option>
-                  </Select>
                 </div>
               </div>
             </div>
@@ -691,48 +687,5 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
         </>
     );
   };
-
-  const ExportModal: FC<any> = function (grandTotalData) {
-    const [isOpen, setOpen] = useState(false);
-
-    return (
-      <>
-        <Button onClick={() => setOpen(true)} color="gray">
-          <div className="flex items-center gap-x-3">
-            <HiDocumentDownload className="text-xl" />
-            <span>Export</span>
-          </div>
-        </Button>
-        <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
-          <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-            <strong>Export users</strong>
-          </Modal.Header>
-          <Modal.Body className="flex flex-col items-center gap-y-6 text-center">
-            <div className="flex items-center gap-x-3">
-              <div>
-                {/* <Button onClick={exportToCSV} color="light">
-                  <div className="flex items-center gap-x-3">
-                    <FiletypeCsv className="text-xl" />
-                    <span>Export CSV</span>
-                  </div>
-                </Button> */}
-              </div>
-              <div>
-                {/* <Button onClick={exportToXLS} color="light">
-                  <div className="flex items-center gap-x-3">
-                    <FiletypeXlsx className="text-xl" />
-                    <span>Export XLSX</span>
-                  </div>
-                </Button> */}
-              </div>
-            </div>
-          </Modal.Body>
-  
-        </Modal>
-      </>
-    )
-  
-  }
-
 
 export default Inventory;
