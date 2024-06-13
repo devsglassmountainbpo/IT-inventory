@@ -3,9 +3,10 @@ import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button
 import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import { InventoryItem, AssetItem, BrandItem, ModelItem, CategoryItem } from "../../types";
-import { HiDocumentDownload, HiPlus, HiRefresh } from "react-icons/hi";
+import { HiDocumentDownload, HiOutlinePencilAlt, HiPlus, HiRefresh } from "react-icons/hi";
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import { FaTimes } from "react-icons/fa";
 const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
 const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
@@ -194,7 +195,7 @@ const Inventory: FC = function () {
                       {expandedRows.has(asset) && (
                 <tr>
                 <td colSpan={4} className="py-4 px-4">
-                  <div className="bg-gray-100 dark:bg-gray-800 p-2">
+                  <div className="dark:bg-gray-800 p-2">
                     <Table className="min-w-full border-gray-300">
                       <Table.Head>
                             <Table.HeadCell className="py-2 px-4 border-b">Asset</Table.HeadCell>
@@ -560,7 +561,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
               </div>
               </div>
               </Modal.Body>
-            <Modal.Footer>
+          <Modal.Footer>
             <Button
               color="primary"
               onClick={(e) => { handleSubmit(e) }}
@@ -632,15 +633,14 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   };
   
   
-  const DeleteAssetModal: FC<any> = function ({ sharedState, updateSharedState }: any) {
+  const DeleteAssetModal: FC<any> = function ({ batchID, sharedState, updateSharedState }: any) {
     const [isOpen, setOpen] = useState(false);
   
-    const handleSubmit = async (e: React.FormEvent, id: any, state: any, created_user: any) => {
+    const handleSubmit = async (e: React.FormEvent, batchID: any, created_user: any) => {
       e.preventDefault()
       try {
-        const response = await axios.post('https://bn.glassmountainbpo.com:8080/dev/taskStateChange', {
-          id,
-          state,
+        const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/deactivate', {
+          batchID,
           created_user
         })
         if (response.status == 200) {
@@ -648,7 +648,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           updateSharedState(!sharedState);
           setOpen(false);
   
-          if (responseData.message === "Task updated") {
+          if (responseData.message === "Success") {
             setOpen(false);
           } else {
             console.log("Fatal Error");
@@ -669,16 +669,16 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           </Button>
           <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
             <Modal.Header className="px-6 pt-6 pb-0">
-              <span className="sr-only">Delete user</span>
+              <span className="sr-only">Delete asset</span>
             </Modal.Header>
             <Modal.Body className="px-6 pt-0 pb-6">
               <div className="flex flex-col items-center gap-y-6 text-center">
                 <FaTimes className="text-7xl text-red-500" />
                 <p className="text-xl text-gray-500">
-                  "Are you sure you want to deactivate this user?"
+                  "Are you sure you want to delete this asset?"
                 </p>
                 <div className="flex items-center gap-x-3">
-                  <Button color="failure" onClick={() => setOpen(false)}>
+                  <Button color="failure" onClick={(e) => { handleSubmit(e, batchID, created_user) }}>
                     Yes, I'm sure
                   </Button>
                   <Button color="gray" onClick={() => setOpen(false)}>
