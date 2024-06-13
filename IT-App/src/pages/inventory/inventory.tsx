@@ -70,7 +70,7 @@ const Inventory: FC = function () {
     };
 
     fetchData();
-  }, []);
+  }, [sharedState]);
 
   if (loading) {
     return <div>Loading...</div>;
