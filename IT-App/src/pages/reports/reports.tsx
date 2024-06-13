@@ -500,7 +500,12 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                         {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, colIndex) => (
                                             <Table.Cell key={colIndex} className="py-4 px-6 font-semibold">
                                                 {headerItem === 'asset' ? (
-                                                    <Button className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500">{(row as any)[headerItem]}</Button>
+                                                    // <Button className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500">{(row as any)[headerItem]}</Button>
+                                                    <Button
+                                                        className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500"
+                                                        href={`/Inventory?filter=${(row as any)[headerItem]}`}>
+                                                        {(row as any)[headerItem]}
+                                                    </Button>
                                                 ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
                                                     (row as any)[headerItem]
                                                 )}
@@ -515,7 +520,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
 
                 </Accordion.Content>
             </Accordion.Panel>
-           
+
             <Accordion.Panel>
                 <Accordion.Title>
 
