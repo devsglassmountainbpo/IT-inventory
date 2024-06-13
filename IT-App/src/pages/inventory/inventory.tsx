@@ -159,13 +159,13 @@ const Inventory: FC = function () {
                   <Table.HeadCell className="">Asset</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total Quantity</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total Price</Table.HeadCell>
-                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Actions</Table.HeadCell>
+                  {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Actions</Table.HeadCell> */}
                 </Table.Head>
                 <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
                   {
                     Object.keys(grandTotalData).map((asset) => (
                       <React.Fragment key={asset}>
-                      <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <Table.Row onClick={() => toggleRow(asset)} className="hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer">
                         <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                           <span className=" text-primary-800 font-bold px-2 py-0.5 rounded dark:text-white">
                             {asset}
@@ -181,14 +181,14 @@ const Inventory: FC = function () {
                             {grandTotalData[asset]!.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
                           </span>
                         </Table.Cell>
-                        <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                        {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                         <button
                     className="text-blue-500 hover:text-blue-700"
                     onClick={() => toggleRow(asset)}
                   >
                     {expandedRows.has(asset) ? 'Collapse' : 'Expand'}
                   </button>
-                        </Table.Cell>
+                        </Table.Cell> */}
                       </Table.Row>
                       {expandedRows.has(asset) && (
                 <tr>
