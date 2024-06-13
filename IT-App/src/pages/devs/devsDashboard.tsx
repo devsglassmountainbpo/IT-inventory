@@ -111,7 +111,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   useEffect(() => {
     if (dataw.length) {
       const days2 = Object.keys(dataw[0])
-        .filter(key => !['asset', 'DISMISSED', 'Damaged','Repair','STOCK','total'].includes(key))
+        .filter(key => !['asset', 'DISMISSED', 'Damaged', 'Repair', 'STOCK', 'total'].includes(key))
         .map(key => parseInt(key, 10))
         .sort((a, b) => a - b)
         .map(day => day.toString().padStart(2, '0'));
@@ -128,7 +128,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
   console.log("este es el dato que ocupo", dataTotal)
 
 
-  console.log('esta es mi ruta', dataw);  
+  console.log('esta es mi ruta', dataw);
 
 
   const [valores, setValores] = useState<number[]>([]);
@@ -427,7 +427,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
         color: "#1A56DB",
         data: valores,
       },
-      
+
     ],
     chart: {
       type: "bar",
@@ -504,7 +504,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       opacity: 10,
     },
   }
-  
+
 
 
   useEffect(() => {
@@ -563,40 +563,40 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
           <div id="column-chart-2">
             <div className="max-w-auto w-full bg-white rounded-lg shadow dark:bg-gray-800 p- md:p-2">
-           
-                  <div className="relative">
-                    <div className="flex flex-wrap" id="devices">
-                      <Badge color={'indigo'}>
-                        <h1 className="text-sm ml-2 mr-2 font-medium text-gray-900 dark:text-black-100">filters: </h1>
-                      </Badge>
-                      <>
-                        {dataGraphis.rows.map((row, rowIndex) => (
-                          <div key={rowIndex} className="ml-2">
-                            <input
-                              id={(row as any)['asset']}
-                              type="checkbox"
-                              value={(row as any)['asset']}
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                              onChange={handleCheckboxChange2}
-                            />
-                            <label
-                              htmlFor={(row as any)['asset']}
-                              className="mr-2 ms-1  text-sm font-medium text-gray-900 dark:text-gray-300"
-                            >
-                              <span key={rowIndex}>
-                                {(row as any)['asset']}
-                              </span>
-                            </label>
-                          </div>
-                        ))}
 
-                      </>
-                    </div>
-                  </div>
+              <div className="relative">
+                <div className="flex flex-wrap" id="devices">
+                  <Badge color={'indigo'}>
+                    <h1 className="text-sm ml-2 mr-2 font-medium text-gray-900 dark:text-black-100">filters: </h1>
+                  </Badge>
+                  <>
+                    {dataGraphis.rows.map((row, rowIndex) => (
+                      <div key={rowIndex} className="ml-2">
+                        <input
+                          id={(row as any)['asset']}
+                          type="checkbox"
+                          value={(row as any)['asset']}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          onChange={handleCheckboxChange2}
+                        />
+                        <label
+                          htmlFor={(row as any)['asset']}
+                          className="mr-2 ms-1  text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >
+                          <span key={rowIndex}>
+                            {(row as any)['asset']}
+                          </span>
+                        </label>
+                      </div>
+                    ))}
+
+                  </>
                 </div>
-  
+              </div>
             </div>
-            <div>
+
+          </div>
+          <div>
 
             <div className="py-6 pt-32" id="donut-chart"></div>
 
@@ -614,7 +614,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                   </svg>
                 </button>
-                
+
 
               </div>
             </div>
@@ -655,7 +655,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
               <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
                 <div className="flex justify-between items-center pt-5">
-                 
+
                   <a
                     href="#"
                     className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
@@ -687,7 +687,11 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                   {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, colIndex) => (
                     <Table.Cell key={colIndex} className="py-4 px-6 font-semibold">
                       {headerItem === 'asset' ? (
-                        <Button className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500">{(row as any)[headerItem]}</Button>
+                        <Button
+                          className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500"
+                          href={`/Inventory?filter=${(row as any)[headerItem]}`}>
+                          {(row as any)[headerItem]}
+                        </Button>
                       ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
                         (row as any)[headerItem]
                       )}
