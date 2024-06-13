@@ -1,43 +1,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
     Button,
-    Checkbox,
-    Label,
-    Modal,
-    Select,
+
     Table,
-    TextInput,
-    Textarea,
-    Progress,
     Badge
 
 } from "flowbite-react";
-import type { ChangeEvent, FC, JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal } from "react";
-import { useEffect, useState, SetStateAction, useRef } from "react"
-import {
-    // HiChevronLeft,
-    // HiChevronRight,
-    HiRefresh,
-    HiDocumentDownload,
-    // HiOutlinePencilAlt,
-    HiPlus,
-    HiOutlinePencilAlt,
-    HiEye,
-} from "react-icons/hi";
-import { FaCheck, FaTimes } from "react-icons/fa"
+import type { FC, JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal } from "react";
+import { useEffect, useState } from "react"
+
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import axios from "axios";
-import { FiletypeCsv, FiletypeXlsx } from 'react-bootstrap-icons';
-import ApexCharts from 'apexcharts'; // Importación del módulo ApexCharts
-
-import { BiFontSize, BiSave } from "react-icons/bi";
 import { Accordion } from "flowbite-react";
 
 
 import CryptoJS from "crypto-js";
-
-import * as XLSX from 'xlsx';
-// import { utils, writeFile } from 'xlsx';
 import { utils, writeFile } from 'xlsx-js-style';
 
 
@@ -50,6 +27,9 @@ const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) 
 const AllReports: FC = function () {
 
     const [sharedState, setSharedState] = useState(false);
+
+
+    console.log('$%^CreateUser', created_user, setSharedState)
     return (
         <NavbarSidebarLayout2 isFooter={true}>
             <Reports
@@ -89,7 +69,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
     //filtrando datos para los reportes
 
     console.log('Preparando los reportes', data);
-    console.log('Preparando los reportesLIMTADOS ',data_perClient );
+    console.log('Preparando los reportesLIMTADOS ', data_perClient);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -268,29 +248,29 @@ const Reports: FC<any> = function ({ sharedState }: any) {
         writeFile(wb, 'exported_data.xlsx');
     };
 
-    
+
     const exportToExcelSegment = () => {
         // Obtener la fecha actual
         const currentDate: string = getCurrentDate();
         const currentDateObj: Date = new Date();
         const currentDay: number = currentDateObj.getDate();
         const currentMonth: string = currentDateObj.toLocaleString('default', { month: 'long' });
-    
+
         // Definir el orden deseado para las columnas
         const fixedFields: string[] = ['groups', 'total'];
-        
+
         // Obtener todos los días del mes
         const dayFields: string[] = Object.keys(data_perClient[0]).filter(key => key.match(new RegExp(`^\\d{2}${currentMonth}$`)));
-    
+
         const additionalFields: string[] = [];
         const newField: string[] = ['Report_date'];
-    
+
         // Combinar todos los campos en el orden deseado
         const headers: string[] = [...fixedFields, ...dayFields, ...additionalFields, ...newField];
-    
+
         const groupedData: { [key: string]: any } = {};
         const agentsData: any[] = [];
-    
+
         // Agrupar datos por "asset"
         data_perClient.forEach((row: { [key: string]: any }) => {
             if (row["asset"] === "Agents") {
@@ -304,7 +284,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                         Report_date: currentDate
                     };
                 }
-    
+
                 groupedData[row["asset"]].total += parseFloat(row["total"]);
                 dayFields.forEach(day => {
                     if (!groupedData[row["asset"]][day]) {
@@ -316,7 +296,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                 });
             }
         });
-    
+
         const formattedData: any[] = Object.values(groupedData).map((asset: any) => {
             let formattedRow: { [key: string]: any } = {};
             headers.forEach((header: string) => {
@@ -330,7 +310,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
             });
             return formattedRow;
         });
-    
+
         // Agregar los datos de "Agents" al principio del formattedData
         agentsData.forEach((agentRow: { [key: string]: any }) => {
             let formattedRow: { [key: string]: any } = {};
@@ -347,7 +327,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
             });
             formattedData.unshift(formattedRow); // Insertar al principio
         });
-    
+
         // Insertar una fila negra después de los datos de "Agents"
         if (agentsData.length > 0) {
             let separatorRow: { [key: string]: any } = {};
@@ -356,10 +336,10 @@ const Reports: FC<any> = function ({ sharedState }: any) {
             });
             formattedData.splice(agentsData.length, 0, separatorRow);
         }
-    
+
         // Crear la hoja de cálculo
         const wsAgents = utils.json_to_sheet(formattedData, { header: headers });
-    
+
         // Aplicar estilos a los encabezados
         headers.forEach((_header: string, index: number) => {
             const cellAddress = utils.encode_cell({ r: 0, c: index }); // Celda en la primera fila (0) y columna correspondiente (index)
@@ -378,11 +358,11 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                 }
             };
         });
-    
+
         // Ajustar el tamaño de las columnas al contenido
         const columnWidths = headers.map((header: string) => ({ wch: header.length + 5 })); // Ajusta según sea necesario
         wsAgents['!cols'] = columnWidths;
-    
+
         // Alinear el contenido de las filas a la izquierda
         for (let R = 1; R <= formattedData.length; R++) {
             for (let C = 0; C < headers.length; C++) {
@@ -402,15 +382,15 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                 }
             }
         }
-    
+
         // Crear un libro de trabajo
         const wb = utils.book_new();
         utils.book_append_sheet(wb, wsAgents, 'Report');
-    
+
         // Guardar el archivo Excel
         writeFile(wb, 'HeadCount_per_Client_' + currentMonth + '_' + currentDate + '.xlsx');
     };
-        
+
 
 
     console.log('estos son los dias, ', days)
@@ -621,8 +601,8 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                         <tr>
                             <td className="text-left">
                                 <div className="flex justify-center items-center mb-4">
-                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Monthly</h5>
-                                    <h1 className=" leading-none text-gray-900 dark:text-white pe-1">Report (General)</h1>
+                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Report</h5>
+                                    <h1 className=" leading-none text-gray-900 dark:text-white pe-1">Per Client</h1>
                                 </div>
                             </td>
                             <td className="text-right">
