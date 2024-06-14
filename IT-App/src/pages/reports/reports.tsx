@@ -474,7 +474,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
     return (
 
 
-        <Accordion  >
+        <Accordion  className="mx-0">
 
             <Accordion.Panel>
                 <Accordion.Title onClick={() => handleSetActiveLink('uno')}>

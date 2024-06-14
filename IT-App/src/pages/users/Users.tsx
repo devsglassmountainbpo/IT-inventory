@@ -31,6 +31,7 @@ import CryptoJS from "crypto-js";
 
 import * as XLSX from 'xlsx';
 
+
 const UserListPage: FC = function () {
 
     const [data, setData] = useState([] as any[]);
@@ -62,6 +63,12 @@ const UserListPage: FC = function () {
     const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
         setSearchInput(e.target.value);
     };
+
+
+    //Avatars
+
+
+
 
     useEffect(() => {
         if (searchInput !== '') {
@@ -209,6 +216,38 @@ const UserListPage: FC = function () {
         };
     };
 
+    //avatars
+    const variants: any = [
+        "variant0101", "variant0102", "variant0103", "variant0104", "variant0105",
+        "variant0201", "variant0202", "variant0203", "variant0204", "variant0205",
+        "variant0301", "variant0302", "variant0303", "variant0304", "variant0305",
+        "variant0401", "variant0402", "variant0403", "variant0404", "variant0405",
+        "variant0501", "variant0502", "variant0503", "variant0504", "variant0505",
+        "variant0601", "variant0602", "variant0603", "variant0604", "variant0605",
+        "variant0701", "variant0702", "variant0703", "variant0704", "variant0705",
+        "variant0706", "variant0707", "variant0708"
+    ];
+
+    const [avatarUrl, setAvatarUrl] = useState('');
+
+
+    const getRandomVariant :any= (variants: string | any[]) => {
+        const randomIndex = Math.floor(Math.random() * variants.length);
+        return variants[randomIndex];
+    };
+
+    useEffect(() => {
+        const variant = getRandomVariant(variants);
+        const url = `https://api.dicebear.com/8.x/big-ears-neutral/svg?mouth=${variant}`;
+        setAvatarUrl(url);
+      }, []);
+    
+      const handleClick = () => {
+        const variant = getRandomVariant(variants);
+        const url = `https://api.dicebear.com/8.x/big-ears-neutral/svg?mouth=${variant}`;
+        setAvatarUrl(url);
+      };
+    
     return (
         <NavbarSidebarLayout2 isFooter={true}>
             <div className="block items-center justify-between border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex">
@@ -278,10 +317,11 @@ const UserListPage: FC = function () {
                         <div className="overflow-hidden shadow">
                             <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600" style={{ zoom: 0.90 }}>
                                 <Table.Head className="bg-gray-100 dark:bg-gray-700">
-                                    <Table.HeadCell>
+                                    <Table.HeadCell >
                                         <Label htmlFor="select-all" className="sr-only">
                                             Select all
                                         </Label>
+                                     
                                         <Checkbox id="select-all" name="select-all" ref={checkboxRef} onChange={handleSelectAll} />
                                     </Table.HeadCell>
                                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "name")} >Username</Table.HeadCell>
@@ -291,7 +331,8 @@ const UserListPage: FC = function () {
                                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "email")}>Email</Table.HeadCell>
                                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "status")}>Role</Table.HeadCell>
                                     <Table.HeadCell>Actions</Table.HeadCell>
-                                </Table.Head>
+                                    <Table.HeadCell>Avatars</Table.HeadCell>
+                                </Table.Head >
                                 <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
                                     {
                                         (searchInput.length > 1 ? filteredResults : (dataTemp.length === 0 ? data : (sortByName === true || sortbyPosition === true || sortByDepartment === true ? dataTemp : data))).map((user, index) => {
@@ -304,7 +345,7 @@ const UserListPage: FC = function () {
                                                             </label>
                                                         </div>
                                                     </Table.Cell>
-                                                    <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
+                                                    <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0" >
                                                         <div
                                                             style={{
                                                                 width: '45px',
@@ -379,6 +420,38 @@ const UserListPage: FC = function () {
                                                             />
                                                         </div>
                                                     </Table.Cell>
+                                                    <Table.Cell onClick={handleClick}>
+
+                                                    <div key={index} 
+                                                            style={{
+                                                                width: '45px',
+                                                                height: '45px',
+                                                                overflow: 'hidden',
+                                                                // borderRadius: '50%',
+                                                            }}
+                                                        >
+                                                            {/* <img
+                                                                src="https://api.dicebear.com/8.x/big-ears-neutral/svg?mouth=variant0707"
+                                                                alt="avatar"
+                                                                style={{
+                                                                    width: '70%',
+                                                                    height: '70%',
+                                                                    objectFit: 'cover',
+                                                                }}
+                                                            /> */}
+                                                            <img 
+                                                                src={avatarUrl}
+                                                                alt="avatar"
+                                                                style={{
+                                                                    width: '70%',
+                                                                    height: '70%',
+                                                                    objectFit: 'cover',
+                                                                }}
+                                                            />
+                                                        </div>
+
+
+                                                    </Table.Cell>
                                                 </Table.Row>
                                             )
                                         })
@@ -422,7 +495,7 @@ const AddUserModal: FC = function () {
     const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "")
     const created_user = created_user2.toString(CryptoJS.enc.Utf8);
     const [password, setPassword] = useState<any>('');
-    
+
     const [role, setRole] = useState<any>(''); //Badge
     const [email, setEmail] = useState<any>(''); //Badge
 
@@ -455,7 +528,7 @@ const AddUserModal: FC = function () {
                 id_rol,
                 created_user,
                 id_job,
-                role, 
+                role,
                 email,
             })
             if (response.status == 200) {
@@ -625,7 +698,7 @@ const AddUserModal: FC = function () {
 const EditUserModal: FC<any> = function ({ badge, username, userDepartment, userPosition, status, created_user, id_rol, email, role, sharedState, updateSharedState }: any) {
     const [isOpen, setOpen] = useState(false);
     const [password, setPassword] = useState<any>('');
-   // const [username2, setUsername2] = useState<any>('');
+    // const [username2, setUsername2] = useState<any>('');
     const [sendEmail, sendsetEmail] = useState<any>('');
     const [sendRole, sendsetRole] = useState<any>('');
 
@@ -665,7 +738,7 @@ const EditUserModal: FC<any> = function ({ badge, username, userDepartment, user
 
     return (
         <>
-            <Button   className="text-white bg-green-400  dark:bg-green-400 dark:enabled:hover:bg-green-700 dark:focus:ring-green-800"  onClick={() => setOpen(true)}>
+            <Button className="text-white bg-green-400  dark:bg-green-400 dark:enabled:hover:bg-green-700 dark:focus:ring-green-800" onClick={() => setOpen(true)}>
                 <div className="flex items-center gap-x-2">
                     <HiOutlinePencilAlt className="text-lg" />
 
@@ -727,9 +800,9 @@ const EditUserModal: FC<any> = function ({ badge, username, userDepartment, user
                                     name="username"
                                     placeholder="jsmith02"
                                     value={username}
-                                    // onChange={e => {
-                                    //     setUsername2(e.target.value);
-                                    // }}
+                                // onChange={e => {
+                                //     setUsername2(e.target.value);
+                                // }}
                                 />
                             </div>
                         </div>
@@ -739,8 +812,8 @@ const EditUserModal: FC<any> = function ({ badge, username, userDepartment, user
                                 <TextInput
                                     id="email"
                                     name="email"
-                                    type="email"   placeholder="a@a.com"
-                                   // value={email}
+                                    type="email" placeholder="a@a.com"
+                                    // value={email}
                                     onChange={e => {
                                         sendsetEmail(e.target.value);
                                     }}
@@ -750,11 +823,11 @@ const EditUserModal: FC<any> = function ({ badge, username, userDepartment, user
                         <div>
                             <Label htmlFor="email">Role</Label>
                             <div className="mt-1">
-                            <Select
+                                <Select
                                     id="role"
                                     name="role"
                                     autoComplete="off"
-                                   // value={role}
+                                    // value={role}
                                     onChange={e => {
                                         sendsetRole(e.target.value);
                                     }}
