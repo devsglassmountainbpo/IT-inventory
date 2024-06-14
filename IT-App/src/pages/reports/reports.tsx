@@ -455,12 +455,11 @@ const Reports: FC<any> = function ({ sharedState }: any) {
     }, [sharedState]);
 
 
-
-
     return (
 
 
         <Accordion  >
+
             <Accordion.Panel>
                 <Accordion.Title>
                     <table className="w-full">
@@ -474,7 +473,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                             </td>
                             <td className="text-right">
 
-                                <Button onClick={exportToGraphis} className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white">
+                                <Button onClick={exportToGraphis} className="mb-2 ml-2 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
                                     Download file
                                 </Button>
                             </td>
@@ -502,14 +501,14 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                                 {headerItem === 'asset' ? (
                                                     // <Button className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500">{(row as any)[headerItem]}</Button>
                                                     <a
-                                                    className="bg-white text-gray-800 h-4 pt-0 dark:bg-gray-800 dark:text-white inline-block px-3 py-1 rounded"
-                                                    href={`/Inventory?filter=${(row as any)[headerItem]}`}
-                                                >
-                                                    {(row as any)[headerItem]}
-                                                </a>
-                                                
+                                                        className="bg-white text-gray-800 h-4 pt-0 dark:bg-gray-800 dark:text-white inline-block px-3 py-1 rounded"
+                                                        href={`/Inventory?filter=${(row as any)[headerItem]}`}
+                                                    >
+                                                        {(row as any)[headerItem]}
+                                                    </a>
+
                                                 ) : (headerItem === 'total') ? <Badge></Badge> : (
-                                                // ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
+                                                    // ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
                                                     (row as any)[headerItem]
                                                 )}
                                             </Table.Cell>
@@ -536,7 +535,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button onClick={exportToExcelSegment} className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white font-bold">
+                                <Button onClick={exportToExcelSegment} className="mb-2 ml-2 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white font-bold">
                                     Download file
                                 </Button>
                             </td>
@@ -657,7 +656,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button onClick={exportToExcel} className="mb-2 ml-2 text-gray-500  dark:bg-primary-50 dark:text-blue-800 dark:hover:text-white">
+                                <Button onClick={exportToExcel} className="mb-2 ml-2 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
                                     Download file
                                 </Button>
 

@@ -692,7 +692,8 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                           href={`/Inventory?filter=${(row as any)[headerItem]}`}>
                           {(row as any)[headerItem]}
                         </Button>
-                      ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
+                      ) : (headerItem === 'total') ? <Badge></Badge> : (
+                      // ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
                         (row as any)[headerItem]
                       )}
                     </Table.Cell>

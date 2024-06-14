@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { UserToggle } from "../components/userToggle";
 import { DarkThemeToggle, Navbar, Button } from "flowbite-react";
-import { FaTags, FaStream, FaBoxOpen, FaUsers, FaDesktop, FaList } from 'react-icons/fa'; // Ejemplo con FontAwesome
+import { FaTags, FaStream, FaBoxOpen, FaUsers, FaList } from 'react-icons/fa'; // Ejemplo con FontAwesome
 
 import { FaClone } from "react-icons/fa";
 
