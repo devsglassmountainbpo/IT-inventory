@@ -469,16 +469,18 @@ const Reports: FC<any> = function ({ sharedState }: any) {
 
                         <tr>
                             <td className="text-left">
-                                <div className="flex justify-center items-center mb-4">
+                                <div className="flex justify-center items-center mb-2">
                                     <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white  pe-1">General Report</h5>
                                     <h1 className=" leading-none text-gray-900 dark:text-white pe-1">by Category</h1>
                                 </div>
                             </td>
                             <td className="text-right">
-
-                                <Button onClick={exportToGraphis} className="mb-2 ml-2 bg-primary-500 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
+                                <button onClick={exportToGraphis} className="dark:bg-gray-800 dark:hover:bg-indigo-500 hover:bg-indigo-500 bg-indigo-700 text-white font-bold py-1 px-1 rounded-full  right-0 top-10">
+                                    <HiTable className="h-7 w-7" />
+                                </button>
+                                {/* <Button onClick={exportToGraphis} className="mb-2 ml-2 bg-primary-500 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
                                 <HiTable />excel
-                                </Button>
+                                </Button> */}
                             </td>
                         </tr>
                     </table>
@@ -532,15 +534,19 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                     <table className="w-full">
                         <tr>
                             <td className="text-left">
-                                <div className="flex justify-center items-center mb-4">
+                                <div className="flex justify-center items-center mb-2">
                                     <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Report</h5>
                                     <h1 className=" leading-none text-gray-900 dark:text-white pe-1">Per Client</h1>
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button onClick={exportToExcelSegment} className="mb-2 bg-primary-500 ml-2 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white font-bold">
-                                <HiTable /> excel
-                                </Button>
+                                {/* <Button onClick={exportToExcelSegment} className="mb-2 bg-primary-500 ml-2 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white font-bold">
+                                    <HiTable /> excel
+                                </Button> */}
+
+                                <button onClick={exportToExcelSegment} className="dark:bg-gray-800 dark:hover:bg-indigo-500 hover:bg-indigo-500 bg-indigo-700 text-white font-bold py-1 px-1 rounded-full  right-0 top-10">
+                                    <HiTable className="h-7 w-7" />
+                                </button>
                             </td>
                         </tr>
                     </table>
@@ -653,15 +659,19 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                     <table className="w-full">
                         <tr>
                             <td className="text-left">
-                                <div className="flex justify-center items-center mb-4">
+                                <div className="flex justify-center items-center mb-2">
                                     <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Category</h5>
                                     <h1 className=" leading-none text-gray-900 dark:text-white pe-1">Monthly Report</h1>
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button onClick={exportToExcel} className="mb-2 ml-2 bg-primary-500 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
-                                <HiTable className="text-xl" />excel
-                                </Button>
+
+                                <button onClick={exportToExcel} className="dark:bg-gray-800 dark:hover:bg-indigo-500 hover:bg-indigo-500 bg-indigo-700 text-white font-bold py-1 px-1 rounded-full  right-0 top-10">
+                                    <HiTable className="h-7 w-7" />
+                                </button>
+                                {/* <Button onClick={exportToExcel} className="mb-2 ml-2 bg-primary-500 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
+                                    <HiTable className="text-xl" />excel
+                                </Button> */}
 
                             </td>
 
