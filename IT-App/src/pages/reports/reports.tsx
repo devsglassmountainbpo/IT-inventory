@@ -7,7 +7,10 @@ import {
 
 } from "flowbite-react";
 import type { FC, JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal } from "react";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+
+import { HiTable } from "react-icons/hi";
+
 
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import axios from "axios";
@@ -473,8 +476,8 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                             </td>
                             <td className="text-right">
 
-                                <Button onClick={exportToGraphis} className="mb-2 ml-2 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
-                                    Download file
+                                <Button onClick={exportToGraphis} className="mb-2 ml-2 bg-primary-500 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
+                                <HiTable />excel
                                 </Button>
                             </td>
                         </tr>
@@ -535,8 +538,8 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button onClick={exportToExcelSegment} className="mb-2 ml-2 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white font-bold">
-                                    Download file
+                                <Button onClick={exportToExcelSegment} className="mb-2 bg-primary-500 ml-2 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white font-bold">
+                                <HiTable /> excel
                                 </Button>
                             </td>
                         </tr>
@@ -656,8 +659,8 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                                 </div>
                             </td>
                             <td className="text-right">
-                                <Button onClick={exportToExcel} className="mb-2 ml-2 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
-                                    Download file
+                                <Button onClick={exportToExcel} className="mb-2 ml-2 bg-primary-500 text-gray-500  dark:bg-gray-800 dark:text-white dark:hover:text-white">
+                                <HiTable className="text-xl" />excel
                                 </Button>
 
                             </td>

@@ -38,7 +38,7 @@ const ExampleNavbar: FC = function () {
       <Navbar.Collapse>
         <Navbar.Link
           href="/Category"
-          className={`flex items-center space-x-2 ${activeLink === 'Category' ? 'bg-blue text-black hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
+          className={`flex items-center space-x-2 ${activeLink === 'Category' ? 'bg-blue text-primary-700 hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
           onClick={() => handleSetActiveLink('Category')}
         >
           <FaTags className="mr-2" />
@@ -46,7 +46,7 @@ const ExampleNavbar: FC = function () {
         </Navbar.Link>
         <Navbar.Link
           href="/Brand"
-          className={`flex items-center space-x-2 ${activeLink === 'Brand' ? 'bg-blue text-black hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
+          className={`flex items-center space-x-2 ${activeLink === 'Brand' ? 'bg-blue  text-primary-700  hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
           onClick={() => handleSetActiveLink('Brand')}
         >
           <FaClone className="mr-2" />
@@ -54,7 +54,7 @@ const ExampleNavbar: FC = function () {
         </Navbar.Link>
         <Navbar.Link
           href="/Models"
-          className={`flex items-center space-x-2 ${activeLink === 'Models' ? 'bg-blue text-black hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
+          className={`flex items-center space-x-2 ${activeLink === 'Models' ? 'bg-blue  text-primary-700 hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
           onClick={() => handleSetActiveLink('Models')}
         >
           <FaStream className="mr-2" />
@@ -62,7 +62,7 @@ const ExampleNavbar: FC = function () {
         </Navbar.Link>
         <Navbar.Link
           href="/Categories"
-          className={`flex items-center space-x-2 ${activeLink === 'Categories' ? 'bg-blue text-black hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
+          className={`flex items-center space-x-2 ${activeLink === 'Categories' ? 'bg-blue text-primary-700 hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
           onClick={() => handleSetActiveLink('Categories')}
         >
           <FaList className="mr-2" />
@@ -70,7 +70,7 @@ const ExampleNavbar: FC = function () {
         </Navbar.Link>
         <Navbar.Link
           href="/Inventory"
-          className={`flex items-center space-x-2 ${activeLink === 'Inventory' ? 'bg-blue text-black hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
+          className={`flex items-center space-x-2 ${activeLink === 'Inventory' ? 'bg-blue text-primary-700 hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
           onClick={() => handleSetActiveLink('Inventory')}
         >
           <FaBoxOpen className="mr-2" />
@@ -78,7 +78,7 @@ const ExampleNavbar: FC = function () {
         </Navbar.Link>
         <Navbar.Link
           href="/users"
-          className={` flex items-center space-x-2 ${activeLink === 'users' ? 'bg-blue text-black hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
+          className={` flex items-center space-x-2 ${activeLink === 'users' ? 'bg-blue  text-primary-700 hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
           onClick={() => handleSetActiveLink('users')}
         >
           <FaUsers className="mr-2" />
@@ -86,7 +86,7 @@ const ExampleNavbar: FC = function () {
         </Navbar.Link>
         <Navbar.Link
           href="/reports"
-          className={` flex items-center space-x-2 ${activeLink === 'reports' ? 'bg-blue text-black hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
+          className={` flex items-center space-x-2 ${activeLink === 'reports' ? 'bg-blue  text-primary-700 hover:text-white font-extrabold hover:bg-blue-700 dark:bg-gray-800 dark:text-white border-b-2 border-transparent transition duration-200' : ''}`}
           onClick={() => handleSetActiveLink('reports')}
         >
           <FaBoxOpen className="mr-2" />
