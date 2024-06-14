@@ -223,9 +223,18 @@ const Inventory: FC = function () {
                               <Table.Cell className="py-2 px-4 border-b">
                                 <div className="flex items-center gap-x-3 whitespace-nowrap">
                                 <EditAssetModal
+                                  ticketID = {detail.idTickets}
+                                  asset = {detail.asset}
                                   brand = {detail.brand}
                                   model = {detail.model}
-                                  quantity = {detail.quantity}
+                                  maxQuantity = {detail.quantity}
+                                  currentCategory = {detail.category}
+                                  id = {detail.id}
+                                  batchID = {detail.batchID}
+                                  vendor = {detail.vendor}
+                                  details = {detail.details}
+                                  price = {detail.totalPrice}
+                                  receivedBy = {detail.receivedBy}
                                   sharedState={sharedState}
                                   updateSharedState={updateSharedState}
                                 />
@@ -573,24 +582,89 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     );
   };
 
-  const EditAssetModal: FC<any> = function ({ brand, model, quantity, sharedState, updateSharedState }: any) {
+  const EditAssetModal: FC<any> = function ({ ticketID, asset, brand, model, maxQuantity, currentCategory, id, batchID, vendor, details, price, receivedBy, sharedState, updateSharedState }: any) {
     const [isOpen, setOpen] = useState(false);
-    const [quantity2, setQuantity2] = useState(quantity)
+    const [quantity, setQuantity] = useState(maxQuantity)
+    const [newCategory, setNewCategory] = useState('')
+    const [categoryList, setCategoryList] = useState<CategoryItem[]>([]);
 
-    const handleQuantityChange = (e) => {
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategories2');
+          setCategoryList(response.data);
+        } catch (error) {
+          console.error('Error fetching data:', error)
+        }
+      };
+      fetchData();
+    }, []);
+
+    const handleQuantityChange = (e: { target: { value: string; }; }) => {
       const value = parseInt(e.target.value, 10);
       if (!isNaN(value)) {
-        if (value > quantity) {
-          setQuantity2(quantity);
+        if (value > maxQuantity) {
+          setQuantity(maxQuantity);
         } else if (value < 1) {
-          setQuantity2(1);
+          setQuantity(1);
         } else {
-          setQuantity2(value);
+          setQuantity(value);
         }
       } else {
-        setQuantity2('');
+        setQuantity('');
       }
     };
+
+    const url = 'https://bn.glassmountainbpo.com:8080/inventory/move'
+    const handleSubmit = async (e: React.FormEvent) => {
+      if (!quantity) {
+        alert('Enter a valid Quantity!')
+      } else if (!newCategory) {
+        alert('Enter a valid Category!')
+      } else {
+        e.preventDefault()
+        try {
+          const response = await axios.post(url, {
+            ticketID,
+            asset,
+            brand,
+            model,
+            id,
+            batchID,
+            maxQuantity,
+            quantity,
+            currentCategory,
+            newCategory,
+            vendor,
+            details,
+            price,
+            receivedBy,
+            created_user
+          })
+          if (response.status == 200) {
+            const responseData = response.data;
+            updateSharedState(!sharedState);
+  
+            if (responseData.result === "Success") {
+              setOpen(false);
+              resetFields();
+              alert('Success!')
+            } else {
+              console.log('Fatal Error')
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          setOpen(false)
+        }
+      }
+    }
+  
+    const resetFields = () => {
+      setNewCategory('');
+      setQuantity('');
+
+    }
   
     return (
       <>
@@ -613,18 +687,31 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                     id="id"
                     type="number"
                     name="id"
-                    value={quantity2}
-                    max={quantity}
+                    value={quantity}
+                    max={maxQuantity}
                     min='1'
                     onChange={handleQuantityChange}
+                    required
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="taskName">Category</Label>
+                <Label htmlFor="Category">Category (Required)</Label>
                 <div className="mt-1">
-                  <TextInput
-                  />
+                <Select
+                  id='category'
+                  name='category'
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  required
+                  >
+                    <option>Select</option>
+                    {categoryList.map((item, index) => (
+                      <option key={index} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                    </Select>
                 </div>
               </div>
             </div>
@@ -632,6 +719,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           <Modal.Footer>
             <Button
               color="primary"
+              onClick={(e) => { handleSubmit(e) }}
             >
               Save
             </Button>
