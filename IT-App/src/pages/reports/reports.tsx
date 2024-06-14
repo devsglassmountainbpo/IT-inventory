@@ -73,9 +73,22 @@ const Reports: FC<any> = function ({ sharedState }: any) {
     // var para filtrar solamente por dia 
     const today = new Date();
     const currentDay = today.getDate();
-    const currentMonth = today.getMonth() + 1; // Los meses en JS van de 0 a 11
-    const currentYear = today.getFullYear();
+    // const currentMonth = today.getMonth() + 1; // Los meses en JS van de 0 a 11
+    // const currentYear = today.getFullYear();
 
+
+    const [activeLink, setActiveLink] = useState('');
+
+
+    useEffect(() => {
+
+    }, [activeLink]);
+
+    const handleSetActiveLink = (link: any) => {
+        setActiveLink((prevLink) => (prevLink === link ? '' : link));
+    };
+
+    console.log(activeLink)
 
     //filtrando datos para los reportes
 
@@ -464,7 +477,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
         <Accordion  >
 
             <Accordion.Panel>
-                <Accordion.Title>
+                <Accordion.Title onClick={() => handleSetActiveLink('uno')}>
                     <table className="w-full">
 
                         <tr>
@@ -485,7 +498,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                         </tr>
                     </table>
                 </Accordion.Title>
-                <Accordion.Content>
+                <Accordion.Content hidden={activeLink !== 'uno'}>
 
                     <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
                         <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
@@ -529,8 +542,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
             </Accordion.Panel>
 
             <Accordion.Panel>
-                <Accordion.Title>
-
+                <Accordion.Title onClick={() => handleSetActiveLink('dos')}>
                     <table className="w-full">
                         <tr>
                             <td className="text-left">
@@ -553,7 +565,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
 
 
                 </Accordion.Title>
-                <Accordion.Content>
+                <Accordion.Content hidden={activeLink !== 'dos'}>
 
                     <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
                         <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
@@ -655,7 +667,7 @@ const Reports: FC<any> = function ({ sharedState }: any) {
                 </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-                <Accordion.Title>
+                <Accordion.Title onClick={() => handleSetActiveLink('tres')}>
                     <table className="w-full">
                         <tr>
                             <td className="text-left">
@@ -680,7 +692,8 @@ const Reports: FC<any> = function ({ sharedState }: any) {
 
 
                 </Accordion.Title>
-                <Accordion.Content>
+                <Accordion.Content hidden={activeLink !== 'tres'}>
+                    {/* <Accordion.Content> */}
                     <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
                         <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
                             <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
