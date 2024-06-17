@@ -3,13 +3,14 @@ import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button
 import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import { InventoryItem, AssetItem, BrandItem, ModelItem, CategoryItem } from "../../types";
-import { HiDocumentDownload, HiOutlinePencilAlt, HiPlus, HiRefresh } from "react-icons/hi";
+import { HiDocumentDownload, HiOutlinePencilAlt, HiPlus, HiSortDescending, HiOutlineDotsVertical  } from "react-icons/hi";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { FaTimes } from "react-icons/fa";
 const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
 const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
+
 
 
 const Inventory: FC = function () {
@@ -98,6 +99,7 @@ const Inventory: FC = function () {
     return <div>{error}</div>;
   }
 
+
   return (
     <NavbarSidebarLayout2 isFooter={true}>
       <div className="block items-center justify-between border-b rounded-tl-2xl rounded-tr-2xl border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex">
@@ -167,8 +169,9 @@ const Inventory: FC = function () {
                       <React.Fragment key={asset}>
                         <Table.Row onClick={() => toggleRow(asset)} className="hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:ring-purple-300">
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className=" text-primary-800 font-bold px-2 py-0.5 rounded dark:text-white">
-                              {asset}
+                            <span className="flex items-center text-primary-800 font-bold px-7 py-4 rounded dark:text-white ">
+                              <HiSortDescending className="mr-2 ml-1 text-xl" />  {/* Añade margen derecho para separar el ícono del texto */}
+                              <h1 className="text-ms">{asset}</h1>
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">

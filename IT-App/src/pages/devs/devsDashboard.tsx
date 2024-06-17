@@ -26,6 +26,7 @@ import axios from "axios";
 
 import ApexCharts from 'apexcharts'; // Importación del módulo ApexCharts
 import CryptoJS from "crypto-js";
+import { TableCell } from "flowbite-react/lib/esm/components/Table/TableCell";
 
 
 const created_user3 = localStorage.getItem("badgeSession") || "";
@@ -691,13 +692,13 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
               {dataGraphis.rows.map((row, rowIndex) => (
                 <Table.Row key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset' && header !== 'total')].map((headerItem, colIndex) => (
-                    <Table.Cell key={colIndex} className="py-4 px-6 font-semibold items-center">
+                    <Table.Cell key={colIndex}  className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {headerItem === 'asset' ? (
-                        <Button
-                          className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500 items-center rounded-full"
+                        <a
+                          className="bg-white-700 h-4 pt-0 dark:bg-transparency-800 dark:hover:bg-indigo-500 items-center font-semibold rounded-full"
                           href={`/Inventory?filter=${(row as any)[headerItem]}`}>
                           {(row as any)[headerItem]}
-                        </Button>
+                        </a>
 
                       ) : headerItem === 'total_qty' ? (
                         // <h1 className="text-indigo-700 bg-indgo  item-center">{(row as any)[headerItem]}</h1>

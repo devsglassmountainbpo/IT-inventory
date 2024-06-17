@@ -149,7 +149,7 @@ const Categories: FC = function () {
         <div className="mb-1 w-full">
           <div className="mb-4">
             <h1 style={{ zoom: 0.90 }} className="text-xl ml-4 mt-4 font-semibold text-gray-900 dark:text-white sm:text-2xl">
-              Brand
+              Categories
             </h1>
           </div>
           <div className="sm:flex" style={{ zoom: 0.90 }}>
@@ -170,7 +170,7 @@ const Categories: FC = function () {
               </form>
               <div className="mt-3 flex space-x-1 pl-0 sm:mt-0 sm:pl-2">
                 <a
-                  href="/cards"
+                  href="/Categories"
                   className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   <span className="sr-only">Refresh</span>
@@ -414,7 +414,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
 
 
-  const url2 = `https://bn.glassmountainbpo.com:8080/inventory/addBrand`;
+  const url2 = `https://bn.glassmountainbpo.com:8080/inventory/addCategories`;
   const handleSubmit = async (e: React.FormEvent) => {
     if (!name) {
       alert('Enter a valid category name')
@@ -427,18 +427,18 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           name,
           statusActive,
           created_user,
-          idCategory,
-          nameCategory,
+          // idCategory,
+          // nameCategory,
           info
         })
         if (response.status == 200) {
           const responseData = response.data;
           updateSharedState(!sharedState);
 
-          if (responseData.message === "Brand created") {
+          if (responseData.message === "Categories created") {
             setOpen(false);
             resetFields();
-            alert('Brand created successfully!')
+            alert('Category created successfully!')
           } else {
             console.log("Fatal Error");
           }
@@ -547,7 +547,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
               </div>
             </div>
-            <div>
+            {/* <div>
 
               <Label htmlFor="vendor">Category</Label>
               <div className="mt-1">
@@ -569,7 +569,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
               </div>
 
-            </div>
+            </div> */}
             <div>
 
               <Label htmlFor="vendor">Status</Label>
@@ -612,7 +612,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           <Button
             color="primary"
             onClick={(e) => { handleSubmit(e) }}>
-            Add card(s)
+            Save
           </Button>
         </Modal.Footer>
       </Modal>
@@ -636,7 +636,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editBrand', {
+      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editCategories', {
         id,
         nameCategory,
         status,
