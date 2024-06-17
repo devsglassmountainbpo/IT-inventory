@@ -143,10 +143,10 @@ const Inventory: FC = function () {
               </div>
             </div> */}
             <div className="ml-auto mr-4 flex items-center space-x-2 sm:space-x-3">
-                  <AddTaskModal
-                    sharedState={sharedState}
-                    updateSharedState={updateSharedState} />
-                </div>
+              <AddTaskModal
+                sharedState={sharedState}
+                updateSharedState={updateSharedState} />
+            </div>
           </div>
         </div>
       </div>
@@ -165,23 +165,23 @@ const Inventory: FC = function () {
                   {
                     Object.keys(grandTotalData).map((asset) => (
                       <React.Fragment key={asset}>
-                      <Table.Row onClick={() => toggleRow(asset)} className="hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:ring-purple-300">
-                        <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                          <span className=" text-primary-800 font-bold px-2 py-0.5 rounded dark:text-white">
-                            {asset}
-                          </span>
-                        </Table.Cell>
-                        <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                          <span className="bg-green-600 text-green-200 font-semibold px-2 py-0.5 rounded dark:bg-green-700 dark:text-green-200">
-                            {grandTotalData[asset]!.reduce((total, item) => total + item.quantity, 0)}
-                          </span>
-                        </Table.Cell>
-                        <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                          <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded dark:bg-yellow-400 dark:text-yellow-900">
-                            {grandTotalData[asset]!.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
-                          </span>
-                        </Table.Cell>
-                        {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                        <Table.Row onClick={() => toggleRow(asset)} className="hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:ring-purple-300">
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span className=" text-primary-800 font-bold px-2 py-0.5 rounded dark:text-white">
+                              {asset}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span className="bg-green-600 text-green-200 font-semibold px-2 py-0.5 rounded dark:bg-green-700 dark:text-green-200">
+                              {grandTotalData[asset]!.reduce((total, item) => total + item.quantity, 0)}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded dark:bg-yellow-400 dark:text-yellow-900">
+                              {grandTotalData[asset]!.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
+                            </span>
+                          </Table.Cell>
+                          {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                         <button
                     className="text-blue-500 hover:text-blue-700"
                     onClick={() => toggleRow(asset)}
@@ -189,72 +189,72 @@ const Inventory: FC = function () {
                     {expandedRows.has(asset) ? 'Collapse' : 'Expand'}
                   </button>
                         </Table.Cell> */}
-                      </Table.Row>
-                      {expandedRows.has(asset) && (
-                <tr>
-                <td colSpan={4} className="py-4 px-4">
-                  <div className="dark:bg-gray-800 p-2">
-                    <Table className="min-w-full border-gray-300">
-                      <Table.Head>
-                            <Table.HeadCell className="py-2 px-4 border-b">Asset</Table.HeadCell>
-                            <Table.HeadCell className="py-2 px-4 border-b">Brand</Table.HeadCell>
-                            <Table.HeadCell className="py-2 px-4 border-b">Model</Table.HeadCell>
-                            <Table.HeadCell className="py-2 px-4 border-b">Quantity</Table.HeadCell>
-                            <Table.HeadCell className="py-2 px-4 border-b">Category</Table.HeadCell>
-                            <Table.HeadCell className="py-2 px-4 border-b">Total Price</Table.HeadCell>
-                            <Table.HeadCell className="py-2 px-4 border-b">Details</Table.HeadCell>
-                            <Table.HeadCell className="py-2 px-4 border-b">Vendor</Table.HeadCell>
-                            <Table.HeadCell className="py-2 px-4 border-b">Date Created</Table.HeadCell>
-                            <Table.HeadCell className="py-2 px-4 border-b">Actions</Table.HeadCell>
-                      </Table.Head>
-                      <Table.Body>
-                          {grandTotalData[asset]!.map((detail) => (
-                            <React.Fragment key={detail.id}>
-                              <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                              <Table.Cell className="py-2 px-4 border-b">{detail.asset}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">{detail.brand}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">{detail.model}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">{detail.quantity}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">{detail.category}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">{detail.totalPrice}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">{detail.details}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">{detail.vendor}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">{detail.dateTime}</Table.Cell>
-                              <Table.Cell className="py-2 px-4 border-b">
-                                <div className="flex items-center gap-x-3 whitespace-nowrap">
-                                <EditAssetModal
-                                  ticketID = {detail.idTickets}
-                                  asset = {detail.asset}
-                                  brand = {detail.brand}
-                                  model = {detail.model}
-                                  maxQuantity = {detail.quantity}
-                                  currentCategory = {detail.category}
-                                  id = {detail.id}
-                                  batchID = {detail.batchID}
-                                  vendor = {detail.vendor}
-                                  details = {detail.details}
-                                  price = {detail.totalPrice}
-                                  receivedBy = {detail.receivedBy}
-                                  sharedState={sharedState}
-                                  updateSharedState={updateSharedState}
-                                />
-                                <DeleteAssetModal
-                                  ID = {detail.id}
-                                  created_user={created_user}
-                                  sharedState={sharedState}
-                                  updateSharedState={updateSharedState}
-                                />
+                        </Table.Row>
+                        {expandedRows.has(asset) && (
+                          <tr>
+                            <td colSpan={4} className="py-4 px-4">
+                              <div className="dark:bg-gray-800 p-2">
+                                <Table className="min-w-full border-gray-300">
+                                  <Table.Head>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Asset</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Brand</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Model</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Quantity</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Category</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Total Price</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Details</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Vendor</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Date Created</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Actions</Table.HeadCell>
+                                  </Table.Head>
+                                  <Table.Body>
+                                    {grandTotalData[asset]!.map((detail) => (
+                                      <React.Fragment key={detail.id}>
+                                        <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.asset}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.brand}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.model}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.quantity}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.category}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.totalPrice}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.details}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.vendor}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.dateTime}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">
+                                            <div className="flex items-center gap-x-3 whitespace-nowrap">
+                                              <EditAssetModal
+                                                ticketID={detail.idTickets}
+                                                asset={detail.asset}
+                                                brand={detail.brand}
+                                                model={detail.model}
+                                                maxQuantity={detail.quantity}
+                                                currentCategory={detail.category}
+                                                id={detail.id}
+                                                batchID={detail.batchID}
+                                                vendor={detail.vendor}
+                                                details={detail.details}
+                                                price={detail.totalPrice}
+                                                receivedBy={detail.receivedBy}
+                                                sharedState={sharedState}
+                                                updateSharedState={updateSharedState}
+                                              />
+                                              <DeleteAssetModal
+                                                ID={detail.id}
+                                                created_user={created_user}
+                                                sharedState={sharedState}
+                                                updateSharedState={updateSharedState}
+                                              />
+                                            </div>
+                                          </Table.Cell>
+                                        </Table.Row>
+                                      </React.Fragment>
+                                    ))}
+                                  </Table.Body>
+                                </Table>
                               </div>
-                              </Table.Cell>
-                              </Table.Row>
-                            </React.Fragment>
-                          ))}
-                        </Table.Body>
-                    </Table>
-                  </div>
-                </td>
-              </tr>
-            )}
+                            </td>
+                          </tr>
+                        )}
                       </React.Fragment>
                     ))
                   }
@@ -406,387 +406,393 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
           <strong>Add Asset(s)</strong>
         </Modal.Header>
         <Modal.Body>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div>
-                <Label htmlFor="account">Ticket ID</Label>
-                <div className="mt-1">
-                    <TextInput
-                    placeholder="TCKT001"
-                    value={ticketID}
-                    onChange={e => setTicketID(e.target.value)}
-                    />
-                </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="account">Ticket ID</Label>
+              <div className="mt-1">
+                <TextInput
+                  placeholder="TCKT001"
+                  value={ticketID}
+                  onChange={e => setTicketID(e.target.value)}
+                />
               </div>
-              <div>
-                <Label htmlFor="Asset">Asset (Required)</Label>
-                <div className="mt-1">
-                  <Select
+            </div>
+            <div>
+              <Label htmlFor="Asset">Asset (Required)</Label>
+              <div className="mt-1">
+                <Select
                   id='asset'
                   name='asset'
                   value={asset}
                   onChange={(e) => setAsset(e.target.value)}
                   required
-                  >
-                    <option>Select</option>
-                    {assetList.map((item, index) => (
+                >
+                  <option>Select</option>
+                  {assetList
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((item, index) => (
                       <option key={index} value={item.name}>
                         {item.name}
                       </option>
                     ))}
-                    </Select>
-                </div>
+
+                </Select>
               </div>
-              <div>
-                <Label htmlFor="Brand">Brand (Required)</Label>
-                <div className="mt-1">
+            </div>
+            <div>
+              <Label htmlFor="Brand">Brand (Required)</Label>
+              <div className="mt-1">
                 <Select
                   id='brand'
                   name='brand'
                   value={brand}
                   onChange={(e) => setBrand(e.target.value)}
                   required
-                  >
-                    {brandList.map((item, index) => (
-                      <option key={index} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-                    </Select>
-                </div>
+                >
+
+                  <option value='N/A'>N/A</option>
+                  {brandList.map((item, index) => (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Select>
               </div>
-              <div>
-                <Label htmlFor="Model">Model (Required)</Label>
-                <div className="mt-1">
+            </div>
+            <div>
+              <Label htmlFor="Model">Model (Required)</Label>
+              <div className="mt-1">
                 <Select
                   id='model'
                   name='model'
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
                   required
-                  >
-                    {modelList.map((item, index) => (
-                      <option key={index} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-                    </Select>
-                </div>
+                >
+                  <option value='N/A'>N/A</option>
+                  {modelList.map((item, index) => (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Select>
               </div>
-              <div>
-                <Label htmlFor="Quantity">Quantity (Required)</Label>
-                <div className="mt-1">
-                  <TextInput
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    placeholder="10"
-                    value={quantity}
-                    onChange={e => {
-                      setQuantity(e.target.value);
-                    }}
-                    required
-                  />
-                </div>
+            </div>
+            <div>
+              <Label htmlFor="Quantity">Quantity (Required)</Label>
+              <div className="mt-1">
+                <TextInput
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  placeholder="10"
+                  value={quantity}
+                  onChange={e => {
+                    setQuantity(e.target.value);
+                  }}
+                  required
+                />
               </div>
-              <div>
-                <Label htmlFor="Category">Category (Required)</Label>
-                <div className="mt-1">
+            </div>
+            <div>
+              <Label htmlFor="Category">Category (Required)</Label>
+              <div className="mt-1">
                 <Select
                   id='category'
                   name='category'
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   required
-                  >
-                    {categoryList.map((item, index) => (
-                      <option key={index} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-                    </Select>
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="Vendor">Vendor</Label>
-                <div className="mt-1">
-                  <TextInput
-                    id="vendor"
-                    name="vendor"
-                    placeholder="Wallmart"
-                    value={vendor}
-                    onChange={e => {
-                      setVendor(e.target.value);
-                    }}
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="Details">Details</Label>
-                <div className="mt-1">
-                  <TextInput
-                    id="details"
-                    name="details"
-                    placeholder="Details"
-                    value={details}
-                    onChange={e => {
-                      setDetails(e.target.value);
-                    }}
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="Price">Price</Label>
-                <div className="mt-1">
-                  <TextInput
-                    type="number"
-                    id="price"
-                    name="price"
-                    placeholder="10"
-                    value={price}
-                    onChange={e => {
-                      setPrice(e.target.value);
-                    }}
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="Received By">Received By</Label>
-                <div className="mt-1">
-                  <TextInput
-                    id="receivedBy"
-                    name="receivedBy"
-                    placeholder="John Doe"
-                    value={receivedBy}
-                    onChange={e => {
-                      setReceivedBy(e.target.value);
-                    }}
-                    required
-                  />
-                </div>
-              </div>
-              </div>
-            </Modal.Body>
-          <Modal.Footer>
-            <Button
-              color="primary"
-              onClick={(e) => { handleSubmit(e) }}
-              >
-              Add Asset
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
-  };
-
-  const EditAssetModal: FC<any> = function ({ ticketID, asset, brand, model, maxQuantity, currentCategory, id, batchID, vendor, details, price, receivedBy, sharedState, updateSharedState }: any) {
-    const [isOpen, setOpen] = useState(false);
-    const [quantity, setQuantity] = useState(maxQuantity)
-    const [newCategory, setNewCategory] = useState('')
-    const [categoryList, setCategoryList] = useState<CategoryItem[]>([]);
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategories2');
-          setCategoryList(response.data);
-        } catch (error) {
-          console.error('Error fetching data:', error)
-        }
-      };
-      fetchData();
-    }, []);
-
-    const handleQuantityChange = (e: { target: { value: string; }; }) => {
-      const value = parseInt(e.target.value, 10);
-      if (!isNaN(value)) {
-        if (value > maxQuantity) {
-          setQuantity(maxQuantity);
-        } else if (value < 1) {
-          setQuantity(1);
-        } else {
-          setQuantity(value);
-        }
-      } else {
-        setQuantity('');
-      }
-    };
-
-    const url = 'https://bn.glassmountainbpo.com:8080/inventory/move'
-    const handleSubmit = async (e: React.FormEvent) => {
-      if (!quantity) {
-        alert('Enter a valid Quantity!')
-      } else if (!newCategory) {
-        alert('Enter a valid Category!')
-      } else {
-        e.preventDefault()
-        try {
-          const response = await axios.post(url, {
-            ticketID,
-            asset,
-            brand,
-            model,
-            id,
-            batchID,
-            maxQuantity,
-            quantity,
-            currentCategory,
-            newCategory,
-            vendor,
-            details,
-            price,
-            receivedBy,
-            created_user
-          })
-          if (response.status == 200) {
-            const responseData = response.data;
-            updateSharedState(!sharedState);
-  
-            if (responseData.result === "Success") {
-              setOpen(false);
-              resetFields();
-              alert('Success!')
-            } else {
-              console.log('Fatal Error')
-            }
-          }
-        } catch (error) {
-          console.log(error);
-          setOpen(false)
-        }
-      }
-    }
-  
-    const resetFields = () => {
-      setNewCategory('');
-      setQuantity('');
-
-    }
-  
-    return (
-      <>
-        <Button className="text-white bg-green-400 dark:bg-green-400 dark:enabled:hover:bg-green-700 dark:focus:ring-green-800" onClick={() => setOpen(true)}>
-          <div className="flex items-center gap-x-2">
-            <HiOutlinePencilAlt className="text-sm" />
-  
-          </div>
-        </Button>
-        <Modal onClose={() => setOpen(false)} show={isOpen}>
-          <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-            <strong>Move asset: </strong><p> {brand} {model} ({quantity})</p>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div>
-                <Label htmlFor="id">Quantity to move</Label>
-                <div className="mt-1">
-                  <TextInput
-                    id="id"
-                    type="number"
-                    name="id"
-                    value={quantity}
-                    max={maxQuantity}
-                    min='1'
-                    onChange={handleQuantityChange}
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="Category">Category (Required)</Label>
-                <div className="mt-1">
-                <Select
-                  id='category'
-                  name='category'
-                  value={newCategory}
-                  onChange={(e) => setNewCategory(e.target.value)}
-                  required
-                  >
-                    <option>Select</option>
-                    {categoryList.map((item, index) => (
-                      <option key={index} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-                    </Select>
-                </div>
+                >
+                  {categoryList.map((item, index) => (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Select>
               </div>
             </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              color="primary"
-              onClick={(e) => { handleSubmit(e) }}
-            >
-              Save
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
+            <div>
+              <Label htmlFor="Vendor">Vendor</Label>
+              <div className="mt-1">
+                <TextInput
+                  id="vendor"
+                  name="vendor"
+                  placeholder="Wallmart"
+                  value={vendor}
+                  onChange={e => {
+                    setVendor(e.target.value);
+                  }}
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="Details">Details</Label>
+              <div className="mt-1">
+                <TextInput
+                  id="details"
+                  name="details"
+                  placeholder="Details"
+                  value={details}
+                  onChange={e => {
+                    setDetails(e.target.value);
+                  }}
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="Price">Price</Label>
+              <div className="mt-1">
+                <TextInput
+                  type="number"
+                  id="price"
+                  name="price"
+                  placeholder="10"
+                  value={price}
+                  onChange={e => {
+                    setPrice(e.target.value);
+                  }}
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="Received By">Received By</Label>
+              <div className="mt-1">
+                <TextInput
+                  id="receivedBy"
+                  name="receivedBy"
+                  placeholder="John Doe"
+                  value={receivedBy}
+                  onChange={e => {
+                    setReceivedBy(e.target.value);
+                  }}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            color="primary"
+            onClick={(e) => { handleSubmit(e) }}
+          >
+            Add Asset
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
+const EditAssetModal: FC<any> = function ({ ticketID, asset, brand, model, maxQuantity, currentCategory, id, batchID, vendor, details, price, receivedBy, sharedState, updateSharedState }: any) {
+  const [isOpen, setOpen] = useState(false);
+  const [quantity, setQuantity] = useState(maxQuantity)
+  const [newCategory, setNewCategory] = useState('')
+  const [categoryList, setCategoryList] = useState<CategoryItem[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategories2');
+        setCategoryList(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleQuantityChange = (e: { target: { value: string; }; }) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+      if (value > maxQuantity) {
+        setQuantity(maxQuantity);
+      } else if (value < 1) {
+        setQuantity(1);
+      } else {
+        setQuantity(value);
+      }
+    } else {
+      setQuantity('');
+    }
   };
-  
-  
-  const DeleteAssetModal: FC<any> = function ({ ID, sharedState, updateSharedState }: any) {
-    const [isOpen, setOpen] = useState(false);
-  
-    const handleSubmit = async (e: React.FormEvent, ID: any, created_user: any) => {
+
+  const url = 'https://bn.glassmountainbpo.com:8080/inventory/move'
+  const handleSubmit = async (e: React.FormEvent) => {
+    if (!quantity) {
+      alert('Enter a valid Quantity!')
+    } else if (!newCategory) {
+      alert('Enter a valid Category!')
+    } else {
       e.preventDefault()
       try {
-        const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/deactivate', {
-          ID,
+        const response = await axios.post(url, {
+          ticketID,
+          asset,
+          brand,
+          model,
+          id,
+          batchID,
+          maxQuantity,
+          quantity,
+          currentCategory,
+          newCategory,
+          vendor,
+          details,
+          price,
+          receivedBy,
           created_user
         })
         if (response.status == 200) {
           const responseData = response.data;
           updateSharedState(!sharedState);
-          setOpen(false);
-  
-          if (responseData.message === "Success") {
+
+          if (responseData.result === "Success") {
             setOpen(false);
+            resetFields();
+            alert('Success!')
           } else {
-            console.log("Fatal Error");
+            console.log('Fatal Error')
           }
         }
       } catch (error) {
         console.log(error);
         setOpen(false)
       }
-    };
-  
-    return (
-        <>
-          <Button onClick={() => setOpen(true)}>
-            <div className="flex items-center gap-x-2">
-            <FaTimes color="white" className="text-sm" />
-            </div>
-          </Button>
-          <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
-            <Modal.Header className="px-6 pt-6 pb-0">
-              <span className="sr-only">Delete asset</span>
-            </Modal.Header>
-            <Modal.Body className="px-6 pt-0 pb-6">
-              <div className="flex flex-col items-center gap-y-6 text-center">
-                <FaTimes className="text-7xl text-red-500" />
-                <p className="text-xl text-gray-500">
-                  "Are you sure you want to delete this asset?"
-                </p>
-                <div className="flex items-center gap-x-3">
-                  <Button color="failure" onClick={(e) => { handleSubmit(e, ID, created_user) }}>
-                    Yes, I'm sure
-                  </Button>
-                  <Button color="gray" onClick={() => setOpen(false)}>
-                    No, cancel
-                  </Button>
-                </div>
+    }
+  }
+
+  const resetFields = () => {
+    setNewCategory('');
+    setQuantity('');
+
+  }
+
+  return (
+    <>
+      <Button className="text-white bg-green-400 dark:bg-green-400 dark:enabled:hover:bg-green-700 dark:focus:ring-green-800" onClick={() => setOpen(true)}>
+        <div className="flex items-center gap-x-2">
+          <HiOutlinePencilAlt className="text-sm" />
+
+        </div>
+      </Button>
+      <Modal onClose={() => setOpen(false)} show={isOpen}>
+        <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
+          <strong>Move asset: </strong><p> {brand} {model} ({quantity})</p>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="id">Quantity to move</Label>
+              <div className="mt-1">
+                <TextInput
+                  id="id"
+                  type="number"
+                  name="id"
+                  value={quantity}
+                  max={maxQuantity}
+                  min='1'
+                  onChange={handleQuantityChange}
+                  required
+                />
               </div>
-            </Modal.Body>
-          </Modal>
-        </>
-    );
+            </div>
+            <div>
+              <Label htmlFor="Category">Category (Required)</Label>
+              <div className="mt-1">
+                <Select
+                  id='category'
+                  name='category'
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  required
+                >
+                  <option>Select</option>
+                  {categoryList.map((item, index) => (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            color="primary"
+            onClick={(e) => { handleSubmit(e) }}
+          >
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
+
+const DeleteAssetModal: FC<any> = function ({ ID, sharedState, updateSharedState }: any) {
+  const [isOpen, setOpen] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent, ID: any, created_user: any) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/deactivate', {
+        ID,
+        created_user
+      })
+      if (response.status == 200) {
+        const responseData = response.data;
+        updateSharedState(!sharedState);
+        setOpen(false);
+
+        if (responseData.message === "Success") {
+          setOpen(false);
+        } else {
+          console.log("Fatal Error");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setOpen(false)
+    }
   };
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>
+        <div className="flex items-center gap-x-2">
+          <FaTimes color="white" className="text-sm" />
+        </div>
+      </Button>
+      <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
+        <Modal.Header className="px-6 pt-6 pb-0">
+          <span className="sr-only">Delete asset</span>
+        </Modal.Header>
+        <Modal.Body className="px-6 pt-0 pb-6">
+          <div className="flex flex-col items-center gap-y-6 text-center">
+            <FaTimes className="text-7xl text-red-500" />
+            <p className="text-xl text-gray-500">
+              "Are you sure you want to delete this asset?"
+            </p>
+            <div className="flex items-center gap-x-3">
+              <Button color="failure" onClick={(e) => { handleSubmit(e, ID, created_user) }}>
+                Yes, I'm sure
+              </Button>
+              <Button color="gray" onClick={() => setOpen(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
 
 export default Inventory;

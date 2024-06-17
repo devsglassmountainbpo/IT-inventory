@@ -558,10 +558,15 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   setIdCategory(dataInternal[selectedIndex].id);
                 }}>
                   {
-                    dataInternal.map((user,) => (
-                      <option key={user.id} value={user.name}>{user.name}</option>
-                    ))
+                    dataInternal
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((user) => (
+                        <option key={user.id} value={user.name}>
+                          {user.name}
+                        </option>
+                      ))
                   }
+
                 </Select>
 
               </div>
@@ -730,7 +735,7 @@ const ExportModal: FC<any> = function (rawData) {
 
     // Modificar las cabeceras según sea necesario
     const modifiedHeaders = headers.map(header => {
-      if (header === 'date_created' ) {
+      if (header === 'date_created') {
         return header.replace('_', ' ').toUpperCase(); // Convertir a mayúsculas y reemplazar '_' con ' '
       } else if (header === 'id_groups') {
         return 'ID GROUPS'; // Cambiar el nombre de la cabecera
@@ -743,7 +748,7 @@ const ExportModal: FC<any> = function (rawData) {
 
     for (const row of data) {
       const values = headers.map(header => {
-        if (header === 'date_created' ) {
+        if (header === 'date_created') {
           // Formatear las fechas como dd/mm/yyyy
           const date = new Date(row[header]);
           return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;

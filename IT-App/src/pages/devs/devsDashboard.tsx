@@ -4,7 +4,8 @@ import {
 
   Table,
 
-  Badge
+  Badge,
+  Card
 
 } from "flowbite-react";
 import type { ChangeEvent, FC } from "react";
@@ -291,8 +292,9 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
       legend: {
         position: "bottom",
         fontFamily: "Inter, sans-serif",
+        // cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
         color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
-        fontSize: '18px'
+        fontSize: '14px'
       },
       yaxis: {
         labels: {
@@ -311,15 +313,18 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
           },
           style: {
             color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+              // cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
           }
         },
         axisTicks: {
           show: true,
-          color: '#737373',
+          // color: '#737373',
+          color: dark === 'dark' ? '#737373' : '#000000', // Cambia el color según el modo
         },
         axisBorder: {
           show: true,
-          color: '#FFFFFF',
+          // color: '#FFFFFF',
+          color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
         },
       },
     }
@@ -657,7 +662,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 <div className="flex justify-between items-center pt-5">
 
                   <a
-                    href="#"
+                    href="/Reports"
                     className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
                     Leads Report
                     <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -673,9 +678,10 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
       <div className="grid grid-cols-1 gap-4 pt-2 mb-8 ">
         <div className="overflow-x-auto relative shadow-md sm:rounded-lg w-full">
+
           <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" hoverable>
             <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, index) => (
+              {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset' && header !== 'total')].map((headerItem, index) => (
                 <th key={index} scope="col" className="py-3 px-6">
                   {headerItem}
                 </th>
@@ -684,25 +690,36 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
             <Table.Body>
               {dataGraphis.rows.map((row, rowIndex) => (
                 <Table.Row key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset')].map((headerItem, colIndex) => (
-                    <Table.Cell key={colIndex} className="py-4 px-6 font-semibold">
+                  {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset' && header !== 'total')].map((headerItem, colIndex) => (
+                    <Table.Cell key={colIndex} className="py-4 px-6 font-semibold items-center">
                       {headerItem === 'asset' ? (
                         <Button
-                          className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500"
+                          className="bg-indigo-700 h-4 pt-0 dark:bg-indigo-800 dark:hover:bg-indigo-500 items-center rounded-full"
                           href={`/Inventory?filter=${(row as any)[headerItem]}`}>
                           {(row as any)[headerItem]}
                         </Button>
-                      ) : (headerItem === 'total') ? <Badge></Badge> : (
-                      // ) : (headerItem === 'total') ? <Badge>${(row as any)[headerItem]}</Badge> : (
-                        (row as any)[headerItem]
+
+                      ) : headerItem === 'total_qty' ? (
+                        // <h1 className="text-indigo-700 bg-indgo  item-center">{(row as any)[headerItem]}</h1>
+                        <h1 className="text-white bg-green-500 item-center py-1 px-8 rounded-full dark:bg-primary-100 dark:text-gray-600 ">{(row as any)[headerItem]}</h1>
+
+                      ) : (
+                        // (row as any)[headerItem]
+                        <h1 className="text-gray-900 bg-primary-50 item-center py-1 px-8 rounded-full dark:bg-gray-800 dark:text-white ">{(row as any)[headerItem]}</h1>                        
                       )}
                     </Table.Cell>
                   ))}
+
                 </Table.Row>
               ))}
 
             </Table.Body>
           </Table>
+
+
+
+
+
         </div>
       </div>
     </div >

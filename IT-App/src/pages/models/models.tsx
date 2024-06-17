@@ -32,7 +32,7 @@ import UAParser from 'ua-parser-js';
 import CryptoJS from "crypto-js";
 
 import * as XLSX from 'xlsx';
-import { FaStream  } from 'react-icons/fa'; // Ejemplo con FontAwesome
+import { FaStream } from 'react-icons/fa'; // Ejemplo con FontAwesome
 
 import { FaClone } from "react-icons/fa";
 
@@ -63,7 +63,7 @@ const Models: FC = function () {
     axios.get('https://bn.glassmountainbpo.com:8080/inventory/listModels')
       .then(res => {
         setData(res.data);
-        }
+      }
       )
   }, [sharedState, userLevel, created_user]); // Add userLevel and created_user to the dependency array
 
@@ -400,7 +400,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   }, [created_user]); // Add userLevel and created_user to the dependency array
 
 
-  console.log('esta es la categoria', nameCategory, 'id: ', idCategory, 'NameBrand: ',nameBrand , 'Id Brand:' , idBrand)
+  console.log('esta es la categoria', nameCategory, 'id: ', idCategory, 'NameBrand: ', nameBrand, 'Id Brand:', idBrand)
 
   const handleTrack = (name: string) => {
     axios.get('https://bn.glassmountainbpo.com:8080/inventory/listBrad')
@@ -562,7 +562,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
               <Label htmlFor="category">Category</Label>
               <div className="mt-1">
-                
+
                 <Select onChange={(e) => {
                   const selectedIndex = e.target.selectedIndex;
                   const selectedName = e.target.value;
@@ -572,10 +572,13 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 }}
                   onInput={(e) => handleKeyPress(e)}>
                   {
-                    dataInternal.map((user,) => (
-                      <option key={user.id} value={user.name}>{user.name}</option>
-                    ))
+                    dataInternal
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((user) => (
+                        <option key={user.id} value={user.name}>{user.name}</option>
+                      ))
                   }
+
                 </Select>
               </div>
 
@@ -764,7 +767,7 @@ const ExportModal: FC<any> = function (rawData) {
 
     // Modificar las cabeceras según sea necesario
     const modifiedHeaders = headers.map(header => {
-      if (header === 'date_created' ) {
+      if (header === 'date_created') {
         return header.replace('_', ' ').toUpperCase(); // Convertir a mayúsculas y reemplazar '_' con ' '
       } else if (header === 'id_groups') {
         return 'ID GROUPS'; // Cambiar el nombre de la cabecera
@@ -777,7 +780,7 @@ const ExportModal: FC<any> = function (rawData) {
 
     for (const row of data) {
       const values = headers.map(header => {
-        if (header === 'date_created' ) {
+        if (header === 'date_created') {
           // Formatear las fechas como dd/mm/yyyy
           const date = new Date(row[header]);
           return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
