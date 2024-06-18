@@ -24,6 +24,20 @@ if (!container) {
 
 const root = createRoot(container);
 
+//Asegurando la session
+
+
+import { Navigate } from 'react-router-dom';
+import CryptoJS from "crypto-js";
+
+
+
+const user = localStorage.getItem('badgeSession');
+
+
+
+
+
 root.render(
   // <StrictMode>
     <Flowbite theme={{ theme }}>
@@ -32,16 +46,27 @@ root.render(
         <Route path="/SignIn" element={<SignInPage />} index />
         <Route
           path="/"
-          element={<DevsDashboard />}
+          // element={<DevsDashboard />}
+          element={user ? <DevsDashboard /> : <Navigate to="/SignIn" />}
         />
-        <Route path="/Inventory" element={<Inventory />} />
-        <Route path="/ITinventory" element={<ITinventory />} />
-        <Route path="/Category" element={<Category />} />
-        <Route path="/Brand" element={<Brand />} />
-        <Route path="/Models" element={<Models />} />
-        <Route path="/users" element={ <UserListPage />} index/>
-        <Route path="/reports" element={ <AllReports />} index/>
-        <Route path="/categories" element={ <Categories />} />
+        <Route path="/Inventory" element={ user 
+          ? <Inventory />   : <Navigate to= '/SignIn'></Navigate>} />
+        <Route path="/ITinventory" element={ user 
+          ? <ITinventory /> : <Navigate to= '/SignIn'/>} />
+        <Route path="/Category" element={ user 
+          ? <Category />    : <Navigate to='/SignIn' />} />
+        <Route path="/Brand" element={
+            user ? <Brand/> : 
+          <Navigate 
+            to = 'SignIn'/>} />
+        <Route path="/Models" element={
+            user ? <Models/> : <Navigate to = '/SignIn'/>} />
+        <Route path="/users" element={
+            user ? <UserListPage/> : <Navigate to = '/SignIn' />} index/>
+        <Route path="/reports" element={
+            user ? <AllReports/> : <Navigate to = '/SignIn'/>} index/>
+        <Route path="/categories" element={ 
+            user ? <Categories/> : <Navigate to= '/SignIn'/>} />
         </Routes>
       </BrowserRouter>
     </Flowbite>
