@@ -684,7 +684,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                       {headerItem === 'asset' ? (
 
                         <a
-
                           className="bg-white-700 h-4 pt-0 dark:bg-transparency-800 dark:hover:bg-indigo-500 items-center font-semibold rounded-full"
                           href={`/Inventory?filter=${(row as any)[headerItem]}`}>
                           <div className="flex bg-white-700 h-4 pt-0 dark:bg-transparency-800 dark:hover:bg-indigo-500 items-center font-semibold rounded-full">
@@ -715,11 +714,6 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
             </Table.Body>
           </Table>
-
-
-
-
-
         </div>
       </div>
     </div >
