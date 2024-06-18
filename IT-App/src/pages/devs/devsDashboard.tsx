@@ -10,16 +10,11 @@ import {
 } from "flowbite-react";
 import type { ChangeEvent, FC } from "react";
 import { useEffect, useState } from "react"
-// import {
-//   // HiChevronLeft,
-//   // HiChevronRight,
-//   HiRefresh,
-//   HiDocumentDownload,
-//   // HiOutlinePencilAlt,
-//   HiPlus,
-//   HiOutlinePencilAlt,
-//   HiEye,
-// } from "react-icons/hi";
+import {
+
+
+  HiFolderAdd,
+} from "react-icons/hi";
 
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import axios from "axios";
@@ -314,7 +309,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
           },
           style: {
             color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
-              // cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+            // cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
           }
         },
         axisTicks: {
@@ -692,21 +687,33 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
               {dataGraphis.rows.map((row, rowIndex) => (
                 <Table.Row key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   {['asset', 'total_qty', ...dataGraphis.header.filter(header => header !== 'total_qty' && header !== 'asset' && header !== 'total')].map((headerItem, colIndex) => (
-                    <Table.Cell key={colIndex}  className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    <Table.Cell key={colIndex} className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+
                       {headerItem === 'asset' ? (
+
                         <a
+
                           className="bg-white-700 h-4 pt-0 dark:bg-transparency-800 dark:hover:bg-indigo-500 items-center font-semibold rounded-full"
                           href={`/Inventory?filter=${(row as any)[headerItem]}`}>
-                          {(row as any)[headerItem]}
+                          <div className="flex bg-white-700 h-4 pt-0 dark:bg-transparency-800 dark:hover:bg-indigo-500 items-center font-semibold rounded-full">
+                            <span className="flex items-left text-gray-500 font-semibold mr-4 rounded dark:text-white ">
+                              <HiFolderAdd className=" text-2xl" />  {/* Añade margen derecho para separar el ícono del texto */}
+                            </span>
+                            <span className="flex items-left 0 font-semibold mr-4 rounded dark:text-white dark:font-medium">
+                            {(row as any)[headerItem]}
+                             
+                            </span>
+
+                          </div>
                         </a>
 
                       ) : headerItem === 'total_qty' ? (
                         // <h1 className="text-indigo-700 bg-indgo  item-center">{(row as any)[headerItem]}</h1>
-                        <h1 className="text-white bg-green-500 item-center py-1 px-8 rounded-full dark:bg-primary-100 dark:text-gray-600 ">{(row as any)[headerItem]}</h1>
+                        <h1 className="text-white bg-green-500 item-center py-1 px-8 rounded-full dark:bg-primary-100 dark:font-semibold dark:text-gray-600 ">{(row as any)[headerItem]}</h1>
 
                       ) : (
                         // (row as any)[headerItem]
-                        <h1 className="text-gray-900 bg-primary-50 item-center py-1 px-8 rounded-full dark:bg-gray-800 dark:text-white ">{(row as any)[headerItem]}</h1>                        
+                        <h1 className="text-gray-900 bg-primary-50 item-center py-1 px-8 rounded-full dark:bg-gray-800 dark:text-white dark:font-medium ">{(row as any)[headerItem]}</h1>
                       )}
                     </Table.Cell>
                   ))}

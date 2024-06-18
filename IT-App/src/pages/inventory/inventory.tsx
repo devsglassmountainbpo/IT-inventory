@@ -3,7 +3,7 @@ import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button
 import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import { InventoryItem, AssetItem, BrandItem, ModelItem, CategoryItem } from "../../types";
-import { HiDocumentDownload, HiOutlinePencilAlt, HiPlus, HiFolderAdd , HiOutlineDotsVertical  } from "react-icons/hi";
+import { HiDocumentDownload, HiOutlinePencilAlt, HiPlus, HiFolderAdd, HiOutlineDotsVertical } from "react-icons/hi";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { FaTimes } from "react-icons/fa";
@@ -169,19 +169,25 @@ const Inventory: FC = function () {
                       <React.Fragment key={asset}>
                         <Table.Row onClick={() => toggleRow(asset)} className="hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:ring-purple-300">
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className="flex items-center text-primary-800 font-semibold px-7 py-4 rounded dark:text-white ">
-                              <HiFolderAdd  className="mr-2 ml-1 text-xl" />  {/* Añade margen derecho para separar el ícono del texto */}
-                              <h1 className="text-ms">{asset}</h1>
-                            </span>
+
+                            <div className="flex ">
+                              <span className="flex items-center text-gray-500 font-semibold px-7  rounded dark:text-white ">
+                                <HiFolderAdd className=" ml-1 text-3xl" />  {/* Añade margen derecho para separar el ícono del texto */}
+                              </span>
+                              <span className="flex items-center text-gray-800 font-semibold rounded dark:text-white ">
+                                <h1 className="text-ms">{asset}</h1>
+                              </span>
+                            </div>
+
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className="bg-green-600 text-green-200 font-semibold px-2 py-0.5 rounded dark:bg-green-700 dark:text-green-200">
+                            <span className="bg-green-700 text-green-200 font-semibold px-2 py-0.5 rounded-full dark:bg-green-700 dark:text-green-200">
                               {grandTotalData[asset]!.reduce((total, item) => total + item.quantity, 0)}
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded dark:bg-yellow-400 dark:text-yellow-900">
-                              {grandTotalData[asset]!.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
+                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-400 dark:text-yellow-900">
+                             $ {grandTotalData[asset]!.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
                             </span>
                           </Table.Cell>
                           {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
