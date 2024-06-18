@@ -1,12 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-  Button,
 
   Table,
 
   Badge,
-  Card
-
 } from "flowbite-react";
 import type { ChangeEvent, FC } from "react";
 import { useEffect, useState } from "react"
@@ -21,7 +18,6 @@ import axios from "axios";
 
 import ApexCharts from 'apexcharts'; // Importación del módulo ApexCharts
 import CryptoJS from "crypto-js";
-import { TableCell } from "flowbite-react/lib/esm/components/Table/TableCell";
 
 
 const created_user3 = localStorage.getItem("badgeSession") || "";
