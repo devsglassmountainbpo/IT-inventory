@@ -1,16 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-
   Table,
-
   Badge,
 } from "flowbite-react";
 import type { ChangeEvent, FC } from "react";
 import { useEffect, useState } from "react"
 import {
-
-
-  HiFolderAdd,
+  HiOutlineZoomIn ,
 } from "react-icons/hi";
 
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
@@ -693,7 +689,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                           href={`/Inventory?filter=${(row as any)[headerItem]}`}>
                           <div className="flex bg-white-700 h-4 pt-0 dark:bg-transparency-800 dark:hover:bg-indigo-500 items-center font-semibold rounded-full">
                             <span className="flex items-left text-gray-500 font-semibold mr-4 rounded dark:text-white ">
-                              <HiFolderAdd className=" text-2xl" />  {/* Añade margen derecho para separar el ícono del texto */}
+                              <HiOutlineZoomIn  className=" text-2xl" />  {/* Añade margen derecho para separar el ícono del texto */}
                             </span>
                             <span className="flex items-left 0 font-semibold mr-4 rounded dark:text-white dark:font-medium">
                             {(row as any)[headerItem]}
