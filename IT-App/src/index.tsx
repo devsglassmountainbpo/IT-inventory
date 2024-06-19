@@ -11,7 +11,6 @@ import Inventory from "./pages/inventory/inventory";
 import Category from "./pages/category/category";
 import Brand from "./pages/brand/brand";
 import Models from "./pages/models/models";
-// import ITinventory from "./pages/inventory/inventoryIT";
 import UserListPage from "./pages/users/Users";
 import AllReports from "./pages/reports/reports";
 import Categories from "./pages/categories/categories"
@@ -43,11 +42,6 @@ root.render(
           path="/Inventory"
           element={user ? <Inventory /> : <Navigate to="/SignIn" />}
         />
-
-        {/* <Route
-          path="/ITinventory"
-          element={user ? <ITinventory /> : <Navigate to="/SignIn" />}
-        /> */}
 
         <Route
           path="/Category"
