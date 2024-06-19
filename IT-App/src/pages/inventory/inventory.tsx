@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Label, Table, TextInput, Checkbox as Button, Modal, Select } from "flowbite-react";
-import React, { useState, useEffect, type FC } from "react";
+import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button, Modal, Select } from "flowbite-react";
+import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import { InventoryItem, AssetItem, BrandItem, ModelItem, CategoryItem } from "../../types";
-import { HiOutlinePencilAlt, HiPlus, HiFolderAdd } from "react-icons/hi";
+import { HiDocumentDownload, HiOutlinePencilAlt, HiPlus, HiFolderAdd, HiOutlineDotsVertical } from "react-icons/hi";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { FaTimes } from "react-icons/fa";
@@ -17,7 +17,7 @@ const Inventory: FC = function () {
   const [grandTotalData, setGrandTotalData] = useState<{ [key: string]: InventoryItem[] }>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  // const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [sharedState, setSharedState] = useState(false);
 
@@ -25,28 +25,28 @@ const Inventory: FC = function () {
     setSharedState(newValue);
   }
 
-  // const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-  //   setSearchInput(e.target.value);
-  // };
+  const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setSearchInput(e.target.value);
+  };
 
   //Prevent user from using the Enter key when using the search/filter bar
-  // const handleKeyDown = (e: any) => {
-  //   if (e.key === "Enter") {
-  //     e.preventDefault();
-  //   }
-  // }
+  const handleKeyDown = (e: any) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  }
 
-  // const checkboxArray: string[] = [];
+  const checkboxArray: string[] = [];
 
-  // const updateCheckboxArray = (producto: string) => {
-  //   const checkbox = document.getElementById(producto + "Checkbox") as HTMLInputElement;
-  //   if (checkbox.checked) {
-  //     checkboxArray.push(producto)
-  //   } else {
-  //     const indexToRemove = checkboxArray.indexOf(producto);
-  //     checkboxArray.splice(indexToRemove, 1);
-  //   }
-  // }
+  const updateCheckboxArray = (producto: string) => {
+    const checkbox = document.getElementById(producto + "Checkbox") as HTMLInputElement;
+    if (checkbox.checked) {
+      checkboxArray.push(producto)
+    } else {
+      const indexToRemove = checkboxArray.indexOf(producto);
+      checkboxArray.splice(indexToRemove, 1);
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
