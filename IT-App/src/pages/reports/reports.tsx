@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-
-    Table,
+       Table,
     Badge
 
 } from "flowbite-react";
