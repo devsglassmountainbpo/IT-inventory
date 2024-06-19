@@ -259,12 +259,14 @@ const Inventory: FC = function () {
                                                 sharedState={sharedState}
                                                 updateSharedState={updateSharedState}
                                               />
-                                              <DeleteAssetModal
-                                                ID={detail.id}
-                                                created_user={created_user}
-                                                sharedState={sharedState}
-                                                updateSharedState={updateSharedState}
-                                              />
+                                              {created_user == '3814' || created_user == '3199' || created_user == '3897' || created_user == '2181' ?
+                                                                                            <DeleteAssetModal
+                                                                                            ID={detail.id}
+                                                                                            created_user={created_user}
+                                                                                            sharedState={sharedState}
+                                                                                            updateSharedState={updateSharedState}
+                                                                                          />
+                                              :<></>}
                                             </div>
                                           </Table.Cell>
                                         </Table.Row>
@@ -601,11 +603,12 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   );
 };
 
-const EditAssetModal: FC<any> = function ({ ticketID, asset, brand, model, maxQuantity, currentCategory, id, batchID, vendor, details, price, receivedBy, sharedState, updateSharedState }: any) {
+const EditAssetModal: FC<any> = function ({ asset, brand, model, maxQuantity, currentCategory, id, batchID, vendor, details, price, receivedBy, sharedState, updateSharedState }: any) {
   const [isOpen, setOpen] = useState(false);
-  const [quantity, setQuantity] = useState(maxQuantity)
   const [newCategory, setNewCategory] = useState('')
   const [categoryList, setCategoryList] = useState<CategoryItem[]>([]);
+  const [quantity, setQuantity] = useState(maxQuantity)
+  const [ticketID, setTicketID] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -640,6 +643,8 @@ const EditAssetModal: FC<any> = function ({ ticketID, asset, brand, model, maxQu
       alert('Enter a valid Quantity!')
     } else if (!newCategory) {
       alert('Enter a valid Category!')
+    } else if (!ticketID) {
+      alert('Enter a valid Ticket ID!')
     } else {
       e.preventDefault()
       try {
@@ -682,7 +687,6 @@ const EditAssetModal: FC<any> = function ({ ticketID, asset, brand, model, maxQu
   const resetFields = () => {
     setNewCategory('');
     setQuantity('');
-
   }
 
   return (
@@ -698,7 +702,7 @@ const EditAssetModal: FC<any> = function ({ ticketID, asset, brand, model, maxQu
           <strong>Move asset: </strong><p> {brand} {model} ({quantity})</p>
         </Modal.Header>
         <Modal.Body>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div>
               <Label htmlFor="id">Quantity to move</Label>
               <div className="mt-1">
@@ -731,6 +735,18 @@ const EditAssetModal: FC<any> = function ({ ticketID, asset, brand, model, maxQu
                     </option>
                   ))}
                 </Select>
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="id">Ticket ID</Label>
+              <div className="mt-1">
+                <TextInput
+                  id="ticketID"
+                  name="ticketID"
+                  value={ticketID}
+                  onChange={(e) => setTicketID(e.target.value)}
+                  required
+                />
               </div>
             </div>
           </div>
