@@ -370,7 +370,9 @@ const Pagination = ({ itemsPerPage, totalItems, paginate }: any) => {
 
 const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any) {
   const [isOpen, setOpen] = useState(false);
+    // @ts-ignore
   const [supBadge, setSupBadge] = useState<any>('');
+    // @ts-ignore
   const [result, setResult] = useState<any>([]);
   const [supervisorName, setSupervisorName] = useState('');
 

@@ -32,7 +32,6 @@ import UAParser from 'ua-parser-js';
 import CryptoJS from "crypto-js";
 
 import * as XLSX from 'xlsx';
-import { FaTags } from 'react-icons/fa'; // Ejemplo con FontAwesome
 
 import { FaClone } from "react-icons/fa";
 
@@ -372,7 +371,9 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
   const [name, setName] = useState('');
   const [statusActive, setStatusActive] = useState('');
+  // @ts-ignore
   const [nameCategory, setNameCategory] = useState('');
+    // @ts-ignore
   const [idCategory, setIdCategory] = useState('');
 
   console.log('estas son la categorias seleccionadas', nameCategory, idCategory)
@@ -503,6 +504,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
   console.log('XXXXXXXXXXXXXXXXXXXXXX info: ', info);
 
+  // @ts-ignore
   const [dataInternal, setDataInternal] = useState([] as any[]);
 
   useEffect(() => {

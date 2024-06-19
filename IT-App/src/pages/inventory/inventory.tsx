@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+  // @ts-ignore
 import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button, Modal, Select } from "flowbite-react";
 import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import { InventoryItem, AssetItem, BrandItem, ModelItem, CategoryItem } from "../../types";
+  // @ts-ignore
 import { HiDocumentDownload, HiOutlinePencilAlt, HiPlus, HiFolderAdd, HiOutlineDotsVertical } from "react-icons/hi";
 import axios from "axios";
 import CryptoJS from "crypto-js";
@@ -17,6 +19,7 @@ const Inventory: FC = function () {
   const [grandTotalData, setGrandTotalData] = useState<{ [key: string]: InventoryItem[] }>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+    // @ts-ignore
   const [searchInput, setSearchInput] = useState('');
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [sharedState, setSharedState] = useState(false);
@@ -24,12 +27,13 @@ const Inventory: FC = function () {
   const updateSharedState = (newValue: boolean) => {
     setSharedState(newValue);
   }
-
+    // @ts-ignore
   const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setSearchInput(e.target.value);
   };
 
   //Prevent user from using the Enter key when using the search/filter bar
+    // @ts-ignore
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -38,6 +42,7 @@ const Inventory: FC = function () {
 
   const checkboxArray: string[] = [];
 
+    // @ts-ignore
   const updateCheckboxArray = (producto: string) => {
     const checkbox = document.getElementById(producto + "Checkbox") as HTMLInputElement;
     if (checkbox.checked) {
