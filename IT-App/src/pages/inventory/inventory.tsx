@@ -205,30 +205,42 @@ const Inventory: FC = function () {
                               <div className="dark:bg-gray-800 p-2">
                                 <Table className="min-w-full border-gray-300">
                                   <Table.Head>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Batch</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Asset</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Brand</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Model</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Quantity</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Category</Table.HeadCell>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Total Price</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Details</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Vendor</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Date Created</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Created By</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Actions</Table.HeadCell>
                                   </Table.Head>
                                   <Table.Body>
                                     {grandTotalData[asset]!.map((detail) => (
                                       <React.Fragment key={detail.id}>
                                         <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                          <Table.Cell className="py-2 px-4 border-b">
+                                            <span className="bg-blue-600 text-blue-200 font-semibold px-2 py-0.5 rounded dark:bg-blue-400 dark:text-blue-900">{detail.batchID}</span>
+                                            </Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.asset}</Table.Cell>
-                                          <Table.Cell className="py-2 px-4 border-b">{detail.brand}</Table.Cell>
-                                          <Table.Cell className="py-2 px-4 border-b">{detail.model}</Table.Cell>
-                                          <Table.Cell className="py-2 px-4 border-b">{detail.quantity}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">
+                                            <span className="bg-green-600 text-green-200 font-semibold px-2 py-0.5 rounded dark:bg-green-400 dark:text-green-900">{detail.brand}</span>
+                                            </Table.Cell>
+                                            <Table.Cell className="py-2 px-4 border-b">
+                                            <span className="">{detail.model}</span>
+                                            </Table.Cell>
+                                            <Table.Cell className="py-2 px-4 border-b">
+                                            <span className="bg-indigo-600 text-indigo-200 font-semibold px-2 py-0.5 rounded dark:bg-indigo-400 dark:text-indigo-900">{detail.quantity}</span>
+                                            </Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.category}</Table.Cell>
-                                          <Table.Cell className="py-2 px-4 border-b">{detail.totalPrice}</Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.details}</Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.vendor}</Table.Cell>
-                                          <Table.Cell className="py-2 px-4 border-b">{detail.dateTime}</Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">
+                                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded dark:bg-yellow-400 dark:text-yellow-900">{detail.dateTime}</span>
+                                            </Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">{detail.createdBy}</Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">
                                             <div className="flex items-center gap-x-3 whitespace-nowrap">
                                               <EditAssetModal
