@@ -307,99 +307,111 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   const [categoryList, setCategoryList] = useState<CategoryItem[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (url: string, setState: React.Dispatch<React.SetStateAction<any[]>>) => {
       try {
-        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory2');
-        setAssetList(response.data);
+        const response = await axios.get(url);
+        setState(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching data:', error);
       }
     };
-    fetchData();
+
+    fetchData('https://bn.glassmountainbpo.com:8080/inventory/listCategory2', setAssetList);
+    fetchData('https://bn.glassmountainbpo.com:8080/inventory/listCategories2', setCategoryList);
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBrands = async () => {
+      if (!asset) {
+        setBrandList([]);
+        setModelList([]);
+        return;
+      }
+
       try {
-        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listBrand2');
-        setBrandList(response.data);
+        const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/getBrands', { asset });
+        setBrandList(response.data.length ? response.data : [{ name: 'N/A' }]);
+        setModelList([]); // Reset model list when asset changes
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching brands:', error);
+        setBrandList([{ name: 'N/A' }]);
       }
     };
-    fetchData();
-  }, []);
+
+    fetchBrands();
+  }, [asset]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchModels = async () => {
+      if (!brand) {
+        setModelList([]);
+        return;
+      }
+
       try {
-        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listModels2');
-        setModelList(response.data);
+        const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/getModels', { asset, brand });
+        setModelList(response.data.length ? response.data : [{ name: 'N/A' }]);
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching models:', error);
+        setModelList([{ name: 'N/A' }]);
       }
     };
-    fetchData();
-  }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategories2');
-        setCategoryList(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    };
-    fetchData();
-  }, []);
+    fetchModels();
+  }, [brand]);
 
-  const url = 'https://bn.glassmountainbpo.com:8080/inventory/addInventory2'
+  const url = 'https://bn.glassmountainbpo.com:8080/inventory/addInventory2';
+
   const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!asset) {
-      alert('Enter a valid Asset!')
-    } else if (!brand) {
-      alert('Enter a valid Brand!')
-    } else if (!model) {
-      alert('Enter a valid Model!')
-    } else if (!quantity) {
-      alert('Enter a valid Quantity!')
-    } else if (!category) {
-      alert('Enter a valid Category!')
-    } else {
-      e.preventDefault()
-      try {
-        const response = await axios.post(url, {
-          ticketID,
-          asset,
-          brand,
-          model,
-          quantity,
-          category,
-          vendor,
-          details,
-          price,
-          receivedBy,
-          created_user
-        })
-        if (response.status == 200) {
-          const responseData = response.data;
-          updateSharedState(!sharedState);
-
-          if (responseData.message === "Success") {
-            setOpen(false);
-            resetFields();
-            alert('Success!')
-          } else {
-            console.log('Fatal Error')
-          }
-        }
-      } catch (error) {
-        console.log(error);
-        setOpen(false)
-      }
+      alert('Enter a valid Asset!');
+      return;
     }
-  }
+    if (!brand) {
+      alert('Enter a valid Brand!');
+      return;
+    }
+    if (!model) {
+      alert('Enter a valid Model!');
+      return;
+    }
+    if (!quantity) {
+      alert('Enter a valid Quantity!');
+      return;
+    }
+    if (!category) {
+      alert('Enter a valid Category!');
+      return;
+    }
+
+    try {
+      const response = await axios.post(url, {
+        ticketID,
+        asset,
+        brand,
+        model,
+        quantity,
+        category,
+        vendor,
+        details,
+        price,
+        receivedBy,
+      });
+
+      if (response.status === 200 && response.data.message === 'Success') {
+        updateSharedState(!sharedState);
+        setOpen(false);
+        resetFields();
+        alert('Success!');
+      } else {
+        console.log('Fatal Error');
+      }
+    } catch (error) {
+      console.log(error);
+      setOpen(false);
+    }
+  };
 
   const resetFields = () => {
     setTicketID('');
@@ -412,11 +424,11 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     setDetails('');
     setPrice('');
     setReceivedBy('');
-  }
+  };
 
   return (
     <>
-      <Button color="primary" onClick={() => { setOpen(true) }}>
+      <Button color="primary" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-3">
           <HiPlus className="text-xl" />
           Add Asset(s)
@@ -434,7 +446,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                 <TextInput
                   placeholder="TCKT001"
                   value={ticketID}
-                  onChange={e => setTicketID(e.target.value)}
+                  onChange={(e) => setTicketID(e.target.value)}
                 />
               </div>
             </div>
@@ -442,21 +454,18 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
               <Label htmlFor="Asset">Asset (Required)</Label>
               <div className="mt-1">
                 <Select
-                  id='asset'
-                  name='asset'
+                  id="asset"
+                  name="asset"
                   value={asset}
                   onChange={(e) => setAsset(e.target.value)}
                   required
                 >
                   <option>Select</option>
-                  {assetList
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((item, index) => (
-                      <option key={index} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-
+                  {assetList.sort((a, b) => a.name.localeCompare(b.name)).map((item, index) => (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
                 </Select>
               </div>
             </div>
@@ -464,14 +473,13 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
               <Label htmlFor="Brand">Brand (Required)</Label>
               <div className="mt-1">
                 <Select
-                  id='brand'
-                  name='brand'
+                  id="brand"
+                  name="brand"
                   value={brand}
                   onChange={(e) => setBrand(e.target.value)}
                   required
                 >
-
-                  <option value='N/A'>N/A</option>
+                  <option>Select</option>
                   {brandList.map((item, index) => (
                     <option key={index} value={item.name}>
                       {item.name}
@@ -484,13 +492,13 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
               <Label htmlFor="Model">Model (Required)</Label>
               <div className="mt-1">
                 <Select
-                  id='model'
-                  name='model'
+                  id="model"
+                  name="model"
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
                   required
                 >
-                  <option value='N/A'>N/A</option>
+                  <option>Select</option>
                   {modelList.map((item, index) => (
                     <option key={index} value={item.name}>
                       {item.name}
@@ -508,9 +516,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   name="quantity"
                   placeholder="10"
                   value={quantity}
-                  onChange={e => {
-                    setQuantity(e.target.value);
-                  }}
+                  onChange={(e) => setQuantity(e.target.value)}
                   required
                 />
               </div>
@@ -519,12 +525,13 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
               <Label htmlFor="Category">Category (Required)</Label>
               <div className="mt-1">
                 <Select
-                  id='category'
-                  name='category'
+                  id="category"
+                  name="category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   required
                 >
+                  <option>Select</option>
                   {categoryList.map((item, index) => (
                     <option key={index} value={item.name}>
                       {item.name}
@@ -541,10 +548,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   name="vendor"
                   placeholder="Wallmart"
                   value={vendor}
-                  onChange={e => {
-                    setVendor(e.target.value);
-                  }}
-                  required
+                  onChange={(e) => setVendor(e.target.value)}
                 />
               </div>
             </div>
@@ -556,10 +560,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   name="details"
                   placeholder="Details"
                   value={details}
-                  onChange={e => {
-                    setDetails(e.target.value);
-                  }}
-                  required
+                  onChange={(e) => setDetails(e.target.value)}
                 />
               </div>
             </div>
@@ -572,10 +573,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   name="price"
                   placeholder="10"
                   value={price}
-                  onChange={e => {
-                    setPrice(e.target.value);
-                  }}
-                  required
+                  onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
             </div>
@@ -587,20 +585,14 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
                   name="receivedBy"
                   placeholder="John Doe"
                   value={receivedBy}
-                  onChange={e => {
-                    setReceivedBy(e.target.value);
-                  }}
-                  required
+                  onChange={(e) => setReceivedBy(e.target.value)}
                 />
               </div>
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            color="primary"
-            onClick={(e) => { handleSubmit(e) }}
-          >
+          <Button color="primary" onClick={handleSubmit}>
             Add Asset
           </Button>
         </Modal.Footer>

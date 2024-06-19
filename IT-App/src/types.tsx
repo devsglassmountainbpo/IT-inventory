@@ -25,21 +25,11 @@ export interface AssetItem {
 }
 
 export interface BrandItem {
-    active: number;
-    date_created: string;
-    id: number;
-    id_category: number;
     name: string;
-    name_category: string;
 }
 
 export interface ModelItem {
-    active: number;
-    date_created: string;
-    id: number;
     name: string;
-    name_brand: string;
-    name_category: string;
 }
 
 export interface CategoryItem {
