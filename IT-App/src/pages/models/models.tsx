@@ -41,6 +41,11 @@ const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
 const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
 
+
+const ArrayBagde = ['3199', '3814', '3897', '2181'];
+const condicion = ArrayBagde.includes(created_user) ? '1' : '0';
+console.log('========Esta es la condicion:', condicion);
+
 const userLevel3 = localStorage.getItem("userLevel") || "";
 const userLevel2 = (userLevel3 ? CryptoJS.AES.decrypt(userLevel3, "Tyrannosaurus") : "");
 const userLevel = (userLevel2 ? userLevel2.toString(CryptoJS.enc.Utf8) : "");
@@ -198,7 +203,17 @@ const Models: FC = function () {
                   <Table.HeadCell className="">Category Name</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Status</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Date Created</Table.HeadCell>
-                  <Table.HeadCell>Actions</Table.HeadCell>
+                  {
+                    condicion =='1' 
+                    ?
+                    <>
+                      <Table.HeadCell>Actions</Table.HeadCell>
+                    </> 
+                    :<>
+                      <Table.HeadCell></Table.HeadCell>
+                    </>
+                  }
+                 
 
                 </Table.Head>
                 <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
@@ -267,28 +282,36 @@ const Models: FC = function () {
                         {userLevel == '1' ? (
                           <Table.Cell>
                             <div className="flex items-center gap-x-3 whitespace-nowrap">
-                              <EditUserModal
+
+                            {
+                              condicion == '1' ? <>
+                               <EditUserModal
                                 id={user.id}
                                 active={user.active}
                                 name={user.name}
                                 sharedState={sharedState}
                                 updateSharedState={updateSharedState}
                               />
+                              </>:<>
+                              </>
 
+                            }
+                             
                             </div>
                           </Table.Cell>
                         ) : (
-                          <Table.Cell>
-                            <div className="flex items-center gap-x-3 whitespace-nowrap">
-                              <EditUserModal
-                                id={user.id}
-                                active={user.active}
-                                name={user.name}
-                                sharedState={sharedState}
-                                updateSharedState={updateSharedState}
-                              />
-                            </div>
-                          </Table.Cell>
+                          // <Table.Cell>
+                          //   <div className="flex items-center gap-x-3 whitespace-nowrap">
+                          //     <EditUserModal
+                          //       id={user.id}
+                          //       active={user.active}
+                          //       name={user.name}
+                          //       sharedState={sharedState}
+                          //       updateSharedState={updateSharedState}
+                          //     />
+                          //   </div>
+                          // </Table.Cell>
+                          ''
                         )}
                       </Table.Row>
                     ))

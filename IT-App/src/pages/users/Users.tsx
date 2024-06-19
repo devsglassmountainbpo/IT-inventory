@@ -32,6 +32,15 @@ import CryptoJS from "crypto-js";
 import * as XLSX from 'xlsx';
 
 
+const created_user3 = localStorage.getItem("badgeSession") || "";
+const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
+const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
+
+const ArrayBagde = ['3199', '3814', '3897', '2181'];
+const condicion = ArrayBagde.includes(created_user) ? '1' : '0';
+console.log('========Esta es la condicion:', condicion);
+
+
 const UserListPage: FC = function () {
 
     const [data, setData] = useState([] as any[]);
@@ -231,7 +240,7 @@ const UserListPage: FC = function () {
     const [avatarUrl, setAvatarUrl] = useState('');
 
 
-    const getRandomVariant :any= (variants: string | any[]) => {
+    const getRandomVariant: any = (variants: string | any[]) => {
         const randomIndex = Math.floor(Math.random() * variants.length);
         return variants[randomIndex];
     };
@@ -240,14 +249,14 @@ const UserListPage: FC = function () {
         const variant = getRandomVariant(variants);
         const url = `https://api.dicebear.com/8.x/big-ears-neutral/svg?mouth=${variant}`;
         setAvatarUrl(url);
-      }, []);
-    
-      const handleClick = () => {
+    }, []);
+
+    const handleClick = () => {
         const variant = getRandomVariant(variants);
         const url = `https://api.dicebear.com/8.x/big-ears-neutral/svg?mouth=${variant}`;
         setAvatarUrl(url);
-      };
-    
+    };
+
     return (
         <NavbarSidebarLayout2 isFooter={true}>
             <div className="block items-center justify-between border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex">
@@ -291,16 +300,20 @@ const UserListPage: FC = function () {
                                     <span className="sr-only">Refresh</span>
                                     <HiRefresh className="text-2xl" />
                                 </a>
-                                <DeleteUsersModal
-                                    users={checkboxArray}
-                                    created_user={created_user}
-                                    sharedState={sharedState}
-                                    updateSharedState={updateSharedState} />
-                                <ActivateUsersModal
-                                    users={checkboxArray}
-                                    created_user={created_user}
-                                    sharedState={sharedState}
-                                    updateSharedState={updateSharedState} />
+
+                                {condicion == '1' ? <>
+                                    <DeleteUsersModal
+                                        users={checkboxArray}
+                                        created_user={created_user}
+                                        sharedState={sharedState}
+                                        updateSharedState={updateSharedState} />
+                                    <ActivateUsersModal
+                                        users={checkboxArray}
+                                        created_user={created_user}
+                                        sharedState={sharedState}
+                                        updateSharedState={updateSharedState} />
+                                </> : <></>}
+
                             </div>
                         </div>
                         <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
@@ -321,7 +334,7 @@ const UserListPage: FC = function () {
                                         <Label htmlFor="select-all" className="sr-only">
                                             Select all
                                         </Label>
-                                     
+
                                         <Checkbox id="select-all" name="select-all" ref={checkboxRef} onChange={handleSelectAll} />
                                     </Table.HeadCell>
                                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "name")} >Username</Table.HeadCell>
@@ -330,7 +343,11 @@ const UserListPage: FC = function () {
                                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "status")}>Status</Table.HeadCell>
                                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "email")}>Email</Table.HeadCell>
                                     <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={(e) => handleSortClick(e, "status")}>Role</Table.HeadCell>
-                                    <Table.HeadCell>Actions</Table.HeadCell>
+                                    {condicion == '1' ? <>
+                                        <Table.HeadCell>Actions</Table.HeadCell>
+                                    </> : <>
+                                        <Table.HeadCell></Table.HeadCell>
+                                    </>}
                                     <Table.HeadCell>Avatars</Table.HeadCell>
                                 </Table.Head >
                                 <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
@@ -398,31 +415,39 @@ const UserListPage: FC = function () {
                                                     </Table.Cell>
                                                     <Table.Cell>
                                                         <div className="flex items-center gap-x-3 whitespace-nowrap">
-                                                            <EditUserModal
-                                                                badge={user.badge}
-                                                                username={user.username}
-                                                                userDepartment={user.id_rol}
-                                                                userPosition={user.id_job}
-                                                                status={user.status}
-                                                                created_user={created_user}
-                                                                id_rol={user.id_rolN}
-                                                                email={user.email}
-                                                                role={user.role}
-                                                                sharedState={sharedState}
-                                                                updateSharedState={updateSharedState}
-                                                            />
-                                                            <DeleteUserModal
-                                                                badge={user.badge}
-                                                                status={user.status}
-                                                                created_user={created_user}
-                                                                sharedState={sharedState}
-                                                                updateSharedState={updateSharedState}
-                                                            />
+
+                                                            {
+                                                                condicion == '1' ? <>
+                                                                    <EditUserModal
+                                                                        badge={user.badge}
+                                                                        username={user.username}
+                                                                        userDepartment={user.id_rol}
+                                                                        userPosition={user.id_job}
+                                                                        status={user.status}
+                                                                        created_user={created_user}
+                                                                        id_rol={user.id_rolN}
+                                                                        email={user.email}
+                                                                        role={user.role}
+                                                                        sharedState={sharedState}
+                                                                        updateSharedState={updateSharedState}
+                                                                    />
+                                                                    <DeleteUserModal
+                                                                        badge={user.badge}
+                                                                        status={user.status}
+                                                                        created_user={created_user}
+                                                                        sharedState={sharedState}
+                                                                        updateSharedState={updateSharedState}
+                                                                    />
+                                                                </> : <>
+
+                                                                </>
+                                                            }
+
                                                         </div>
                                                     </Table.Cell>
                                                     <Table.Cell onClick={handleClick}>
 
-                                                    <div key={index} 
+                                                        <div key={index}
                                                             style={{
                                                                 width: '45px',
                                                                 height: '45px',
@@ -439,7 +464,7 @@ const UserListPage: FC = function () {
                                                                     objectFit: 'cover',
                                                                 }}
                                                             /> */}
-                                                            <img 
+                                                            <img
                                                                 src={avatarUrl}
                                                                 alt="avatar"
                                                                 style={{
