@@ -423,7 +423,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   }, [created_user]); // Add userLevel and created_user to the dependency array
 
 
-  console.log('esta es la categoria', nameCategory, 'id: ', idCategory, 'NameBrand: ', nameBrand, 'Id Brand:', idBrand)
+  console.log('esta es la categoria', nameCategory, 'id: ', idCategory, 'NameBrand: ', nameBrand, 'Id Brand:', idBrand, supBadge, )
 
   const handleTrack = (name: string) => {
     axios.get('https://bn.glassmountainbpo.com:8080/inventory/listBrad')
@@ -455,7 +455,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     setSupervisorName('');
   };
 
-  console.log(result, supervisorName)
+  console.log(result, supervisorName, setResult)
 
 
 
