@@ -210,7 +210,7 @@ const Inventory: FC = function () {
                               <div className="dark:bg-gray-800 p-2">
                                 <Table className="min-w-full border-gray-300">
                                   <Table.Head>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Batch</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b">Ticket ID</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Asset</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Brand</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Model</Table.HeadCell>
@@ -227,7 +227,7 @@ const Inventory: FC = function () {
                                       <React.Fragment key={detail.id}>
                                         <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
                                           <Table.Cell className="py-2 px-4 border-b">
-                                            <span className="bg-blue-600 text-blue-200 font-semibold px-2 py-0.5 rounded dark:bg-blue-400 dark:text-blue-900">{detail.batchID}</span>
+                                            <span className="bg-blue-600 text-blue-200 font-semibold px-2 py-0.5 rounded dark:bg-blue-400 dark:text-blue-900">{detail.idTickets}</span>
                                             </Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.asset}</Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">
