@@ -404,6 +404,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
         details,
         price,
         receivedBy,
+        created_user
       });
 
       if (response.status === 200 && response.data.message === 'Success') {
