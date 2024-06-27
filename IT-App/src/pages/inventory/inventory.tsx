@@ -240,7 +240,7 @@ const Inventory: FC = function () {
                         </Table.Row>
                         {expandedRows.has(asset) && (
                           <tr>
-                            <td colSpan={4} className="py-4 px-4">
+                            <td colSpan={6} className="py-4 px-4">
                               <div className="dark:bg-gray-800 p-2">
                                 <Table className="min-w-full border-gray-300">
                                   <Table.Head>
