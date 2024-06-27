@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-  // @ts-ignore
+// @ts-ignore
 import { Label, Table, TextInput, Dropdown, Checkbox as FlowbiteCheckbox, Button, Modal, Select } from "flowbite-react";
 import React, { SetStateAction, useState, useEffect, type FC } from "react";
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
 import { InventoryItem, AssetItem, BrandItem, ModelItem, CategoryItem } from "../../types";
-  // @ts-ignore
+// @ts-ignore
 import { HiDocumentDownload, HiOutlinePencilAlt, HiPlus, HiFolderAdd, HiOutlineDotsVertical } from "react-icons/hi";
 import axios from "axios";
 import CryptoJS from "crypto-js";
@@ -19,7 +19,7 @@ const Inventory: FC = function () {
   const [grandTotalData, setGrandTotalData] = useState<{ [key: string]: InventoryItem[] }>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-    // @ts-ignore
+  // @ts-ignore
   const [searchInput, setSearchInput] = useState('');
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [sharedState, setSharedState] = useState(false);
@@ -27,13 +27,13 @@ const Inventory: FC = function () {
   const updateSharedState = (newValue: boolean) => {
     setSharedState(newValue);
   }
-    // @ts-ignore
+  // @ts-ignore
   const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setSearchInput(e.target.value);
   };
 
   //Prevent user from using the Enter key when using the search/filter bar
-    // @ts-ignore
+  // @ts-ignore
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -42,7 +42,7 @@ const Inventory: FC = function () {
 
   const checkboxArray: string[] = [];
 
-    // @ts-ignore
+  // @ts-ignore
   const updateCheckboxArray = (producto: string) => {
     const checkbox = document.getElementById(producto + "Checkbox") as HTMLInputElement;
     if (checkbox.checked) {
@@ -165,6 +165,9 @@ const Inventory: FC = function () {
                 <Table.Head className="bg-gray-100 dark:bg-gray-700">
                   <Table.HeadCell className="">Asset</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total Quantity</Table.HeadCell>
+                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total STOCK</Table.HeadCell>
+                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total REPAIR</Table.HeadCell>
+                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total DAMAGED</Table.HeadCell>
                   <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total Price</Table.HeadCell>
                   {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Actions</Table.HeadCell> */}
                 </Table.Head>
@@ -192,9 +195,40 @@ const Inventory: FC = function () {
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                             <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-400 dark:text-yellow-900">
-                             $ {grandTotalData[asset]!.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
+                               {grandTotalData[asset]!.reduce((total, item) => {
+                                if (item.category === 'STOCK') {
+                                  return total + item.quantity;
+                                }
+                                return total;
+                              }, 0)}
                             </span>
                           </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-400 dark:text-yellow-900">
+                               {grandTotalData[asset]!.reduce((total, item) => {
+                                if (item.category === 'REPAIR') {
+                                  return total + item.quantity;
+                                }
+                                return total;
+                              }, 0)}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-400 dark:text-yellow-900">
+                               {grandTotalData[asset]!.reduce((total, item) => {
+                                if (item.category === 'DAMAGED') {
+                                  return total + item.quantity;
+                                }
+                                return total;
+                              }, 0)}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-400 dark:text-yellow-900">
+                              $ {grandTotalData[asset]!.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
+                            </span>
+                          </Table.Cell>
+                          
                           {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                         <button
                     className="text-blue-500 hover:text-blue-700"
@@ -228,23 +262,23 @@ const Inventory: FC = function () {
                                         <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
                                           <Table.Cell className="py-2 px-4 border-b">
                                             <span className="bg-blue-600 text-blue-200 font-semibold px-2 py-0.5 rounded dark:bg-blue-400 dark:text-blue-900">{detail.idTickets}</span>
-                                            </Table.Cell>
+                                          </Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.asset}</Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">
                                             <span className="bg-green-600 text-green-200 font-semibold px-2 py-0.5 rounded dark:bg-green-400 dark:text-green-900">{detail.brand}</span>
-                                            </Table.Cell>
-                                            <Table.Cell className="py-2 px-4 border-b">
+                                          </Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">
                                             <span className="">{detail.model}</span>
-                                            </Table.Cell>
-                                            <Table.Cell className="py-2 px-4 border-b">
+                                          </Table.Cell>
+                                          <Table.Cell className="py-2 px-4 border-b">
                                             <span className="bg-indigo-600 text-indigo-200 font-semibold px-2 py-0.5 rounded dark:bg-indigo-400 dark:text-indigo-900">{detail.quantity}</span>
-                                            </Table.Cell>
+                                          </Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.category}</Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.details}</Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.vendor}</Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">
                                             <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded dark:bg-yellow-400 dark:text-yellow-900">{detail.dateTime}</span>
-                                            </Table.Cell>
+                                          </Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">{detail.createdBy}</Table.Cell>
                                           <Table.Cell className="py-2 px-4 border-b">
                                             <div className="flex items-center gap-x-3 whitespace-nowrap">
@@ -265,13 +299,13 @@ const Inventory: FC = function () {
                                                 updateSharedState={updateSharedState}
                                               />
                                               {created_user == '3814' || created_user == '3199' || created_user == '3897' || created_user == '2181' ?
-                                                                                            <DeleteAssetModal
-                                                                                            ID={detail.id}
-                                                                                            created_user={created_user}
-                                                                                            sharedState={sharedState}
-                                                                                            updateSharedState={updateSharedState}
-                                                                                          />
-                                              :<></>}
+                                                <DeleteAssetModal
+                                                  ID={detail.id}
+                                                  created_user={created_user}
+                                                  sharedState={sharedState}
+                                                  updateSharedState={updateSharedState}
+                                                />
+                                                : <></>}
                                             </div>
                                           </Table.Cell>
                                         </Table.Row>
