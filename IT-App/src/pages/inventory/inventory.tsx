@@ -189,12 +189,12 @@ const Inventory: FC = function () {
 
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className="bg-green-700 text-green-200 font-semibold px-2 py-0.5 rounded-full dark:bg-green-700 dark:text-green-200">
+                            <span className="bg-blue-700 text-white font-semibold px-2 py-0.5 rounded-full dark:bg-blue-700 dark:text-white">
                               {grandTotalData[asset]!.reduce((total, item) => total + item.quantity, 0)}
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-400 dark:text-yellow-900">
+                            <span className="bg-green-600 text-white font-semibold px-2 py-0.5 rounded-full dark:bg-green-700 dark:text-white">
                                {grandTotalData[asset]!.reduce((total, item) => {
                                 if (item.category === 'STOCK') {
                                   return total + item.quantity;
@@ -204,7 +204,7 @@ const Inventory: FC = function () {
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-400 dark:text-yellow-900">
+                            <span className="bg-yellow-500 text-white font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-500 dark:text-white">
                                {grandTotalData[asset]!.reduce((total, item) => {
                                 if (item.category === 'REPAIR') {
                                   return total + item.quantity;
@@ -214,7 +214,7 @@ const Inventory: FC = function () {
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-400 dark:text-yellow-900">
+                            <span className="bg-red-600 text-white font-semibold px-2 py-0.5 rounded-full dark:bg-red-700 dark:text-white">
                                {grandTotalData[asset]!.reduce((total, item) => {
                                 if (item.category === 'DAMAGED') {
                                   return total + item.quantity;
@@ -224,7 +224,7 @@ const Inventory: FC = function () {
                             </span>
                           </Table.Cell>
                           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                            <span className="bg-yellow-600 text-yellow-200 font-semibold px-2 py-0.5 rounded-full dark:bg-yellow-400 dark:text-yellow-900">
+                            <span className="bg-green-600 text-white font-semibold px-2 py-0.5 rounded-full dark:bg-green-700 dark:text-white">
                               $ {grandTotalData[asset]!.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2)}
                             </span>
                           </Table.Cell>
