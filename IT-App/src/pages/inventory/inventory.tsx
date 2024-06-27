@@ -391,7 +391,10 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
       alert('Enter a valid Category!');
       return;
     }
-
+    if (!ticketID) {
+      alert('Enter a valid Ticket ID!');
+      return;
+    }
     try {
       const response = await axios.post(url, {
         ticketID,
@@ -449,12 +452,13 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
         <Modal.Body>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <Label htmlFor="account">Ticket ID</Label>
+              <Label htmlFor="account">Ticket ID (Required)</Label>
               <div className="mt-1">
                 <TextInput
                   placeholder="TCKT001"
                   value={ticketID}
                   onChange={(e) => setTicketID(e.target.value)}
+                  required
                 />
               </div>
             </div>
