@@ -14,7 +14,6 @@ const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyra
 const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
 
 
-
 const Inventory: FC = function () {
   const [grandTotalData, setGrandTotalData] = useState<{ [key: string]: InventoryItem[] }>({});
   const [loading, setLoading] = useState<boolean>(true);
@@ -23,6 +22,8 @@ const Inventory: FC = function () {
   const [searchInput, setSearchInput] = useState('');
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [sharedState, setSharedState] = useState(false);
+  const [sortKey, setSortKey] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const updateSharedState = (newValue: boolean) => {
     setSharedState(newValue);
@@ -31,8 +32,6 @@ const Inventory: FC = function () {
   const onChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setSearchInput(e.target.value);
   };
-
-  //Prevent user from using the Enter key when using the search/filter bar
   // @ts-ignore
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
@@ -41,7 +40,6 @@ const Inventory: FC = function () {
   }
 
   const checkboxArray: string[] = [];
-
   // @ts-ignore
   const updateCheckboxArray = (producto: string) => {
     const checkbox = document.getElementById(producto + "Checkbox") as HTMLInputElement;
@@ -78,14 +76,6 @@ const Inventory: FC = function () {
     fetchData();
   }, [sharedState]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   const toggleRow = (asset: string) => {
     const newExpandedRows = new Set(expandedRows);
     if (newExpandedRows.has(asset)) {
@@ -96,6 +86,45 @@ const Inventory: FC = function () {
     setExpandedRows(newExpandedRows);
   };
 
+  const handleSort = (key: string) => {
+    let order: 'asc' | 'desc' = 'asc';
+    if (sortKey === key && sortOrder === 'asc') {
+      order = 'desc';
+    }
+    setSortKey(key);
+    setSortOrder(order);
+  };
+
+  const sortedData = (data: InventoryItem[]) => {
+    if (!sortKey) return data;
+    return [...data].sort((a, b) => {
+      let aValue = a[sortKey as keyof InventoryItem];
+      let bValue = b[sortKey as keyof InventoryItem];
+  
+      if (aValue === null || bValue === null) {
+        if (aValue === null && bValue !== null) return sortOrder === 'asc' ? -1 : 1;
+        if (aValue !== null && bValue === null) return sortOrder === 'asc' ? 1 : -1;
+        return 0;
+      }
+  
+      if (sortKey === 'quantity' || sortKey === 'createdBy') {
+        aValue = Number(aValue);
+        bValue = Number(bValue);
+      } else if (sortKey === 'dateTime') {
+        aValue = new Date(aValue).getTime();
+        bValue = new Date(bValue).getTime();
+      } else {
+        aValue = aValue.toString().toLowerCase();
+        bValue = bValue.toString().toLowerCase();
+      }
+  
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+  };
+  
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -103,7 +132,6 @@ const Inventory: FC = function () {
   if (error) {
     return <div>{error}</div>;
   }
-
 
   return (
     <NavbarSidebarLayout2 isFooter={true}>
@@ -149,6 +177,7 @@ const Inventory: FC = function () {
                   </Dropdown>
               </div>
             </div> */}
+
             <div className="ml-auto mr-4 flex items-center space-x-2 sm:space-x-3">
               <AddTaskModal
                 sharedState={sharedState}
@@ -164,12 +193,11 @@ const Inventory: FC = function () {
               <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600" style={{ zoom: 0.85 }}>
                 <Table.Head className="bg-gray-100 dark:bg-gray-700">
                   <Table.HeadCell className="">Asset</Table.HeadCell>
-                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total Quantity</Table.HeadCell>
-                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total STOCK</Table.HeadCell>
-                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total REPAIR</Table.HeadCell>
-                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total DAMAGED</Table.HeadCell>
-                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Total Price</Table.HeadCell>
-                  {/* <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500">Actions</Table.HeadCell> */}
+                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('quantity')}>Total Quantity</Table.HeadCell>
+                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('stock')}>Total STOCK</Table.HeadCell>
+                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('repair')}>Total REPAIR</Table.HeadCell>
+                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('damaged')}>Total DAMAGED</Table.HeadCell>
+                  <Table.HeadCell className="hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('price')}>Total Price</Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
                   {
@@ -180,7 +208,7 @@ const Inventory: FC = function () {
 
                             <div className="flex ">
                               <span className="flex items-center text-gray-500 font-semibold px-7  rounded dark:text-white ">
-                                <HiFolderAdd className=" ml-1 text-3xl" />  {/* Añade margen derecho para separar el ícono del texto */}
+                                <HiFolderAdd className=" ml-1 text-3xl" />  
                               </span>
                               <span className="flex items-center text-gray-800 font-semibold rounded dark:text-white ">
                                 <h1 className="text-ms">{asset}</h1>
@@ -229,14 +257,6 @@ const Inventory: FC = function () {
                             </span>
                           </Table.Cell>
                           
-                          {/* <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                        <button
-                    className="text-blue-500 hover:text-blue-700"
-                    onClick={() => toggleRow(asset)}
-                  >
-                    {expandedRows.has(asset) ? 'Collapse' : 'Expand'}
-                  </button>
-                        </Table.Cell> */}
                         </Table.Row>
                         {expandedRows.has(asset) && (
                           <tr>
@@ -244,20 +264,20 @@ const Inventory: FC = function () {
                               <div className="dark:bg-gray-800 p-2">
                                 <Table className="min-w-full border-gray-300">
                                   <Table.Head>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Ticket ID</Table.HeadCell>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Asset</Table.HeadCell>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Brand</Table.HeadCell>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Model</Table.HeadCell>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Quantity</Table.HeadCell>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Category</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('idTickets')}>Ticket ID</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('asset')}>Asset</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('brand')}>Brand</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('model')}>Model</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('quantity')}>Quantity</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('category')}>Category</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Details</Table.HeadCell>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Vendor</Table.HeadCell>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Date Created</Table.HeadCell>
-                                    <Table.HeadCell className="py-2 px-4 border-b">Created By</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('vendor')}>Vendor</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('dateTime')}>Date Created</Table.HeadCell>
+                                    <Table.HeadCell className="py-2 px-4 border-b hover:cursor-pointer hover:text-blue-500" onClick={() => handleSort('createdBy')}>Created By</Table.HeadCell>
                                     <Table.HeadCell className="py-2 px-4 border-b">Actions</Table.HeadCell>
                                   </Table.Head>
                                   <Table.Body>
-                                    {grandTotalData[asset]!.map((detail) => (
+                                    {sortedData(grandTotalData[asset]!).map((detail) => (
                                       <React.Fragment key={detail.id}>
                                         <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
                                           <Table.Cell className="py-2 px-4 border-b">
