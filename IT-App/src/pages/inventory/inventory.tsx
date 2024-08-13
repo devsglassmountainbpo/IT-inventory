@@ -318,7 +318,7 @@ const Inventory: FC = function () {
                                                 sharedState={sharedState}
                                                 updateSharedState={updateSharedState}
                                               />
-                                              {created_user == '3814' || created_user == '3199' || created_user == '3897' || created_user == '2181' ?
+                                              {created_user == '3814' || created_user == '3199' || created_user == '3897' || created_user == '2181' || created_user == '4432' ?
                                                 <DeleteAssetModal
                                                   ID={detail.id}
                                                   created_user={created_user}
