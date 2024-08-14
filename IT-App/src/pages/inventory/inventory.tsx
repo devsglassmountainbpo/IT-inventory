@@ -9,6 +9,7 @@ import { HiDocumentDownload, HiOutlinePencilAlt, HiPlus, HiFolderAdd, HiOutlineD
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { FaTimes } from "react-icons/fa";
+import { EditDetailsAssetModal } from "../../components/EditDetailsAssetModal";
 const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
 const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
@@ -318,6 +319,7 @@ const Inventory: FC = function () {
                                                 sharedState={sharedState}
                                                 updateSharedState={updateSharedState}
                                               />
+                                              <EditDetailsAssetModal categories={[]} details={detail.details} brand={detail.brand} model={detail.model} quantity={detail.quantity} created_user={created_user} id={detail.id}  sharedState={sharedState} updateSharedState={updateSharedState}/>
                                               {created_user == '3814' || created_user == '3199' || created_user == '3897' || created_user == '2181' || created_user == '4432' ?
                                                 <DeleteAssetModal
                                                   ID={detail.id}
