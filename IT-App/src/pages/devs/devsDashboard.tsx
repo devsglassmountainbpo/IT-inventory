@@ -245,7 +245,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                   }, 0)
                   return '' + sum + ''
                 },
-                color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+                color: '#FFBF00',
                 fontSize: '18px'
               },
               value: {
@@ -254,10 +254,8 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 offsetY: -20,
                 formatter: function (value: string) {
                   return value + ""
-                },
-
-                color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
-
+                },  
+                color: '#FFBF00',
                 fontSize: '52px'
               },
             },
@@ -281,7 +279,10 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
         position: "bottom",
         fontFamily: "Inter, sans-serif",
         // cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
-        color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+        labels: {
+          colors: localStorage.getItem("theme") === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+          useSeriesColors: true,
+        },
         fontSize: '14px'
       },
       yaxis: {
