@@ -6,7 +6,7 @@ import {
 import type { ChangeEvent, FC } from "react";
 import { useEffect, useState } from "react"
 import {
-  HiOutlineZoomIn ,
+  HiOutlineZoomIn,
 } from "react-icons/hi";
 
 import NavbarSidebarLayout2 from "../../layouts/navbar-sidebar2";
@@ -127,8 +127,12 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
 
   const [chartData, setChartData] = useState<any[]>([]); // Aquí mantén el estado del gráfico
   const [filtro, setFiltro] = useState<string>('');
+  const currentAssetTotal = () => {
+    const total = valores.reduce((a, b) => a + b, 0);
+    return total;
+  }
 
-
+ 
   const dark = localStorage.getItem("theme") || "";
 
   console.log('consolidado%%Check?', setFilterConsolidado, consolidado, check)
@@ -173,7 +177,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
           const value = item[key];
           return typeof value === 'string' && !isNaN(value as any) ? Number(value) : value;
         }).filter(value => typeof value === 'number');
-
+        
         setValores(numbersArray);
         setLabels(keysArray);
 
@@ -245,7 +249,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                   }, 0)
                   return '' + sum + ''
                 },
-                color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+                color: '#FFBF00',
                 fontSize: '18px'
               },
               value: {
@@ -255,9 +259,7 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                 formatter: function (value: string) {
                   return value + ""
                 },
-
-                color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
-
+                color: '#FFBF00',
                 fontSize: '52px'
               },
             },
@@ -278,10 +280,13 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
         }
       },
       legend: {
-        position: "bottom",
+        position: "left",
         fontFamily: "Inter, sans-serif",
         // cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
-        color: dark === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+        labels: {
+          colors: localStorage.getItem("theme") === 'dark' ? '#FFFFFF' : '#000000', // Cambia el color según el modo
+          useSeriesColors: true,
+        },
         fontSize: '14px'
       },
       yaxis: {
@@ -630,7 +635,8 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                     </svg>
                   </div>
                   <div>
-                    <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">{totalSummary}
+                    {/* <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">{totalSummary} */}
+                    <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">{currentAssetTotal()}
                     </h5>
                     <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Inventory total</p>
                   </div>
@@ -688,11 +694,11 @@ const CurrentTasksView: FC<any> = function ({ sharedState }: any) {
                           href={`/Inventory?filter=${(row as any)[headerItem]}`}>
                           <div className="flex bg-white-700 h-4 pt-0 dark:bg-transparency-800 dark:hover:bg-indigo-500 items-center font-semibold rounded-full">
                             <span className="flex items-left text-gray-500 font-semibold mr-4 rounded dark:text-white ">
-                              <HiOutlineZoomIn  className=" text-2xl" />  {/* Añade margen derecho para separar el ícono del texto */}
+                              <HiOutlineZoomIn className=" text-2xl" />  {/* Añade margen derecho para separar el ícono del texto */}
                             </span>
                             <span className="flex items-left 0 font-semibold mr-4 rounded dark:text-white dark:font-medium">
-                            {(row as any)[headerItem]}
-                             
+                              {(row as any)[headerItem]}
+
                             </span>
 
                           </div>
