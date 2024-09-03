@@ -64,7 +64,7 @@ const Brand: FC = function () {
   }
 
   useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listBrad')
+    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/listBrad')
       .then(res => {
         if (userLevel === '2') {
           // Filter data where supervisorBadge equals created_user
@@ -388,7 +388,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   console.log('estas son la categorias seleccionadas', nameCategory, idCategory)
 
 
-  const urlHired = `https://bn.glassmountainbpo.com:8080/api/hired/`;
+  const urlHired = `http://bn.glassmountainbpo.com:8080/main/api/hired/`;
 
   const handleTrack = () => {
     if (supBadge.length !== 0) {
@@ -424,7 +424,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
 
 
-  const url2 = `https://bn.glassmountainbpo.com:8080/inventory/addBrand`;
+  const url2 = `https://bn.glassmountainbpo.com:8080/inv/inventory/addBrand`;
   const handleSubmit = async (e: React.FormEvent) => {
     if (!name) {
       alert('Enter a valid category name')
@@ -516,7 +516,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   const [dataInternal, setDataInternal] = useState([] as any[]);
 
   useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory')
+    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/listCategory')
       .then(res => {
         // If userLevel is not 2, set data as is
         const filteredData = res.data.filter((item: { active: number; }) => item.active == 1);
@@ -648,7 +648,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editBrand', {
+      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/inventory/editBrand', {
         id,
         nameCategory,
         status,
