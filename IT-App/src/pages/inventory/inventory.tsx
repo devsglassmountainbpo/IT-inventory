@@ -55,7 +55,7 @@ const Inventory: FC = function () {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<InventoryItem[]>('https://bn.glassmountainbpo.com:8080/inventory/general');
+        const response = await axios.get<InventoryItem[]>('https://bn.glassmountainbpo.com:8080/inv/inventory/general');
         const organizedData = response.data.reduce<{ [key: string]: InventoryItem[] }>((acc, item) => {
           if (!acc[item.asset]) {
             acc[item.asset] = [];
@@ -379,8 +379,8 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
       }
     };
 
-    fetchData('https://bn.glassmountainbpo.com:8080/inventory/listCategory2', setAssetList);
-    fetchData('https://bn.glassmountainbpo.com:8080/inventory/listCategories2', setCategoryList);
+    fetchData('https://bn.glassmountainbpo.com:8080/inv/inventory/listCategory2', setAssetList);
+    fetchData('https://bn.glassmountainbpo.com:8080/inv/inventory/listCategories2', setCategoryList);
   }, []);
 
   useEffect(() => {
@@ -392,7 +392,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
       }
 
       try {
-        const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/getBrands', { asset });
+        const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/inventory/getBrands', { asset });
         setBrandList(response.data.length ? response.data : [{ name: 'N/A' }]);
         setModelList([]); // Reset model list when asset changes
       } catch (error) {
@@ -412,7 +412,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
       }
 
       try {
-        const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/getModels', { asset, brand });
+        const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/inventory/getModels', { asset, brand });
         setModelList(response.data.length ? response.data : [{ name: 'N/A' }]);
       } catch (error) {
         console.error('Error fetching models:', error);
@@ -423,7 +423,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
     fetchModels();
   }, [brand]);
 
-  const url = 'https://bn.glassmountainbpo.com:8080/inventory/addInventory2';
+  const url = 'https://bn.glassmountainbpo.com:8080/inv/inventory/addInventory2';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -679,7 +679,7 @@ const EditAssetModal: FC<any> = function ({ asset, brand, model, maxQuantity, cu
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategories2');
+        const response = await axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/listCategories2');
         setCategoryList(response.data);
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -703,7 +703,7 @@ const EditAssetModal: FC<any> = function ({ asset, brand, model, maxQuantity, cu
     }
   };
 
-  const url = 'https://bn.glassmountainbpo.com:8080/inventory/move'
+  const url = 'https://bn.glassmountainbpo.com:8080/inv/inventory/move'
   const handleSubmit = async (e: React.FormEvent) => {
     if (!quantity) {
       alert('Enter a valid Quantity!')
@@ -837,7 +837,7 @@ const DeleteAssetModal: FC<any> = function ({ ID, sharedState, updateSharedState
   const handleSubmit = async (e: React.FormEvent, ID: any, created_user: any) => {
     e.preventDefault()
     try {
-      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/deactivate', {
+      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/inventory/deactivate', {
         ID,
         created_user
       })
