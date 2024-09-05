@@ -97,12 +97,12 @@ const Reports: FC<any> = function ({ sharedState }: any) {
         const fetchData = async () => {
             try {
                 const [graphisRes, totalRes, report, reporClient, reportW] = await Promise.all([
-                    axios.get('https://bn.glassmountainbpo.com:8080/inventory/stockSummary'),
-                    axios.get('https://bn.glassmountainbpo.com:8080/inventory/total_summmary'),
-                    // axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_report'),
-                    axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_report_new'),
-                    axios.get('https://bn.glassmountainbpo.com:8080/inventory/report_per_client'),
-                    axios.get('https://bn.glassmountainbpo.com:8080/inventory/monthly_one')
+                    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/stockSummary'),
+                    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/total_summmary'),
+                    // axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/monthly_report'),
+                    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/monthly_report_new'),
+                    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/report_per_client'),
+                    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/monthly_one')
                 ]);
 
                 setDataGraphis(graphisRes.data);

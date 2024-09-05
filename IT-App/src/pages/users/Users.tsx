@@ -64,7 +64,7 @@ const UserListPage: FC = function () {
     }
 
     useEffect(() => {
-        axios.get('https://bn.glassmountainbpo.com:8080/inventory/users')
+        axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/users')
             .then(res => setData(res.data))
     }, [sharedState])
 
@@ -511,7 +511,7 @@ const UserListPage: FC = function () {
 const AddUserModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
 
-    const url = `https://bn.glassmountainbpo.com:8080/gift/hired/`;
+    const url = `https://bn.glassmountainbpo.com:8080/inv/gift/hired/`;
 
     const [result, setResult] = useState<any>([]); //JSON Axios Data
     const [badge, setBadge] = useState<any>(''); //Badge
@@ -546,7 +546,7 @@ const AddUserModal: FC = function () {
     const handleSubmit = async (e: React.FormEvent, id_rol: any, id_job: any) => {
         e.preventDefault()
         try {
-            const response = await axios.post('https://bn.glassmountainbpo.com:8080/invetory_users/save', {
+            const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/invetory_users/save', {
                 badge,
                 username,
                 password,
@@ -734,7 +734,7 @@ const EditUserModal: FC<any> = function ({ badge, username, userDepartment, user
         sendRole !== '' ? role = sendRole : role = role;
         username = username;
         try {
-            const response = await axios.post('https://bn.glassmountainbpo.com:8080/user_IT/edit', {
+            const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/user_IT/edit', {
                 badge,
                 username,
                 password,
@@ -899,7 +899,7 @@ const DeleteUserModal: FC<any> = function ({ badge, status, created_user, shared
     const handleSubmit = async (e: React.FormEvent, badge: any, status: any, created_user: any) => {
         e.preventDefault()
         try {
-            const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/statusIT', {
+            const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/inventory/statusIT', {
                 badge,
                 status,
                 created_user
@@ -1041,7 +1041,7 @@ const DeleteUsersModal: FC<any> = function ({ users, created_user, sharedState, 
     const handleSubmit = async (e: React.FormEvent, dataToSend: string, created_user: any) => {
         e.preventDefault()
         try {
-            const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/desactivateUsers', {
+            const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/inventory/desactivateUsers', {
                 dataToSend,
                 created_user
             })
@@ -1100,7 +1100,7 @@ const ActivateUsersModal: FC<any> = function ({ users, created_user, sharedState
     const handleSubmit = async (e: React.FormEvent, dataToSend: string, created_user: any) => {
         e.preventDefault()
         try {
-            const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/activateUsers', {
+            const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/inventory/activateUsers', {
                 dataToSend,
                 created_user
             })

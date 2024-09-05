@@ -65,7 +65,7 @@ const Models: FC = function () {
   }
 
   useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listModels')
+    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/listModels')
       .then(res => {
         setData(res.data);
       }
@@ -415,7 +415,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   const [idBrand, setIdBrand] = useState('');
 
   useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory')
+    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/listCategory')
       .then(res => {
         // If userLevel is not 2, set data as is
         const filteredData = res.data.filter((item: { active: number; }) => item.active == 1);
@@ -428,7 +428,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   console.log('esta es la categoria', nameCategory, 'id: ', idCategory, 'NameBrand: ', nameBrand, 'Id Brand:', idBrand, supBadge, )
 
   const handleTrack = (name: string) => {
-    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listBrad')
+    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/listBrad')
       .then(res => {
         // Filtrar los datos basados en el nombre
         const filteredData = res.data.filter((item: { name_category: string }) => item.name_category === name);
@@ -462,7 +462,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
 
 
-  const url2 = `https://bn.glassmountainbpo.com:8080/inventory/addModel`;
+  const url2 = `https://bn.glassmountainbpo.com:8080/inv/inventory/addModel`;
   const handleSubmit = async (e: React.FormEvent) => {
     if (!name) {
       alert('Enter a valid category name')
@@ -695,7 +695,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editModel', {
+      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/inventory/editModel', {
         id,
         nameCategory,
         status,

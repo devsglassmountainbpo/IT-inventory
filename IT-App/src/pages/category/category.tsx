@@ -64,7 +64,7 @@ const Category: FC = function () {
   }
 
   useEffect(() => {
-    axios.get('https://bn.glassmountainbpo.com:8080/inventory/listCategory')
+    axios.get('https://bn.glassmountainbpo.com:8080/inv/inventory/listCategory')
       .then(res => {
         if (userLevel === '2') {
           // Filter data where supervisorBadge equals created_user
@@ -364,7 +364,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   const [statusActive, setStatusActive] = useState('');
 
 
-  const urlHired = `https://bn.glassmountainbpo.com:8080/api/hired/`;
+  const urlHired = `https://bn.glassmountainbpo.com:8080/main/api/hired/`;
 
   const handleTrack = () => {
     if (supBadge.length !== 0) {
@@ -400,7 +400,7 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
 
 
 
-  const url2 = `https://bn.glassmountainbpo.com:8080/inventory/addCategory`;
+  const url2 = `https://bn.glassmountainbpo.com:8080/inv/inventory/addCategory`;
   const handleSubmit = async (e: React.FormEvent) => {
     if (!name) {
       alert('Enter a valid category name')
@@ -583,7 +583,7 @@ const EditUserModal: FC<any> = function ({ id, active, name, sharedState, update
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inventory/editCategory', {
+      const response = await axios.post('https://bn.glassmountainbpo.com:8080/inv/inventory/editCategory', {
         id,
         nameCategory,
         status,
