@@ -32,7 +32,7 @@ export const UserToggle: FC = function () {
   }
 
   useEffect(() => {
-    axios.get('http://bn.glassmountainbpo.com:8080/main/api/hired/' + user)
+    axios.get('https://bn.glassmountainbpo.com:8080/main/api/hired/' + user)
       .then(res => setData(res.data))
   }, [])
 

@@ -22,6 +22,7 @@ export const EditDetailsAssetModal: FC<EditDetailsAssetModalProps> = ({ details,
     const [newModel, setNewModel] = useState(model);
 
     // const url = 'https://bn.glassmountainbpo.com:8080/inv/inventory/editDetails';
+
     const url = 'https://bn.glassmountainbpo.com:8080/inv/inventory/editDetails';
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,7 +56,7 @@ export const EditDetailsAssetModal: FC<EditDetailsAssetModalProps> = ({ details,
             </Button>
             <Modal onClose={() => setIsOpen(false)} show={isOpen}>
                 <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-                    <strong>Edit Asset: </strong><p> {brand} {model} ({quantity})</p>
+                    <strong>Edit details: </strong><p> {brand} {model} ({quantity})</p>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

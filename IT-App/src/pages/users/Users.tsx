@@ -511,7 +511,9 @@ const UserListPage: FC = function () {
 const AddUserModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
 
-    const url = `http://bn.glassmountainbpo.com:8080/main/api/hired/`;
+
+    const url = `https://bn.glassmountainbpo.com:8080/inv/gift/hired/`;
+
 
     const [result, setResult] = useState<any>([]); //JSON Axios Data
     const [badge, setBadge] = useState<any>(''); //Badge

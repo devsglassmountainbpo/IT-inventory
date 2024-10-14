@@ -364,7 +364,9 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   const [statusActive, setStatusActive] = useState('');
 
 
-  const urlHired = `http://bn.glassmountainbpo.com:8080/main/api/hired/`;
+
+  const urlHired = `https://bn.glassmountainbpo.com:8080/main/api/hired/`;
+
 
   const handleTrack = () => {
     if (supBadge.length !== 0) {
