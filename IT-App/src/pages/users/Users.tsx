@@ -512,7 +512,7 @@ const AddUserModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
 
 
-    const url = `https://bn.glassmountainbpo.com:8080/inv/gift/hired/`;
+    const url = `https://bn.glassmountainbpo.com:8080/main/api/hired/`;
 
 
     const [result, setResult] = useState<any>([]); //JSON Axios Data
