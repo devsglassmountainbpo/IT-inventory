@@ -388,7 +388,9 @@ const AddTaskModal: FC<any> = function ({ sharedState, updateSharedState }: any)
   console.log('estas son la categorias seleccionadas', nameCategory, idCategory)
 
 
+
   const urlHired = `https://bn.glassmountainbpo.com:8080/main/api/hired/`;
+
 
   const handleTrack = () => {
     if (supBadge.length !== 0) {

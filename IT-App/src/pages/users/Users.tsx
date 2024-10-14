@@ -36,7 +36,7 @@ const created_user3 = localStorage.getItem("badgeSession") || "";
 const created_user2 = (created_user3 ? CryptoJS.AES.decrypt(created_user3, "Tyrannosaurus") : "");
 const created_user = (created_user2 ? created_user2.toString(CryptoJS.enc.Utf8) : "");
 
-const ArrayBagde = ['3199', '3814', '3897', '2181'];
+const ArrayBagde = ['3199', '3814', '3897', '2181', '4432'];
 const condicion = ArrayBagde.includes(created_user) ? '1' : '0';
 console.log('========Esta es la condicion:', condicion);
 
@@ -511,7 +511,9 @@ const UserListPage: FC = function () {
 const AddUserModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
 
+
     const url = `https://bn.glassmountainbpo.com:8080/inv/gift/hired/`;
+
 
     const [result, setResult] = useState<any>([]); //JSON Axios Data
     const [badge, setBadge] = useState<any>(''); //Badge
@@ -726,10 +728,11 @@ const EditUserModal: FC<any> = function ({ badge, username, userDepartment, user
     // const [username2, setUsername2] = useState<any>('');
     const [sendEmail, sendsetEmail] = useState<any>('');
     const [sendRole, sendsetRole] = useState<any>('');
-
+    console.log('password', password);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         //username2 !== '' ? username = username2 : username = username;
+        console.log('password', password);
         sendEmail !== '' ? email = sendEmail : email = email;
         sendRole !== '' ? role = sendRole : role = role;
         username = username;

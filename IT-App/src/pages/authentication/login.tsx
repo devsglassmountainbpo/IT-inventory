@@ -25,6 +25,8 @@ const SignInPage: FC = function () {
         }
       );
 
+      console.log(response.data);
+
       // Comprobar si la solicitud fue exitosa
       if (response.status == 200) {
         const responseData = response.data;
